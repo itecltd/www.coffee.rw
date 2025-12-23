@@ -3,8 +3,10 @@ require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../config/Response.php';
 require_once __DIR__ . '/../controllers/UsersController.php';
 require_once __DIR__ . '/../controllers/SettingController.php';
+require_once __DIR__ . '/../controllers/AccountController.php';
 use Controllers\UsersController;
 use Controllers\SettingController;
+use Controllers\AccountController;
 use Config\Response;
 
 // Get request URI
@@ -63,6 +65,40 @@ switch ( true ) {
     $settingcontroller = new SettingController();
     $settingcontroller->getAllLocation();
     break;
+
+    // payment modes
+    case $route === '/settings/paymentmodes':
+    $settingcontroller = new SettingController();
+    $settingcontroller->getPaymentModes();
+    break;
+
+    // stations
+    case $route === '/settings/stations':
+    $settingcontroller = new SettingController();
+    $settingcontroller->getStations();
+    break;
+
+    // accounts
+    case $route === '/accounts/get-all':
+    $accountController = new AccountController();
+    $accountController->getAllAccounts();
+    break;
+
+    case $route === '/accounts/create':
+    $accountController = new AccountController();
+    $accountController->createAccount();
+    break;
+
+    case $route === '/accounts/update':
+    $accountController = new AccountController();
+    $accountController->updateAccount();
+    break;
+
+    case preg_match( '#^/accounts/delete/(\d+)$#', $route, $matches ):
+    $accountController = new AccountController();
+    $accountController->deleteAccount( $matches[ 1 ] );
+    break;
+
     default:
     Response::error( 'Endpoint not found', 404 );
     break;

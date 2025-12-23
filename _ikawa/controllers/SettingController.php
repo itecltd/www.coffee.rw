@@ -90,4 +90,26 @@ class SettingController
             Response::error( 'Failed to create user', 500 );
         }
     }
+
+    public function getPaymentModes()
+    {
+        $paymentModes = $this->settingModel->getPaymentModes();
+
+        if ($paymentModes !== false) {
+            Response::success('Payment modes retrieved successfully!', $paymentModes);
+        } else {
+            Response::error('Failed to retrieve payment modes', 500);
+        }
+    }
+
+    public function getStations()
+    {
+        $stations = $this->settingModel->getStations();
+
+        if ($stations !== false) {
+            Response::success('Stations retrieved successfully!', $stations);
+        } else {
+            Response::error('Failed to retrieve stations', 500);
+        }
+    }
 }

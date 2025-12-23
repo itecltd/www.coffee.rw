@@ -17,7 +17,9 @@ require __DIR__ . '/../../pages/footer.php';
 ?>
 <?php require __DIR__ . '/getpages.php';
 ?>
-<?php require __DIR__ . '/user-scripts.php';
+<?php require __DIR__ . '/scripts/user-scripts.php';
 ?>
-<?php require __DIR__ . '/roles-scripts.php';
+<?php require __DIR__ . '/scripts/roles-scripts.php';
+?>
+<?php require __DIR__ . '/scripts/account-scripts.php';
 ?>

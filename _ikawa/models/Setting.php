@@ -89,4 +89,28 @@ class Setting
         }
     }
 
+    public function getPaymentModes()
+    {
+        try {
+            $query = 'SELECT * FROM tbl_paymentmodes WHERE status = 1 ORDER BY Mode_id DESC';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function getStations()
+    {
+        try {
+            $query = 'SELECT * FROM tbl_station WHERE st_status = 1 ORDER BY st_id DESC';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 }
