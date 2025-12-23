@@ -10,6 +10,7 @@ $allowed_pages = [
     'manage-users' => 'views/manage-users.php',
     'manage-roles' => 'views/manage-roles.php',
     'manage-accounts' => 'views/manage-accounts.php',
+    'manage-expenses' => 'views/manage-expenses.php',
     'permissions' => 'views/permissions-data.php',
     'profile' => 'views/profile.php',
 ];

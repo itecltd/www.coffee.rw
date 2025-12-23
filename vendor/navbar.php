@@ -45,6 +45,7 @@
                             <i class="notika-icon notika-settings"></i> Settings
                         </a>
                     </li>
+                 
                 </ul>
 
                 <div class="tab-content custom-menu-content">
@@ -112,6 +113,7 @@
                         <ul class="notika-main-menu-dropdown">
                             <li><a href="javascript:void(0)" onclick="loadContent('profile')">Profile</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Account Settings</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('manage-expenses')">Record Expense</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('system-settings')">System Settings</a></li>
                      
                         </ul>

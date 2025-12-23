@@ -4,9 +4,11 @@ require_once __DIR__ . '/../config/Response.php';
 require_once __DIR__ . '/../controllers/UsersController.php';
 require_once __DIR__ . '/../controllers/SettingController.php';
 require_once __DIR__ . '/../controllers/AccountController.php';
+require_once __DIR__ . '/../controllers/ExpenseController.php';
 use Controllers\UsersController;
 use Controllers\SettingController;
 use Controllers\AccountController;
+use Controllers\ExpenseController;
 use Config\Response;
 
 // Get request URI
@@ -97,6 +99,27 @@ switch ( true ) {
     case preg_match( '#^/accounts/delete/(\d+)$#', $route, $matches ):
     $accountController = new AccountController();
     $accountController->deleteAccount( $matches[ 1 ] );
+    break;
+
+    // expenses
+    case $route === '/expenses/get-all':
+    $expenseController = new ExpenseController();
+    $expenseController->getAllExpenses();
+    break;
+
+    case $route === '/expenses/create':
+    $expenseController = new ExpenseController();
+    $expenseController->createExpense();
+    break;
+
+    case $route === '/expenses/update':
+    $expenseController = new ExpenseController();
+    $expenseController->updateExpense();
+    break;
+
+    case preg_match( '#^/expenses/delete/(\d+)$#', $route, $matches ):
+    $expenseController = new ExpenseController();
+    $expenseController->deleteExpense( $matches[ 1 ] );
     break;
 
     default:

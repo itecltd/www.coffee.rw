@@ -23,3 +23,5 @@ require __DIR__ . '/../../pages/footer.php';
 ?>
 <?php require __DIR__ . '/scripts/account-scripts.php';
 ?>
+<?php require __DIR__ . '/scripts/expense-scripts.php';
+?>
