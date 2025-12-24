@@ -5,10 +5,12 @@ require_once __DIR__ . '/../controllers/UsersController.php';
 require_once __DIR__ . '/../controllers/SettingController.php';
 require_once __DIR__ . '/../controllers/AccountController.php';
 require_once __DIR__ . '/../controllers/ExpenseController.php';
+require_once __DIR__ . '/../controllers/ExpenseConsumeController.php';
 use Controllers\UsersController;
 use Controllers\SettingController;
 use Controllers\AccountController;
 use Controllers\ExpenseController;
+use Controllers\ExpenseConsumeController;
 use Config\Response;
 
 // Get request URI
@@ -120,6 +122,37 @@ switch ( true ) {
     case preg_match( '#^/expenses/delete/(\d+)$#', $route, $matches ):
     $expenseController = new ExpenseController();
     $expenseController->deleteExpense( $matches[ 1 ] );
+    break;
+
+    // expense consume
+    case $route === '/expense-consume/get-all':
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->getAllExpenseConsumes();
+    break;
+
+    case $route === '/expense-consume/create':
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->createExpenseConsume();
+    break;
+
+    case $route === '/expense-consume/update':
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->updateExpenseConsume();
+    break;
+
+    case $route === '/expense-consume/delete':
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->deleteExpenseConsume();
+    break;
+
+    case preg_match( '#^/expense-consume/by-station/(\d+)$#', $route, $matches ):
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->getExpensesByStation( $matches[ 1 ] );
+    break;
+
+    case $route === '/expense-consume/total':
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->getTotalExpensesByPeriod();
     break;
 
     default:

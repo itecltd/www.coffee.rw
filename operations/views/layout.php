@@ -25,3 +25,5 @@ require __DIR__ . '/../../pages/footer.php';
 ?>
 <?php require __DIR__ . '/scripts/expense-scripts.php';
 ?>
+<?php require __DIR__ . '/scripts/expense-consume-scripts.php';
+?>
