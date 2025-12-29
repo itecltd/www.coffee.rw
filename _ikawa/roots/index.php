@@ -155,6 +155,12 @@ switch ( true ) {
     $expenseConsumeController->getTotalExpensesByPeriod();
     break;
 
+    // Get accounts by payment mode
+    case preg_match( '#^/accounts/by-mode/(\d+)$#', $route, $matches ):
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->getAccountsByPaymentMode( $matches[ 1 ] );
+    break;
+
     default:
     Response::error( 'Endpoint not found', 404 );
     break;

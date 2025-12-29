@@ -17,17 +17,43 @@ class ExpenseConsume
         $this->conn = $db->getConnection();
     }
 
+    /**
+     * Get next transaction ID (exptr1, exptr2, etc.)
+     */
+    public function getNextTransId()
+    {
+        try {
+            $query = 'SELECT trans_id FROM tbl_expenseconsume 
+                      WHERE trans_id IS NOT NULL 
+                      ORDER BY con_id DESC LIMIT 1';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($result && $result['trans_id']) {
+                // Extract number from exptr1, exptr2, etc.
+                $lastNumber = intval(str_replace('exptr', '', $result['trans_id']));
+                return 'exptr' . ($lastNumber + 1);
+            }
+            
+            return 'exptr1';
+        } catch (PDOException $e) {
+            error_log("Error getting next trans_id: " . $e->getMessage());
+            return 'exptr1';
+        }
+    }
+
     public function getAllExpenseConsumes()
     {
         try {
             $query = 'SELECT ec.*, 
                       e.expense_name,
-                      s.st_name,
-                      s.st_location,
+                      l.location_name as st_name,
+                      l.description as st_location,
                       a.acc_name as payment_mode_name
                       FROM tbl_expenseconsume ec
                       LEFT JOIN tbl_expenses e ON ec.expense_id = e.expense_id
-                      LEFT JOIN tbl_station s ON ec.station_id = s.st_id
+                      LEFT JOIN tbl_location l ON ec.station_id = l.loc_id
                       LEFT JOIN tbl_accounts a ON ec.pay_mode = a.acc_id
                       WHERE ec.status = 1 
                       ORDER BY ec.con_id DESC';
@@ -45,12 +71,12 @@ class ExpenseConsume
         try {
             $query = 'SELECT ec.*, 
                       e.expense_name,
-                      s.st_name,
-                      s.st_location,
+                      l.location_name as st_name,
+                      l.description as st_location,
                       a.acc_name as payment_mode_name
                       FROM tbl_expenseconsume ec
                       LEFT JOIN tbl_expenses e ON ec.expense_id = e.expense_id
-                      LEFT JOIN tbl_station s ON ec.station_id = s.st_id
+                      LEFT JOIN tbl_location l ON ec.station_id = l.loc_id
                       LEFT JOIN tbl_accounts a ON ec.pay_mode = a.acc_id
                       WHERE ec.con_id = :con_id';
             $stmt = $this->conn->prepare($query);
@@ -66,9 +92,9 @@ class ExpenseConsume
     {
         try {
             $query = 'INSERT INTO tbl_expenseconsume 
-                      (expense_id, co_id, station_id, amount, pay_mode, payer_name, description, recorded_date, status) 
+                      (expense_id, co_id, station_id, amount, pay_mode, trans_id, payer_name, description, recorded_date, status) 
                       VALUES 
-                      (:expense_id, :co_id, :station_id, :amount, :pay_mode, :payer_name, :description, :recorded_date, 1)';
+                      (:expense_id, :co_id, :station_id, :amount, :pay_mode, :trans_id, :payer_name, :description, :recorded_date, 1)';
             
             $stmt = $this->conn->prepare($query);
             $success = $stmt->execute([
@@ -77,6 +103,7 @@ class ExpenseConsume
                 'station_id' => $data['station_id'],
                 'amount' => $data['amount'],
                 'pay_mode' => $data['pay_mode'],
+                'trans_id' => $data['trans_id'] ?? null,
                 'payer_name' => $data['payer_name'] ?? null,
                 'description' => $data['description'] ?? null,
                 'recorded_date' => $data['recorded_date']

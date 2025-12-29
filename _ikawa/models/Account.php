@@ -98,4 +98,85 @@ class Account
             return false;
         }
     }
+
+    /**
+     * Get accounts by payment mode ID
+     */
+    public function getAccountsByPaymentMode($mode_id)
+    {
+        try {
+            $query = 'SELECT a.*, pm.Mode_names, s.st_name, s.st_location 
+                      FROM tbl_accounts a 
+                      JOIN tbl_paymentmodes pm ON a.mode_id = pm.Mode_id 
+                      LEFT JOIN tbl_station s ON a.st_id = s.st_id 
+                      WHERE a.mode_id = :mode_id AND a.status = 1 
+                      ORDER BY a.acc_name ASC';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(['mode_id' => $mode_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting accounts by payment mode: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Check if account has sufficient balance
+     */
+    public function checkBalance($acc_id, $required_amount)
+    {
+        try {
+            $query = 'SELECT balance FROM tbl_accounts WHERE acc_id = :acc_id AND status = 1';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(['acc_id' => $acc_id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($result) {
+                return $result['balance'] >= $required_amount;
+            }
+            
+            return false;
+        } catch (PDOException $e) {
+            error_log("Error checking account balance: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Update account balance (deduct amount)
+     */
+    public function updateBalance($acc_id, $amount)
+    {
+        try {
+            $query = 'UPDATE tbl_accounts 
+                      SET balance = balance - :amount 
+                      WHERE acc_id = :acc_id AND status = 1';
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute([
+                'amount' => $amount,
+                'acc_id' => $acc_id
+            ]);
+        } catch (PDOException $e) {
+            error_log("Error updating account balance: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get account balance
+     */
+    public function getBalance($acc_id)
+    {
+        try {
+            $query = 'SELECT balance FROM tbl_accounts WHERE acc_id = :acc_id AND status = 1';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(['acc_id' => $acc_id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $result ? $result['balance'] : 0;
+        } catch (PDOException $e) {
+            error_log("Error getting account balance: " . $e->getMessage());
+            return 0;
+        }
+    }
 }
