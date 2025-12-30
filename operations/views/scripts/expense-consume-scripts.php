@@ -101,6 +101,51 @@ $(document).ready(function () {
         }
     }
 
+    // Handle category change - load expenses by category
+    $(document).on('change', '#expense_category', function() {
+        var categId = $(this).val();
+        var $expenseSelect = $('#expense_id');
+        
+        if (!categId) {
+            $expenseSelect.html('<option value="">Select Category First</option>');
+            $expenseSelect.prop('disabled', true);
+            $expenseSelect.trigger('chosen:updated');
+            return;
+        }
+        
+        // Show loading state
+        $expenseSelect.html('<option value="">Loading expenses...</option>');
+        $expenseSelect.prop('disabled', true);
+        $expenseSelect.trigger('chosen:updated');
+        
+        // Load expenses for the selected category
+        $.ajax({
+            url: '<?= App::baseUrl() ?>/_ikawa/expenses/by-category/' + categId,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success && response.data && response.data.length > 0) {
+                    var options = '<option value="">Select Expense Type</option>';
+                    response.data.forEach(function(expense) {
+                        options += `<option value="${expense.expense_id}">${expense.expense_name}</option>`;
+                    });
+                    $expenseSelect.html(options);
+                    $expenseSelect.prop('disabled', false);
+                } else {
+                    $expenseSelect.html('<option value="">No expenses in this category</option>');
+                    $expenseSelect.prop('disabled', true);
+                }
+                $expenseSelect.trigger('chosen:updated');
+            },
+            error: function() {
+                $expenseSelect.html('<option value="">Error loading expenses</option>');
+                $expenseSelect.prop('disabled', true);
+                $expenseSelect.trigger('chosen:updated');
+                showToastExpenseConsume('Failed to load expenses for this category', 'error');
+            }
+        });
+    });
+
     // Handle payment mode header clicks (toggle accounts section)
     $(document).on('click', '.payment-mode-header', function() {
         var $wrapper = $(this).closest('.payment-mode-wrapper');
@@ -140,7 +185,7 @@ $(document).ready(function () {
                                 options += `<option value="${account.acc_id}" 
                                                    data-account-name="${account.acc_name}"
                                                    data-balance="${account.balance}">
-                                                ${account.acc_name} (${account.acc_reference_num})
+                                                ${account.acc_name} (${account.acc_reference_num}) - Bal: ${new Intl.NumberFormat('en-RW').format(account.balance)} RWF
                                             </option>`;
                             });
                             $select.html(options);
@@ -258,7 +303,7 @@ $(document).ready(function () {
         paymentEntries.forEach(function(entry, index) {
             html += `
                 <tr>
-                    <td>${entry.account_name} (${entry.account_ref})</td>
+                    <td>${entry.account_name}</td>
                     <td>${entry.amount.toFixed(2)} RWF</td>
                     <td>${entry.charges.toFixed(2)} RWF</td>
                     <td>${entry.total.toFixed(2)} RWF</td>
@@ -567,7 +612,19 @@ $(document).ready(function () {
 
     // Clear modal on close
     $('#createExpenseConsumeModal').on('hidden.bs.modal', function () {
-        resetForm();        $('#recorded_date').val('<?= date('Y-m-d') ?>');
+        resetForm();
+        $('#recorded_date').val('<?= date('Y-m-d') ?>');
+        
+        // Reset category and expense dropdowns
+        $('#expense_category').val('').trigger('chosen:updated');
+        $('#expense_id').html('<option value="">Select Category First</option>');
+        $('#expense_id').prop('disabled', true).trigger('chosen:updated');
+    });
+    
+    // When modal opens, ensure proper state
+    $('#createExpenseConsumeModal').on('shown.bs.modal', function () {
+        // Make sure category is reset and expense is disabled
+        $('#expense_id').prop('disabled', true);
     });
 
 });

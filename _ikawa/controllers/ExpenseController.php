@@ -147,4 +147,20 @@ class ExpenseController
             Response::error('Failed to delete expense', 500);
         }
     }
+
+    public function getExpensesByCategory($categ_id)
+    {
+        if (empty($categ_id)) {
+            Response::error('Category ID is required', 400);
+            return;
+        }
+
+        $expenses = $this->expenseModel->getExpensesByCategory($categ_id);
+
+        if ($expenses !== false) {
+            Response::success('Expenses retrieved successfully!', $expenses);
+        } else {
+            Response::error('Failed to retrieve expenses', 500);
+        }
+    }
 }

@@ -142,3 +142,939 @@
 [2025-12-30 08:13:31] Journal entry created successfully. ID: 8
 [2025-12-30 08:13:31] Charges entry created with ID: 8
 [2025-12-30 08:13:31] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:08] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:08] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:08] Creating expense entry...
+[2025-12-30 13:37:08] === CREATE ENTRY START ===
+[2025-12-30 13:37:08] Entry Date: 2025-12-30
+[2025-12-30 13:37:08] Debit Account ID: 1
+[2025-12-30 13:37:08] Amount: 3
+[2025-12-30 13:37:08] Charges: 0
+[2025-12-30 13:37:08] Method ID: 1
+[2025-12-30 13:37:08] Reference ID: 6
+[2025-12-30 13:37:08] Description: 
+[2025-12-30 13:37:08] User ID: 1
+[2025-12-30 13:37:08] Action: expense
+[2025-12-30 13:37:08] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:08] Journal entry created successfully. ID: 9
+[2025-12-30 13:37:08] Expense entry created with ID: 9
+[2025-12-30 13:37:08] Creating charges entry...
+[2025-12-30 13:37:08] === CREATE ENTRY START ===
+[2025-12-30 13:37:08] Entry Date: 2025-12-30
+[2025-12-30 13:37:08] Debit Account ID: 1
+[2025-12-30 13:37:08] Amount: 0
+[2025-12-30 13:37:08] Charges: 3
+[2025-12-30 13:37:08] Method ID: 1
+[2025-12-30 13:37:08] Reference ID: 6
+[2025-12-30 13:37:08] Description: 
+[2025-12-30 13:37:08] User ID: 1
+[2025-12-30 13:37:08] Action: charges
+[2025-12-30 13:37:08] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:08] Journal entry created successfully. ID: 10
+[2025-12-30 13:37:08] Charges entry created with ID: 10
+[2025-12-30 13:37:08] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:12] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:12] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:12] Creating expense entry...
+[2025-12-30 13:37:12] === CREATE ENTRY START ===
+[2025-12-30 13:37:12] Entry Date: 2025-12-30
+[2025-12-30 13:37:12] Debit Account ID: 1
+[2025-12-30 13:37:12] Amount: 3
+[2025-12-30 13:37:12] Charges: 0
+[2025-12-30 13:37:12] Method ID: 1
+[2025-12-30 13:37:12] Reference ID: 6
+[2025-12-30 13:37:12] Description: 
+[2025-12-30 13:37:12] User ID: 1
+[2025-12-30 13:37:12] Action: expense
+[2025-12-30 13:37:12] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:12] Journal entry created successfully. ID: 11
+[2025-12-30 13:37:12] Expense entry created with ID: 11
+[2025-12-30 13:37:12] Creating charges entry...
+[2025-12-30 13:37:12] === CREATE ENTRY START ===
+[2025-12-30 13:37:12] Entry Date: 2025-12-30
+[2025-12-30 13:37:12] Debit Account ID: 1
+[2025-12-30 13:37:12] Amount: 0
+[2025-12-30 13:37:12] Charges: 3
+[2025-12-30 13:37:12] Method ID: 1
+[2025-12-30 13:37:12] Reference ID: 6
+[2025-12-30 13:37:12] Description: 
+[2025-12-30 13:37:12] User ID: 1
+[2025-12-30 13:37:12] Action: charges
+[2025-12-30 13:37:12] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:12] Journal entry created successfully. ID: 12
+[2025-12-30 13:37:12] Charges entry created with ID: 12
+[2025-12-30 13:37:12] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:19] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:19] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:19] Creating expense entry...
+[2025-12-30 13:37:19] === CREATE ENTRY START ===
+[2025-12-30 13:37:19] Entry Date: 2025-12-30
+[2025-12-30 13:37:19] Debit Account ID: 1
+[2025-12-30 13:37:19] Amount: 3
+[2025-12-30 13:37:19] Charges: 0
+[2025-12-30 13:37:19] Method ID: 1
+[2025-12-30 13:37:19] Reference ID: 6
+[2025-12-30 13:37:19] Description: 
+[2025-12-30 13:37:19] User ID: 1
+[2025-12-30 13:37:19] Action: expense
+[2025-12-30 13:37:19] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:19] Journal entry created successfully. ID: 13
+[2025-12-30 13:37:19] Expense entry created with ID: 13
+[2025-12-30 13:37:19] Creating charges entry...
+[2025-12-30 13:37:19] === CREATE ENTRY START ===
+[2025-12-30 13:37:19] Entry Date: 2025-12-30
+[2025-12-30 13:37:19] Debit Account ID: 1
+[2025-12-30 13:37:19] Amount: 0
+[2025-12-30 13:37:19] Charges: 3
+[2025-12-30 13:37:19] Method ID: 1
+[2025-12-30 13:37:19] Reference ID: 6
+[2025-12-30 13:37:19] Description: 
+[2025-12-30 13:37:19] User ID: 1
+[2025-12-30 13:37:19] Action: charges
+[2025-12-30 13:37:19] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:19] Journal entry created successfully. ID: 14
+[2025-12-30 13:37:19] Charges entry created with ID: 14
+[2025-12-30 13:37:19] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:21] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:21] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:21] Creating expense entry...
+[2025-12-30 13:37:21] === CREATE ENTRY START ===
+[2025-12-30 13:37:21] Entry Date: 2025-12-30
+[2025-12-30 13:37:21] Debit Account ID: 1
+[2025-12-30 13:37:21] Amount: 3
+[2025-12-30 13:37:21] Charges: 0
+[2025-12-30 13:37:21] Method ID: 1
+[2025-12-30 13:37:21] Reference ID: 6
+[2025-12-30 13:37:21] Description: 
+[2025-12-30 13:37:21] User ID: 1
+[2025-12-30 13:37:21] Action: expense
+[2025-12-30 13:37:21] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:21] Journal entry created successfully. ID: 15
+[2025-12-30 13:37:21] Expense entry created with ID: 15
+[2025-12-30 13:37:21] Creating charges entry...
+[2025-12-30 13:37:21] === CREATE ENTRY START ===
+[2025-12-30 13:37:21] Entry Date: 2025-12-30
+[2025-12-30 13:37:21] Debit Account ID: 1
+[2025-12-30 13:37:21] Amount: 0
+[2025-12-30 13:37:21] Charges: 3
+[2025-12-30 13:37:21] Method ID: 1
+[2025-12-30 13:37:21] Reference ID: 6
+[2025-12-30 13:37:21] Description: 
+[2025-12-30 13:37:21] User ID: 1
+[2025-12-30 13:37:21] Action: charges
+[2025-12-30 13:37:21] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:21] Journal entry created successfully. ID: 16
+[2025-12-30 13:37:21] Charges entry created with ID: 16
+[2025-12-30 13:37:21] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:22] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:22] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:22] Creating expense entry...
+[2025-12-30 13:37:22] === CREATE ENTRY START ===
+[2025-12-30 13:37:22] Entry Date: 2025-12-30
+[2025-12-30 13:37:22] Debit Account ID: 1
+[2025-12-30 13:37:22] Amount: 3
+[2025-12-30 13:37:22] Charges: 0
+[2025-12-30 13:37:22] Method ID: 1
+[2025-12-30 13:37:22] Reference ID: 6
+[2025-12-30 13:37:22] Description: 
+[2025-12-30 13:37:22] User ID: 1
+[2025-12-30 13:37:22] Action: expense
+[2025-12-30 13:37:22] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:22] Journal entry created successfully. ID: 17
+[2025-12-30 13:37:22] Expense entry created with ID: 17
+[2025-12-30 13:37:22] Creating charges entry...
+[2025-12-30 13:37:22] === CREATE ENTRY START ===
+[2025-12-30 13:37:22] Entry Date: 2025-12-30
+[2025-12-30 13:37:22] Debit Account ID: 1
+[2025-12-30 13:37:22] Amount: 0
+[2025-12-30 13:37:22] Charges: 3
+[2025-12-30 13:37:22] Method ID: 1
+[2025-12-30 13:37:22] Reference ID: 6
+[2025-12-30 13:37:22] Description: 
+[2025-12-30 13:37:22] User ID: 1
+[2025-12-30 13:37:22] Action: charges
+[2025-12-30 13:37:22] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:22] Journal entry created successfully. ID: 18
+[2025-12-30 13:37:22] Charges entry created with ID: 18
+[2025-12-30 13:37:22] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:23] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:23] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:23] Creating expense entry...
+[2025-12-30 13:37:23] === CREATE ENTRY START ===
+[2025-12-30 13:37:23] Entry Date: 2025-12-30
+[2025-12-30 13:37:23] Debit Account ID: 1
+[2025-12-30 13:37:23] Amount: 3
+[2025-12-30 13:37:23] Charges: 0
+[2025-12-30 13:37:23] Method ID: 1
+[2025-12-30 13:37:23] Reference ID: 6
+[2025-12-30 13:37:23] Description: 
+[2025-12-30 13:37:23] User ID: 1
+[2025-12-30 13:37:23] Action: expense
+[2025-12-30 13:37:23] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:23] Journal entry created successfully. ID: 19
+[2025-12-30 13:37:23] Expense entry created with ID: 19
+[2025-12-30 13:37:23] Creating charges entry...
+[2025-12-30 13:37:23] === CREATE ENTRY START ===
+[2025-12-30 13:37:23] Entry Date: 2025-12-30
+[2025-12-30 13:37:23] Debit Account ID: 1
+[2025-12-30 13:37:23] Amount: 0
+[2025-12-30 13:37:23] Charges: 3
+[2025-12-30 13:37:23] Method ID: 1
+[2025-12-30 13:37:23] Reference ID: 6
+[2025-12-30 13:37:23] Description: 
+[2025-12-30 13:37:23] User ID: 1
+[2025-12-30 13:37:23] Action: charges
+[2025-12-30 13:37:23] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:23] Journal entry created successfully. ID: 20
+[2025-12-30 13:37:23] Charges entry created with ID: 20
+[2025-12-30 13:37:23] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:23] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:23] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:23] Creating expense entry...
+[2025-12-30 13:37:23] === CREATE ENTRY START ===
+[2025-12-30 13:37:23] Entry Date: 2025-12-30
+[2025-12-30 13:37:23] Debit Account ID: 1
+[2025-12-30 13:37:23] Amount: 3
+[2025-12-30 13:37:23] Charges: 0
+[2025-12-30 13:37:23] Method ID: 1
+[2025-12-30 13:37:23] Reference ID: 6
+[2025-12-30 13:37:23] Description: 
+[2025-12-30 13:37:23] User ID: 1
+[2025-12-30 13:37:23] Action: expense
+[2025-12-30 13:37:23] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:23] Journal entry created successfully. ID: 21
+[2025-12-30 13:37:23] Expense entry created with ID: 21
+[2025-12-30 13:37:23] Creating charges entry...
+[2025-12-30 13:37:23] === CREATE ENTRY START ===
+[2025-12-30 13:37:23] Entry Date: 2025-12-30
+[2025-12-30 13:37:23] Debit Account ID: 1
+[2025-12-30 13:37:23] Amount: 0
+[2025-12-30 13:37:23] Charges: 3
+[2025-12-30 13:37:23] Method ID: 1
+[2025-12-30 13:37:23] Reference ID: 6
+[2025-12-30 13:37:23] Description: 
+[2025-12-30 13:37:23] User ID: 1
+[2025-12-30 13:37:23] Action: charges
+[2025-12-30 13:37:23] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:23] Journal entry created successfully. ID: 22
+[2025-12-30 13:37:23] Charges entry created with ID: 22
+[2025-12-30 13:37:23] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:24] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:24] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:24] Creating expense entry...
+[2025-12-30 13:37:24] === CREATE ENTRY START ===
+[2025-12-30 13:37:24] Entry Date: 2025-12-30
+[2025-12-30 13:37:24] Debit Account ID: 1
+[2025-12-30 13:37:24] Amount: 3
+[2025-12-30 13:37:24] Charges: 0
+[2025-12-30 13:37:24] Method ID: 1
+[2025-12-30 13:37:24] Reference ID: 6
+[2025-12-30 13:37:24] Description: 
+[2025-12-30 13:37:24] User ID: 1
+[2025-12-30 13:37:24] Action: expense
+[2025-12-30 13:37:24] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:24] Journal entry created successfully. ID: 23
+[2025-12-30 13:37:24] Expense entry created with ID: 23
+[2025-12-30 13:37:24] Creating charges entry...
+[2025-12-30 13:37:24] === CREATE ENTRY START ===
+[2025-12-30 13:37:24] Entry Date: 2025-12-30
+[2025-12-30 13:37:24] Debit Account ID: 1
+[2025-12-30 13:37:24] Amount: 0
+[2025-12-30 13:37:24] Charges: 3
+[2025-12-30 13:37:24] Method ID: 1
+[2025-12-30 13:37:24] Reference ID: 6
+[2025-12-30 13:37:24] Description: 
+[2025-12-30 13:37:24] User ID: 1
+[2025-12-30 13:37:24] Action: charges
+[2025-12-30 13:37:24] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:24] Journal entry created successfully. ID: 24
+[2025-12-30 13:37:24] Charges entry created with ID: 24
+[2025-12-30 13:37:24] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:25] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:25] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:25] Creating expense entry...
+[2025-12-30 13:37:25] === CREATE ENTRY START ===
+[2025-12-30 13:37:25] Entry Date: 2025-12-30
+[2025-12-30 13:37:25] Debit Account ID: 1
+[2025-12-30 13:37:25] Amount: 3
+[2025-12-30 13:37:25] Charges: 0
+[2025-12-30 13:37:25] Method ID: 1
+[2025-12-30 13:37:25] Reference ID: 6
+[2025-12-30 13:37:25] Description: 
+[2025-12-30 13:37:25] User ID: 1
+[2025-12-30 13:37:25] Action: expense
+[2025-12-30 13:37:25] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:25] Journal entry created successfully. ID: 25
+[2025-12-30 13:37:25] Expense entry created with ID: 25
+[2025-12-30 13:37:25] Creating charges entry...
+[2025-12-30 13:37:25] === CREATE ENTRY START ===
+[2025-12-30 13:37:25] Entry Date: 2025-12-30
+[2025-12-30 13:37:25] Debit Account ID: 1
+[2025-12-30 13:37:25] Amount: 0
+[2025-12-30 13:37:25] Charges: 3
+[2025-12-30 13:37:25] Method ID: 1
+[2025-12-30 13:37:25] Reference ID: 6
+[2025-12-30 13:37:25] Description: 
+[2025-12-30 13:37:25] User ID: 1
+[2025-12-30 13:37:25] Action: charges
+[2025-12-30 13:37:25] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:25] Journal entry created successfully. ID: 26
+[2025-12-30 13:37:25] Charges entry created with ID: 26
+[2025-12-30 13:37:25] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:25] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:25] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:25] Creating expense entry...
+[2025-12-30 13:37:25] === CREATE ENTRY START ===
+[2025-12-30 13:37:25] Entry Date: 2025-12-30
+[2025-12-30 13:37:25] Debit Account ID: 1
+[2025-12-30 13:37:25] Amount: 3
+[2025-12-30 13:37:25] Charges: 0
+[2025-12-30 13:37:25] Method ID: 1
+[2025-12-30 13:37:25] Reference ID: 6
+[2025-12-30 13:37:25] Description: 
+[2025-12-30 13:37:25] User ID: 1
+[2025-12-30 13:37:25] Action: expense
+[2025-12-30 13:37:25] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:25] Journal entry created successfully. ID: 27
+[2025-12-30 13:37:25] Expense entry created with ID: 27
+[2025-12-30 13:37:25] Creating charges entry...
+[2025-12-30 13:37:25] === CREATE ENTRY START ===
+[2025-12-30 13:37:25] Entry Date: 2025-12-30
+[2025-12-30 13:37:25] Debit Account ID: 1
+[2025-12-30 13:37:25] Amount: 0
+[2025-12-30 13:37:25] Charges: 3
+[2025-12-30 13:37:25] Method ID: 1
+[2025-12-30 13:37:25] Reference ID: 6
+[2025-12-30 13:37:25] Description: 
+[2025-12-30 13:37:25] User ID: 1
+[2025-12-30 13:37:25] Action: charges
+[2025-12-30 13:37:25] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:25] Journal entry created successfully. ID: 28
+[2025-12-30 13:37:25] Charges entry created with ID: 28
+[2025-12-30 13:37:25] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:26] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:26] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:26] Creating expense entry...
+[2025-12-30 13:37:26] === CREATE ENTRY START ===
+[2025-12-30 13:37:26] Entry Date: 2025-12-30
+[2025-12-30 13:37:26] Debit Account ID: 1
+[2025-12-30 13:37:26] Amount: 3
+[2025-12-30 13:37:26] Charges: 0
+[2025-12-30 13:37:26] Method ID: 1
+[2025-12-30 13:37:26] Reference ID: 6
+[2025-12-30 13:37:26] Description: 
+[2025-12-30 13:37:26] User ID: 1
+[2025-12-30 13:37:26] Action: expense
+[2025-12-30 13:37:26] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:26] Journal entry created successfully. ID: 29
+[2025-12-30 13:37:26] Expense entry created with ID: 29
+[2025-12-30 13:37:26] Creating charges entry...
+[2025-12-30 13:37:26] === CREATE ENTRY START ===
+[2025-12-30 13:37:26] Entry Date: 2025-12-30
+[2025-12-30 13:37:26] Debit Account ID: 1
+[2025-12-30 13:37:26] Amount: 0
+[2025-12-30 13:37:26] Charges: 3
+[2025-12-30 13:37:26] Method ID: 1
+[2025-12-30 13:37:26] Reference ID: 6
+[2025-12-30 13:37:26] Description: 
+[2025-12-30 13:37:26] User ID: 1
+[2025-12-30 13:37:26] Action: charges
+[2025-12-30 13:37:26] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:26] Journal entry created successfully. ID: 30
+[2025-12-30 13:37:26] Charges entry created with ID: 30
+[2025-12-30 13:37:26] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:27] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:27] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:27] Creating expense entry...
+[2025-12-30 13:37:27] === CREATE ENTRY START ===
+[2025-12-30 13:37:27] Entry Date: 2025-12-30
+[2025-12-30 13:37:27] Debit Account ID: 1
+[2025-12-30 13:37:27] Amount: 3
+[2025-12-30 13:37:27] Charges: 0
+[2025-12-30 13:37:27] Method ID: 1
+[2025-12-30 13:37:27] Reference ID: 6
+[2025-12-30 13:37:27] Description: 
+[2025-12-30 13:37:27] User ID: 1
+[2025-12-30 13:37:27] Action: expense
+[2025-12-30 13:37:27] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:27] Journal entry created successfully. ID: 31
+[2025-12-30 13:37:27] Expense entry created with ID: 31
+[2025-12-30 13:37:27] Creating charges entry...
+[2025-12-30 13:37:27] === CREATE ENTRY START ===
+[2025-12-30 13:37:27] Entry Date: 2025-12-30
+[2025-12-30 13:37:27] Debit Account ID: 1
+[2025-12-30 13:37:27] Amount: 0
+[2025-12-30 13:37:27] Charges: 3
+[2025-12-30 13:37:27] Method ID: 1
+[2025-12-30 13:37:27] Reference ID: 6
+[2025-12-30 13:37:27] Description: 
+[2025-12-30 13:37:27] User ID: 1
+[2025-12-30 13:37:27] Action: charges
+[2025-12-30 13:37:27] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:27] Journal entry created successfully. ID: 32
+[2025-12-30 13:37:27] Charges entry created with ID: 32
+[2025-12-30 13:37:27] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:27] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:27] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:27] Creating expense entry...
+[2025-12-30 13:37:27] === CREATE ENTRY START ===
+[2025-12-30 13:37:27] Entry Date: 2025-12-30
+[2025-12-30 13:37:27] Debit Account ID: 1
+[2025-12-30 13:37:27] Amount: 3
+[2025-12-30 13:37:27] Charges: 0
+[2025-12-30 13:37:27] Method ID: 1
+[2025-12-30 13:37:27] Reference ID: 6
+[2025-12-30 13:37:27] Description: 
+[2025-12-30 13:37:27] User ID: 1
+[2025-12-30 13:37:27] Action: expense
+[2025-12-30 13:37:27] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:27] Journal entry created successfully. ID: 33
+[2025-12-30 13:37:27] Expense entry created with ID: 33
+[2025-12-30 13:37:27] Creating charges entry...
+[2025-12-30 13:37:27] === CREATE ENTRY START ===
+[2025-12-30 13:37:27] Entry Date: 2025-12-30
+[2025-12-30 13:37:27] Debit Account ID: 1
+[2025-12-30 13:37:27] Amount: 0
+[2025-12-30 13:37:27] Charges: 3
+[2025-12-30 13:37:27] Method ID: 1
+[2025-12-30 13:37:27] Reference ID: 6
+[2025-12-30 13:37:27] Description: 
+[2025-12-30 13:37:27] User ID: 1
+[2025-12-30 13:37:27] Action: charges
+[2025-12-30 13:37:27] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:27] Journal entry created successfully. ID: 34
+[2025-12-30 13:37:27] Charges entry created with ID: 34
+[2025-12-30 13:37:27] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:27] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:27] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:27] Creating expense entry...
+[2025-12-30 13:37:27] === CREATE ENTRY START ===
+[2025-12-30 13:37:27] Entry Date: 2025-12-30
+[2025-12-30 13:37:27] Debit Account ID: 1
+[2025-12-30 13:37:27] Amount: 3
+[2025-12-30 13:37:27] Charges: 0
+[2025-12-30 13:37:27] Method ID: 1
+[2025-12-30 13:37:27] Reference ID: 6
+[2025-12-30 13:37:27] Description: 
+[2025-12-30 13:37:27] User ID: 1
+[2025-12-30 13:37:27] Action: expense
+[2025-12-30 13:37:27] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:27] Journal entry created successfully. ID: 35
+[2025-12-30 13:37:27] Expense entry created with ID: 35
+[2025-12-30 13:37:27] Creating charges entry...
+[2025-12-30 13:37:27] === CREATE ENTRY START ===
+[2025-12-30 13:37:27] Entry Date: 2025-12-30
+[2025-12-30 13:37:27] Debit Account ID: 1
+[2025-12-30 13:37:27] Amount: 0
+[2025-12-30 13:37:27] Charges: 3
+[2025-12-30 13:37:27] Method ID: 1
+[2025-12-30 13:37:27] Reference ID: 6
+[2025-12-30 13:37:27] Description: 
+[2025-12-30 13:37:27] User ID: 1
+[2025-12-30 13:37:27] Action: charges
+[2025-12-30 13:37:27] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:27] Journal entry created successfully. ID: 36
+[2025-12-30 13:37:27] Charges entry created with ID: 36
+[2025-12-30 13:37:27] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:28] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:28] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:28] Creating expense entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 3
+[2025-12-30 13:37:28] Charges: 0
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: expense
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 37
+[2025-12-30 13:37:28] Expense entry created with ID: 37
+[2025-12-30 13:37:28] Creating charges entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 0
+[2025-12-30 13:37:28] Charges: 3
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: charges
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 38
+[2025-12-30 13:37:28] Charges entry created with ID: 38
+[2025-12-30 13:37:28] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:28] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:28] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:28] Creating expense entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 3
+[2025-12-30 13:37:28] Charges: 0
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: expense
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 39
+[2025-12-30 13:37:28] Expense entry created with ID: 39
+[2025-12-30 13:37:28] Creating charges entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 0
+[2025-12-30 13:37:28] Charges: 3
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: charges
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 40
+[2025-12-30 13:37:28] Charges entry created with ID: 40
+[2025-12-30 13:37:28] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:28] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:28] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:28] Creating expense entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 3
+[2025-12-30 13:37:28] Charges: 0
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: expense
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 41
+[2025-12-30 13:37:28] Expense entry created with ID: 41
+[2025-12-30 13:37:28] Creating charges entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 0
+[2025-12-30 13:37:28] Charges: 3
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: charges
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 42
+[2025-12-30 13:37:28] Charges entry created with ID: 42
+[2025-12-30 13:37:28] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:28] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:28] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:28] Creating expense entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 3
+[2025-12-30 13:37:28] Charges: 0
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: expense
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 43
+[2025-12-30 13:37:28] Expense entry created with ID: 43
+[2025-12-30 13:37:28] Creating charges entry...
+[2025-12-30 13:37:28] === CREATE ENTRY START ===
+[2025-12-30 13:37:28] Entry Date: 2025-12-30
+[2025-12-30 13:37:28] Debit Account ID: 1
+[2025-12-30 13:37:28] Amount: 0
+[2025-12-30 13:37:28] Charges: 3
+[2025-12-30 13:37:28] Method ID: 1
+[2025-12-30 13:37:28] Reference ID: 6
+[2025-12-30 13:37:28] Description: 
+[2025-12-30 13:37:28] User ID: 1
+[2025-12-30 13:37:28] Action: charges
+[2025-12-30 13:37:28] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:28] Journal entry created successfully. ID: 44
+[2025-12-30 13:37:28] Charges entry created with ID: 44
+[2025-12-30 13:37:28] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:32] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:32] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:32] Creating expense entry...
+[2025-12-30 13:37:32] === CREATE ENTRY START ===
+[2025-12-30 13:37:32] Entry Date: 2025-12-30
+[2025-12-30 13:37:32] Debit Account ID: 1
+[2025-12-30 13:37:32] Amount: 3
+[2025-12-30 13:37:32] Charges: 0
+[2025-12-30 13:37:32] Method ID: 1
+[2025-12-30 13:37:32] Reference ID: 6
+[2025-12-30 13:37:32] Description: 
+[2025-12-30 13:37:32] User ID: 1
+[2025-12-30 13:37:32] Action: expense
+[2025-12-30 13:37:32] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:32] Journal entry created successfully. ID: 45
+[2025-12-30 13:37:32] Expense entry created with ID: 45
+[2025-12-30 13:37:32] Creating charges entry...
+[2025-12-30 13:37:32] === CREATE ENTRY START ===
+[2025-12-30 13:37:32] Entry Date: 2025-12-30
+[2025-12-30 13:37:32] Debit Account ID: 1
+[2025-12-30 13:37:32] Amount: 0
+[2025-12-30 13:37:32] Charges: 3
+[2025-12-30 13:37:32] Method ID: 1
+[2025-12-30 13:37:32] Reference ID: 6
+[2025-12-30 13:37:32] Description: 
+[2025-12-30 13:37:32] User ID: 1
+[2025-12-30 13:37:32] Action: charges
+[2025-12-30 13:37:32] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:32] Journal entry created successfully. ID: 46
+[2025-12-30 13:37:32] Charges entry created with ID: 46
+[2025-12-30 13:37:32] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:43] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:43] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:43] Creating expense entry...
+[2025-12-30 13:37:43] === CREATE ENTRY START ===
+[2025-12-30 13:37:43] Entry Date: 2025-12-30
+[2025-12-30 13:37:43] Debit Account ID: 1
+[2025-12-30 13:37:43] Amount: 3
+[2025-12-30 13:37:43] Charges: 0
+[2025-12-30 13:37:43] Method ID: 1
+[2025-12-30 13:37:43] Reference ID: 6
+[2025-12-30 13:37:43] Description: 
+[2025-12-30 13:37:43] User ID: 1
+[2025-12-30 13:37:43] Action: expense
+[2025-12-30 13:37:43] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:43] Journal entry created successfully. ID: 47
+[2025-12-30 13:37:43] Expense entry created with ID: 47
+[2025-12-30 13:37:43] Creating charges entry...
+[2025-12-30 13:37:43] === CREATE ENTRY START ===
+[2025-12-30 13:37:43] Entry Date: 2025-12-30
+[2025-12-30 13:37:43] Debit Account ID: 1
+[2025-12-30 13:37:43] Amount: 0
+[2025-12-30 13:37:43] Charges: 3
+[2025-12-30 13:37:43] Method ID: 1
+[2025-12-30 13:37:43] Reference ID: 6
+[2025-12-30 13:37:43] Description: 
+[2025-12-30 13:37:43] User ID: 1
+[2025-12-30 13:37:43] Action: charges
+[2025-12-30 13:37:43] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:43] Journal entry created successfully. ID: 48
+[2025-12-30 13:37:43] Charges entry created with ID: 48
+[2025-12-30 13:37:43] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:48] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:48] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:48] Creating expense entry...
+[2025-12-30 13:37:48] === CREATE ENTRY START ===
+[2025-12-30 13:37:48] Entry Date: 2025-12-30
+[2025-12-30 13:37:48] Debit Account ID: 1
+[2025-12-30 13:37:48] Amount: 3
+[2025-12-30 13:37:48] Charges: 0
+[2025-12-30 13:37:48] Method ID: 1
+[2025-12-30 13:37:48] Reference ID: 6
+[2025-12-30 13:37:48] Description: 
+[2025-12-30 13:37:48] User ID: 1
+[2025-12-30 13:37:48] Action: expense
+[2025-12-30 13:37:48] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:48] Journal entry created successfully. ID: 49
+[2025-12-30 13:37:48] Expense entry created with ID: 49
+[2025-12-30 13:37:48] Creating charges entry...
+[2025-12-30 13:37:48] === CREATE ENTRY START ===
+[2025-12-30 13:37:48] Entry Date: 2025-12-30
+[2025-12-30 13:37:48] Debit Account ID: 1
+[2025-12-30 13:37:48] Amount: 0
+[2025-12-30 13:37:48] Charges: 3
+[2025-12-30 13:37:48] Method ID: 1
+[2025-12-30 13:37:48] Reference ID: 6
+[2025-12-30 13:37:48] Description: 
+[2025-12-30 13:37:48] User ID: 1
+[2025-12-30 13:37:48] Action: charges
+[2025-12-30 13:37:48] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:48] Journal entry created successfully. ID: 50
+[2025-12-30 13:37:48] Charges entry created with ID: 50
+[2025-12-30 13:37:48] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:37:53] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:37:53] Expense Amount: 3, Charges Amount: 3
+[2025-12-30 13:37:53] Creating expense entry...
+[2025-12-30 13:37:53] === CREATE ENTRY START ===
+[2025-12-30 13:37:53] Entry Date: 2025-12-30
+[2025-12-30 13:37:53] Debit Account ID: 1
+[2025-12-30 13:37:53] Amount: 3
+[2025-12-30 13:37:53] Charges: 0
+[2025-12-30 13:37:53] Method ID: 1
+[2025-12-30 13:37:53] Reference ID: 6
+[2025-12-30 13:37:53] Description: 
+[2025-12-30 13:37:53] User ID: 1
+[2025-12-30 13:37:53] Action: expense
+[2025-12-30 13:37:53] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:53] Journal entry created successfully. ID: 51
+[2025-12-30 13:37:53] Expense entry created with ID: 51
+[2025-12-30 13:37:53] Creating charges entry...
+[2025-12-30 13:37:53] === CREATE ENTRY START ===
+[2025-12-30 13:37:53] Entry Date: 2025-12-30
+[2025-12-30 13:37:53] Debit Account ID: 1
+[2025-12-30 13:37:53] Amount: 0
+[2025-12-30 13:37:53] Charges: 3
+[2025-12-30 13:37:53] Method ID: 1
+[2025-12-30 13:37:53] Reference ID: 6
+[2025-12-30 13:37:53] Description: 
+[2025-12-30 13:37:53] User ID: 1
+[2025-12-30 13:37:53] Action: charges
+[2025-12-30 13:37:53] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:37:53] Journal entry created successfully. ID: 52
+[2025-12-30 13:37:53] Charges entry created with ID: 52
+[2025-12-30 13:37:53] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 13:47:10] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 13:47:10] Expense Amount: 300, Charges Amount: 2
+[2025-12-30 13:47:10] Creating expense entry...
+[2025-12-30 13:47:10] === CREATE ENTRY START ===
+[2025-12-30 13:47:10] Entry Date: 2025-12-30
+[2025-12-30 13:47:10] Debit Account ID: 1
+[2025-12-30 13:47:10] Amount: 300
+[2025-12-30 13:47:10] Charges: 0
+[2025-12-30 13:47:10] Method ID: 1
+[2025-12-30 13:47:10] Reference ID: 5
+[2025-12-30 13:47:10] Description: 
+[2025-12-30 13:47:10] User ID: 1
+[2025-12-30 13:47:10] Action: expense
+[2025-12-30 13:47:10] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:47:10] Journal entry created successfully. ID: 53
+[2025-12-30 13:47:10] Expense entry created with ID: 53
+[2025-12-30 13:47:10] Creating charges entry...
+[2025-12-30 13:47:10] === CREATE ENTRY START ===
+[2025-12-30 13:47:10] Entry Date: 2025-12-30
+[2025-12-30 13:47:10] Debit Account ID: 1
+[2025-12-30 13:47:10] Amount: 0
+[2025-12-30 13:47:10] Charges: 2
+[2025-12-30 13:47:10] Method ID: 1
+[2025-12-30 13:47:10] Reference ID: 5
+[2025-12-30 13:47:10] Description: 
+[2025-12-30 13:47:10] User ID: 1
+[2025-12-30 13:47:10] Action: charges
+[2025-12-30 13:47:10] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 13:47:10] Journal entry created successfully. ID: 54
+[2025-12-30 13:47:10] Charges entry created with ID: 54
+[2025-12-30 13:47:10] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 14:01:33] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 14:01:33] Expense Amount: 1000, Charges Amount: 500
+[2025-12-30 14:01:33] Creating expense entry...
+[2025-12-30 14:01:33] === CREATE ENTRY START ===
+[2025-12-30 14:01:33] Entry Date: 2025-12-30
+[2025-12-30 14:01:33] Debit Account ID: 6
+[2025-12-30 14:01:33] Amount: 1000
+[2025-12-30 14:01:33] Charges: 0
+[2025-12-30 14:01:33] Method ID: 6
+[2025-12-30 14:01:33] Reference ID: 5
+[2025-12-30 14:01:33] Description: 
+[2025-12-30 14:01:33] User ID: 1
+[2025-12-30 14:01:33] Action: expense
+[2025-12-30 14:01:33] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 14:01:33] Journal entry created successfully. ID: 1
+[2025-12-30 14:01:33] Expense entry created with ID: 1
+[2025-12-30 14:01:33] Creating charges entry...
+[2025-12-30 14:01:33] === CREATE ENTRY START ===
+[2025-12-30 14:01:33] Entry Date: 2025-12-30
+[2025-12-30 14:01:33] Debit Account ID: 6
+[2025-12-30 14:01:33] Amount: 0
+[2025-12-30 14:01:33] Charges: 500
+[2025-12-30 14:01:33] Method ID: 6
+[2025-12-30 14:01:33] Reference ID: 5
+[2025-12-30 14:01:33] Description: 
+[2025-12-30 14:01:33] User ID: 1
+[2025-12-30 14:01:33] Action: charges
+[2025-12-30 14:01:33] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 14:01:33] Journal entry created successfully. ID: 2
+[2025-12-30 14:01:33] Charges entry created with ID: 2
+[2025-12-30 14:01:33] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 14:01:33] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 14:01:33] Expense Amount: 100, Charges Amount: 2
+[2025-12-30 14:01:33] Creating expense entry...
+[2025-12-30 14:01:33] === CREATE ENTRY START ===
+[2025-12-30 14:01:33] Entry Date: 2025-12-30
+[2025-12-30 14:01:33] Debit Account ID: 6
+[2025-12-30 14:01:33] Amount: 100
+[2025-12-30 14:01:33] Charges: 0
+[2025-12-30 14:01:33] Method ID: 6
+[2025-12-30 14:01:33] Reference ID: 5
+[2025-12-30 14:01:33] Description: 
+[2025-12-30 14:01:33] User ID: 1
+[2025-12-30 14:01:33] Action: expense
+[2025-12-30 14:01:33] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 14:01:33] Journal entry created successfully. ID: 3
+[2025-12-30 14:01:33] Expense entry created with ID: 3
+[2025-12-30 14:01:33] Creating charges entry...
+[2025-12-30 14:01:33] === CREATE ENTRY START ===
+[2025-12-30 14:01:33] Entry Date: 2025-12-30
+[2025-12-30 14:01:33] Debit Account ID: 6
+[2025-12-30 14:01:33] Amount: 0
+[2025-12-30 14:01:33] Charges: 2
+[2025-12-30 14:01:33] Method ID: 6
+[2025-12-30 14:01:33] Reference ID: 5
+[2025-12-30 14:01:33] Description: 
+[2025-12-30 14:01:33] User ID: 1
+[2025-12-30 14:01:33] Action: charges
+[2025-12-30 14:01:33] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 14:01:33] Journal entry created successfully. ID: 4
+[2025-12-30 14:01:33] Charges entry created with ID: 4
+[2025-12-30 14:01:33] === CREATE EXPENSE TRANSACTION SUCCESS ===
+[2025-12-30 14:27:01] 
+=== CREATE EXPENSE TRANSACTION START ===
+[2025-12-30 14:27:01] Expense Amount: 10, Charges Amount: 7
+[2025-12-30 14:27:01] Creating expense entry...
+[2025-12-30 14:27:01] === CREATE ENTRY START ===
+[2025-12-30 14:27:01] Entry Date: 2025-12-30
+[2025-12-30 14:27:01] Debit Account ID: 1
+[2025-12-30 14:27:01] Amount: 10
+[2025-12-30 14:27:01] Charges: 0
+[2025-12-30 14:27:01] Method ID: 1
+[2025-12-30 14:27:01] Reference ID: 5
+[2025-12-30 14:27:01] Description: 
+[2025-12-30 14:27:01] User ID: 1
+[2025-12-30 14:27:01] Action: expense
+[2025-12-30 14:27:01] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 14:27:01] Journal entry created successfully. ID: 5
+[2025-12-30 14:27:01] Expense entry created with ID: 5
+[2025-12-30 14:27:01] Creating charges entry...
+[2025-12-30 14:27:01] === CREATE ENTRY START ===
+[2025-12-30 14:27:01] Entry Date: 2025-12-30
+[2025-12-30 14:27:01] Debit Account ID: 1
+[2025-12-30 14:27:01] Amount: 0
+[2025-12-30 14:27:01] Charges: 7
+[2025-12-30 14:27:01] Method ID: 1
+[2025-12-30 14:27:01] Reference ID: 5
+[2025-12-30 14:27:01] Description: 
+[2025-12-30 14:27:01] User ID: 1
+[2025-12-30 14:27:01] Action: charges
+[2025-12-30 14:27:01] Preparing query: INSERT INTO tbl_journal_entries 
+                      (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                      VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)
+[2025-12-30 14:27:01] Journal entry created successfully. ID: 6
+[2025-12-30 14:27:01] Charges entry created with ID: 6
+[2025-12-30 14:27:01] === CREATE EXPENSE TRANSACTION SUCCESS ===

@@ -132,7 +132,23 @@ class ExpenseConsumeController
 
         error_log("Validation passed. Processing " . count($input['payment_entries']) . " payment entries. Total amount: {$total_expense_amount}, Total charges: {$total_charges_amount}");
 
-        // Generate single transaction ID for all entries
+        // VALIDATE ALL ACCOUNT BALANCES BEFORE STARTING ANY TRANSACTION
+        // This prevents partial transactions when later entries fail balance check
+        foreach ($input['payment_entries'] as $index => $entry) {
+            $acc_id = (int)$entry['account_id'];
+            $amount = (float)$entry['amount'];
+            $charges = (float)$entry['charges'];
+            $total_required = $amount + $charges;
+
+            // Check if account has sufficient balance
+            if (!$this->accountModel->checkBalance($acc_id, $total_required)) {
+                $current_balance = $this->accountModel->getBalance($acc_id);
+                Response::error("Insufficient balance in account ID {$acc_id}. Required: {$total_required}, Available: {$current_balance}. Transaction rejected - no partial payments will be processed.", 400);
+                return;
+            }
+        }
+
+        // All balance checks passed - now generate transaction ID and proceed
         $trans_id = $this->expenseConsumeModel->getNextTransId();
 
         // Get database connection for transaction
@@ -149,19 +165,12 @@ class ExpenseConsumeController
                 $charges = (float)$entry['charges'];
                 $total_required = $amount + $charges;
 
-                // Check account balance
-                if (!$this->accountModel->checkBalance($acc_id, $total_required)) {
-                    $db->rollBack();
-                    $current_balance = $this->accountModel->getBalance($acc_id);
-                    Response::error("Insufficient balance in account ID {$acc_id}. Required: {$total_required}, Available: {$current_balance}", 400);
-                    return;
-                }
-
                 // Create expense consume record for this entry
+                // Save the total amount (amount + charges) in tbl_expenseconsume
                 $data = [
                     'expense_id' => (int)$input['expense_id'],
                     'station_id' => (int)$station_id,
-                    'amount' => $amount,
+                    'amount' => $total_required,  // Total: amount + charges
                     'pay_mode' => $acc_id,
                     'trans_id' => $trans_id,
                     'payer_name' => isset($input['payer_name']) ? trim($input['payer_name']) : null,

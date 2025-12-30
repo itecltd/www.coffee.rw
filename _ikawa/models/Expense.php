@@ -96,4 +96,20 @@ class Expense
             return false;
         }
     }
+
+    public function getExpensesByCategory($categ_id)
+    {
+        try {
+            $query = 'SELECT e.*, c.categ_name 
+                      FROM tbl_expenses e
+                      LEFT JOIN tbl_expensecategories c ON e.categ_id = c.categ_id
+                      WHERE e.categ_id = :categ_id AND e.expense_status = 1 
+                      ORDER BY e.expense_name ASC';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(['categ_id' => $categ_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

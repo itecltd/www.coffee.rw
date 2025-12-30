@@ -275,34 +275,43 @@
                 }
                 ?>
                 <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
-                                <label>Expense Type <span class="text-danger">*</span></label>
-                                <select class='chosen' data-placeholder='Choose Expense Type...' name="expense_id" id="expense_id">
-                                 <option value="">Select Expense Type</option>
+                                <label>Expense Category <span class="text-danger">*</span></label>
+                                <select class='chosen' data-placeholder='Choose Category...' name="expense_category" id="expense_category">
+                                 <option value="">Select Category</option>
                                 <?php
-                                $expensesUrl = App::baseUrl() . '/_ikawa/expenses/get-all';
-                                $response = @file_get_contents($expensesUrl);
+                                $categoriesUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
+                                $catResponse = @file_get_contents($categoriesUrl);
 
-                                $expenses = [];
+                                $categories = [];
 
-                                if ($response !== false) {
-                                    $decoded = json_decode($response, true);
+                                if ($catResponse !== false) {
+                                    $catDecoded = json_decode($catResponse, true);
 
-                                    if ($decoded && isset($decoded['success']) && $decoded['success'] === true) {
-                                        $expenses = $decoded['data'] ?? [];
+                                    if ($catDecoded && isset($catDecoded['success']) && $catDecoded['success'] === true) {
+                                        $categories = $catDecoded['data'] ?? [];
                                     }
                                 }
                                 ?>
-                                   <?php if (!empty($expenses)): ?>
-                                        <?php foreach ($expenses as $expense): ?>
-                                            <option value="<?= htmlspecialchars($expense['expense_id']) ?>">
-                                                <?= htmlspecialchars($expense['expense_name']) ?>
+                                   <?php if (!empty($categories)): ?>
+                                        <?php foreach ($categories as $category): ?>
+                                            <option value="<?= htmlspecialchars($category['categ_id']) ?>">
+                                                <?= htmlspecialchars($category['categ_name']) ?>
                                             </option>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <option disabled>No expenses found</option>
+                                        <option disabled>No categories found</option>
                                     <?php endif; ?>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class='chosen-select-act fm-cmp-mg'>
+                                <label>Expense Type <span class="text-danger">*</span></label>
+                                <select class='chosen' data-placeholder='Choose Expense Type...' name="expense_id" id="expense_id" disabled>
+                                 <option value="">Select Category First</option>
                                 </select>
                               </div>
                             </div>
@@ -390,15 +399,35 @@
                     <!-- Payer and Date Section -->
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group ic-cmp-int">
+                            <div class='chosen-select-act fm-cmp-mg'>
                                 <label>Payer Name</label>
-                                <div class="form-ic-cmp">
-                                    <i class="notika-icon notika-support"></i>
-                                </div>
-                                <div class="nk-int-st">
-                                    <input type="text" name="payer_name" id="payer_name" class="form-control" placeholder="Payer Name (Optional)">
-                                </div>
-                            </div>
+                                <select class='chosen' data-placeholder='Choose Payer...' name="payer_name" id="payer_name">
+                                 <option value="">Select Payer (Optional)</option>
+                                <?php
+                                $consumersUrl = App::baseUrl() . '/_ikawa/expense-consumers/get-all';
+                                $consResponse = @file_get_contents($consumersUrl);
+
+                                $consumers = [];
+
+                                if ($consResponse !== false) {
+                                    $consDecoded = json_decode($consResponse, true);
+
+                                    if ($consDecoded && isset($consDecoded['success']) && $consDecoded['success'] === true) {
+                                        $consumers = $consDecoded['data'] ?? [];
+                                    }
+                                }
+                                ?>
+                                   <?php if (!empty($consumers)): ?>
+                                        <?php foreach ($consumers as $consumer): ?>
+                                            <option value="<?= htmlspecialchars($consumer['cons_id']) ?>">
+                                                <?= htmlspecialchars($consumer['cons_name']) ?> - <?= htmlspecialchars($consumer['phone']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <option disabled>No consumers found</option>
+                                    <?php endif; ?>
+                                </select>
+                              </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

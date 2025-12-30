@@ -11,6 +11,7 @@ $allowed_pages = [
     'manage-roles' => 'views/manage-roles.php',
     'manage-accounts' => 'views/manage-accounts.php',
     'manage-expense-categories' => 'views/manage-expense-categories.php',
+    'manage-expense-consumers' => 'views/manage-expense-consumers.php',
     'manage-expenses' => 'views/manage-expenses.php',
     'manage-expense-consume' => 'views/manage-expense-consume.php',
     'permissions' => 'views/permissions-data.php',

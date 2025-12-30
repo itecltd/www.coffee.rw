@@ -7,12 +7,14 @@ require_once __DIR__ . '/../controllers/AccountController.php';
 require_once __DIR__ . '/../controllers/ExpenseController.php';
 require_once __DIR__ . '/../controllers/ExpenseConsumeController.php';
 require_once __DIR__ . '/../controllers/ExpenseCategoryController.php';
+require_once __DIR__ . '/../controllers/ExpenseConsumerController.php';
 use Controllers\UsersController;
 use Controllers\SettingController;
 use Controllers\AccountController;
 use Controllers\ExpenseController;
 use Controllers\ExpenseConsumeController;
 use Controllers\ExpenseCategoryController;
+use Controllers\ExpenseConsumerController;
 use Config\Response;
 
 // Get request URI
@@ -126,6 +128,11 @@ switch ( true ) {
     $expenseController->deleteExpense( $matches[ 1 ] );
     break;
 
+    case preg_match( '#^/expenses/by-category/(\d+)$#', $route, $matches ):
+    $expenseController = new ExpenseController();
+    $expenseController->getExpensesByCategory( $matches[ 1 ] );
+    break;
+
     // expense categories
     case $route === '/expense-categories/get-all':
     $expenseCategoryController = new ExpenseCategoryController();
@@ -150,6 +157,32 @@ switch ( true ) {
     case preg_match( '#^/expense-categories/check-in-use/(\d+)$#', $route, $matches ):
     $expenseCategoryController = new ExpenseCategoryController();
     $expenseCategoryController->checkCategoryInUse( $matches[ 1 ] );
+    break;
+
+    // expense consumers
+    case $route === '/expense-consumers/get-all':
+    $expenseConsumerController = new ExpenseConsumerController();
+    $expenseConsumerController->getAllConsumers();
+    break;
+
+    case $route === '/expense-consumers/create':
+    $expenseConsumerController = new ExpenseConsumerController();
+    $expenseConsumerController->createConsumer();
+    break;
+
+    case $route === '/expense-consumers/update':
+    $expenseConsumerController = new ExpenseConsumerController();
+    $expenseConsumerController->updateConsumer();
+    break;
+
+    case $route === '/expense-consumers/delete':
+    $expenseConsumerController = new ExpenseConsumerController();
+    $expenseConsumerController->deleteConsumer();
+    break;
+
+    case preg_match( '#^/expense-consumers/check-in-use/(\d+)$#', $route, $matches ):
+    $expenseConsumerController = new ExpenseConsumerController();
+    $expenseConsumerController->checkConsumerInUse( $matches[ 1 ] );
     break;
 
     // expense consume
