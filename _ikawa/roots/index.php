@@ -6,11 +6,13 @@ require_once __DIR__ . '/../controllers/SettingController.php';
 require_once __DIR__ . '/../controllers/AccountController.php';
 require_once __DIR__ . '/../controllers/ExpenseController.php';
 require_once __DIR__ . '/../controllers/ExpenseConsumeController.php';
+require_once __DIR__ . '/../controllers/ExpenseCategoryController.php';
 use Controllers\UsersController;
 use Controllers\SettingController;
 use Controllers\AccountController;
 use Controllers\ExpenseController;
 use Controllers\ExpenseConsumeController;
+use Controllers\ExpenseCategoryController;
 use Config\Response;
 
 // Get request URI
@@ -122,6 +124,32 @@ switch ( true ) {
     case preg_match( '#^/expenses/delete/(\d+)$#', $route, $matches ):
     $expenseController = new ExpenseController();
     $expenseController->deleteExpense( $matches[ 1 ] );
+    break;
+
+    // expense categories
+    case $route === '/expense-categories/get-all':
+    $expenseCategoryController = new ExpenseCategoryController();
+    $expenseCategoryController->getAllCategories();
+    break;
+
+    case $route === '/expense-categories/create':
+    $expenseCategoryController = new ExpenseCategoryController();
+    $expenseCategoryController->createCategory();
+    break;
+
+    case $route === '/expense-categories/update':
+    $expenseCategoryController = new ExpenseCategoryController();
+    $expenseCategoryController->updateCategory();
+    break;
+
+    case $route === '/expense-categories/delete':
+    $expenseCategoryController = new ExpenseCategoryController();
+    $expenseCategoryController->deleteCategory();
+    break;
+
+    case preg_match( '#^/expense-categories/check-in-use/(\d+)$#', $route, $matches ):
+    $expenseCategoryController = new ExpenseCategoryController();
+    $expenseCategoryController->checkCategoryInUse( $matches[ 1 ] );
     break;
 
     // expense consume

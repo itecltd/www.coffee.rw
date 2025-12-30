@@ -42,12 +42,16 @@ window.loadExpenses = function() {
                 $.each(response.data, function (index, expense) {
                     expenseTable.row.add([
                         index + 1,
+                        expense.categ_name || '-',
                         expense.expense_name,
+                        expense.description || '-',
                         `<div class="button-icon-btn button-icon-btn-rd">
                             <button class="btn btn-default btn-icon-notika editExpenseBtn"
                                 title="Edit Expense"
                                 data-id="${expense.expense_id}"
-                                data-expense_name="${expense.expense_name}">
+                                data-categ_id="${expense.categ_id || ''}"
+                                data-expense_name="${expense.expense_name}"
+                                data-description="${expense.description || ''}">
                                 <i class="notika-icon notika-edit"></i>
                             </button>
                             <button class="btn btn-danger btn-icon-notika deleteExpenseBtn"
@@ -93,10 +97,12 @@ $(document).ready(function () {
         setButtonLoading(btn, true);
         
         const expenseData = {
-            expense_name: $('#expense_name').val().trim()
+            categ_id: $('#categ_id').val(),
+            expense_name: $('#expense_name').val().trim(),
+            description: $('#description').val().trim()
         };
 
-        if (!expenseData.expense_name) {
+        if (!expenseData.categ_id || !expenseData.expense_name) {
             showToastExpense('Please fill all required fields!', 'error');
             setButtonLoading(btn, false);
             return;
@@ -113,6 +119,7 @@ $(document).ready(function () {
                     showToastExpense(response.message, 'success');
                     $('#createExpenseModal').modal('hide');
                     $('#createExpenseModal input').val('');
+                    $('#createExpenseModal select').val('').trigger('chosen:updated');
                     loadExpenses();
                 } else {
                     showToastExpense(response.message, 'error');
@@ -134,10 +141,14 @@ $(document).ready(function () {
     // Handle Edit Expense button click
     $(document).on('click', '.editExpenseBtn', function () {
         const expenseId = $(this).data('id');
+        const categId = $(this).data('categ_id');
         const expenseName = $(this).data('expense_name');
+        const description = $(this).data('description');
 
         $('#edit_expense_id').val(expenseId);
+        $('#edit_categ_id').val(categId).trigger('chosen:updated');
         $('#edit_expense_name').val(expenseName);
+        $('#edit_description').val(description);
 
         // Reset button text and data
         $('#updateExpenseBtn').html('Save changes').removeData('original-text');
@@ -152,10 +163,12 @@ $(document).ready(function () {
 
         const expenseData = {
             expense_id: $('#edit_expense_id').val(),
-            expense_name: $('#edit_expense_name').val().trim()
+            categ_id: $('#edit_categ_id').val(),
+            expense_name: $('#edit_expense_name').val().trim(),
+            description: $('#edit_description').val().trim()
         };
 
-        if (!expenseData.expense_name) {
+        if (!expenseData.categ_id || !expenseData.expense_name) {
             showToastExpense('Please fill all required fields!', 'error');
             setButtonLoading(btn, false);
             return;

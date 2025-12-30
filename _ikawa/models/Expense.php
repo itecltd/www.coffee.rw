@@ -20,9 +20,11 @@ class Expense
     public function getAllExpenses()
     {
         try {
-            $query = 'SELECT * FROM tbl_expenses 
-                      WHERE expense_status = 1 
-                      ORDER BY expense_id DESC';
+            $query = 'SELECT e.*, c.categ_name 
+                      FROM tbl_expenses e
+                      LEFT JOIN tbl_expensecategories c ON e.categ_id = c.categ_id
+                      WHERE e.expense_status = 1 
+                      ORDER BY e.expense_id DESC';
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -60,8 +62,8 @@ class Expense
     public function createExpense($data)
     {
         try {
-            $query = 'INSERT INTO tbl_expenses (expense_name, expense_status) 
-                      VALUES (:expense_name, 1)';
+            $query = 'INSERT INTO tbl_expenses (categ_id, expense_name, description, expense_status) 
+                      VALUES (:categ_id, :expense_name, :description, 1)';
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);
         } catch (PDOException $e) {
@@ -73,7 +75,9 @@ class Expense
     {
         try {
             $query = 'UPDATE tbl_expenses 
-                      SET expense_name = :expense_name 
+                      SET categ_id = :categ_id,
+                          expense_name = :expense_name,
+                          description = :description 
                       WHERE expense_id = :expense_id';
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);

@@ -55,7 +55,7 @@ class ExpenseController
             return;
         }
 
-        $required = ['expense_name'];
+        $required = ['expense_name', 'categ_id'];
 
         foreach ($required as $field) {
             if (empty($input[$field])) {
@@ -65,6 +65,8 @@ class ExpenseController
         }
 
         $expense_name = trim($input['expense_name']);
+        $categ_id = $input['categ_id'];
+        $description = isset($input['description']) ? trim($input['description']) : '';
         
         // DUPLICATE CHECK
         $duplicate = $this->expenseModel->expenseExists($expense_name);
@@ -75,7 +77,9 @@ class ExpenseController
         }
 
         $data = [
-            'expense_name' => $expense_name
+            'categ_id' => $categ_id,
+            'expense_name' => $expense_name,
+            'description' => $description
         ];
 
         $result = $this->expenseModel->createExpense($data);
@@ -103,7 +107,7 @@ class ExpenseController
             return;
         }
 
-        $required = ['expense_id', 'expense_name'];
+        $required = ['expense_id', 'expense_name', 'categ_id'];
 
         foreach ($required as $field) {
             if (empty($input[$field])) {
@@ -114,7 +118,9 @@ class ExpenseController
 
         $data = [
             'expense_id' => $input['expense_id'],
-            'expense_name' => trim($input['expense_name'])
+            'categ_id' => $input['categ_id'],
+            'expense_name' => trim($input['expense_name']),
+            'description' => isset($input['description']) ? trim($input['description']) : ''
         ];
 
         $result = $this->expenseModel->updateExpense($data);

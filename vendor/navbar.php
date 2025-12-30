@@ -113,8 +113,9 @@
                         <ul class="notika-main-menu-dropdown">
                             <li><a href="javascript:void(0)" onclick="loadContent('profile')">Profile</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Account Settings</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('manage-expenses')">Record Expense</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('manage-expense-consume')">Record Expense Consumption</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('manage-expense-categories')">Expense Categories</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('manage-expenses')">Expense Type</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('manage-expense-consume')">Expense Consumption</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('system-settings')">System Settings</a></li>
                      
                         </ul>
