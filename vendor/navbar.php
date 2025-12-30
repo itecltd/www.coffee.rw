@@ -110,7 +110,7 @@
                     <div id="Settings" class="tab-pane notika-tab-menu-bg animated flipInX">
                         <ul class="notika-main-menu-dropdown">
                             <li><a href="javascript:void(0)" onclick="loadContent('profile')">Company Profile</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('system-settings')">System Settings</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('stations')">Stations</a></li>
                      
                         </ul>
                     </div>

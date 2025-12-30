@@ -53,6 +53,20 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group ic-cmp-int">
+                                    <div class="form-ic-cmp">
+                                        <i class="notika-icon notika-support"></i>
+                                    </div>
+                                    <div class="chosen-select-act fm-cmp-mg">
+                                    <select class="chosen" data-placeholder="Choose Type..." name="edit_type" id="edit_type">
+											<option value="Supplier">Supplier</option>
+											<option value="Farmer">Farmer</option>
+									</select>
+                                     </div>
+                                </div>
+                            </div>
                         </div>
                  </div>
              <div class="modal-footer">
@@ -115,6 +129,7 @@
                                         <th>Full Name</th>
                                         <th>email</th>
                                         <th>Phone</th>
+                                        <th>Type</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -131,6 +146,7 @@
                                                 <td><?php echo $record['full_name']; ?></td>
                                                 <td><?php echo $record['email']; ?></td>
                                                 <td><?php echo $record['phone']; ?></td>
+                                                <td><?php echo $record['type']; ?></td>
                                                 <td>
                                                 <div class="button-icon-btn button-icon-btn-rd">
                                                 <button
@@ -140,7 +156,8 @@
                                                 data-full_name="<?= htmlspecialchars($record['full_name']) ?>"
                                                 data-email="<?= htmlspecialchars($record['email']) ?>"
                                                 data-phone="<?= htmlspecialchars($record['phone']) ?>"
-                                                data-address="<?= htmlspecialchars($record['address']) ?>">
+                                                data-address="<?= htmlspecialchars($record['address']) ?>"
+                                                data-type="<?= htmlspecialchars($record['type']) ?>">
                                                 <i class="notika-icon notika-edit"></i>
                                               </button>
                                               <button class="btn btn-default btn-icon-notika deleterecord"  title="Delete Supplier"
@@ -216,6 +233,20 @@
                                     <div class="nk-int-st">
                                         <input type="text" name="address" id="address" class="form-control" placeholder="Home Address">
                                     </div>
+                                </div>
+                            </div>
+
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group ic-cmp-int">
+                                    <div class="form-ic-cmp">
+                                        <i class="notika-icon notika-support"></i>
+                                    </div>
+                                    <div class="chosen-select-act fm-cmp-mg">
+                                    <select class="chosen" data-placeholder="Choose Type..." name="type" id="type">
+											<option value="Supplier">Supplier</option>
+											<option value="Farmer">Farmer</option>
+									</select>
+                                     </div>
                                 </div>
                             </div>
                         </div>

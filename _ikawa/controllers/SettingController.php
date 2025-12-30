@@ -39,6 +39,119 @@ class SettingController
         }
     }
 
+    public function createHeadQuater()
+ {
+        // POST METHOD ONLY
+        if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'POST' ) {
+            Response::error( 'Invalid request method', 405 );
+            return;
+        }
+
+        // READ JSON INPUT
+        $input = json_decode( file_get_contents( 'php://input' ), true );
+
+        if ( !is_array( $input ) ) {
+            Response::error( 'Invalid JSON payload', 400 );
+            return;
+        }
+
+        $required = [
+            'location_name'
+        ];
+
+        foreach ( $required as $field ) {
+            if ( empty( $input[ $field ] ) ) {
+                Response::error( "Missing field: {$field}", 400 );
+                return;
+            }
+        }
+
+        $location_name = trim( $input[ 'location_name' ] );
+        //DUPLICATE CHECK
+        $duplicate = $this->settingModel->existsHeadQuarter( $location_name );
+
+        if ( $duplicate !== null ) {
+            Response::error(
+                ucfirst( $duplicate ) . ' already exists',
+                409
+            );
+            return;
+        }
+
+        $data = [
+            'location_name' => trim( $input[ 'location_name' ] ),
+            'description'  => trim( $input[ 'description' ] ),
+            'type'=>trim( $input[ 'type' ] )
+
+        ];
+
+        if ( $this->settingModel->createHeadQuater( $data ) ) {
+            Response::success( 'Station created successfully', [
+                'location_name' => $location_name
+            ] );
+        } else {
+            Response::error( 'Failed to create user', 500 );
+        }
+    }
+
+    public function UpdateLocation()
+ {
+        // POST METHOD ONLY
+        if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'PUT' ) {
+            Response::error( 'Invalid request method', 405 );
+            return;
+        }
+
+        // READ JSON INPUT
+        $input = json_decode( file_get_contents( 'php://input' ), true );
+
+        if ( !is_array( $input ) ) {
+            Response::error( 'Invalid JSON payload', 400 );
+            return;
+        }
+
+        $required = [
+            'location_name'
+        ];
+
+        foreach ( $required as $field ) {
+            if ( empty( $input[ $field ] ) ) {
+                Response::error( "Missing field: {$field}", 400 );
+                return;
+            }
+        }
+
+        $location_name = trim( $input[ 'location_name' ] );
+        $loc_id   = trim( $input[ 'loc_id' ] );
+
+        //DUPLICATE CHECK
+        $duplicate = $this->settingModel->existsStation( $location_name, $loc_id );
+
+        if ( $duplicate !== null ) {
+            Response::error(
+                ucfirst( $duplicate ) . ' already exists',
+                409
+            );
+            return;
+        }
+
+        $data = [
+            'location_name' =>$location_name,
+            'description'  => trim( $input[ 'description' ] ),
+            'type'  => trim( $input[ 'type' ] ),
+            'loc_id'      => $loc_id
+        ];
+
+        if ( $this->settingModel->updateLocat( $data ) ) {
+            Response::success( 'Station updated successfully', [
+                'location_name' => $location_name,
+                'loc_id' => $loc_id
+            ] );
+        } else {
+            Response::error( 'Failed to update role', 500 );
+        }
+    }
+
     public function getAllLocation() {
         $setting = $this->settingModel->getLocation();
 

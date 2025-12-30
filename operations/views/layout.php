@@ -26,3 +26,6 @@ require __DIR__ . '/../../pages/footer.php';
 <?php require __DIR__ . '/scripts/company-scripts.php';
 ?>
 
+<?php require __DIR__ . '/scripts/stations-scripts.php';
+?>
+

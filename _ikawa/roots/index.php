@@ -65,9 +65,19 @@ switch ( true ) {
     break;
 
     //location
+    case $route === '/settings/createlocation':
+    $settingcontroller = new SettingController();
+    $settingcontroller->createHeadQuater();
+    break;
+
     case $route === '/settings/location':
     $settingcontroller = new SettingController();
     $settingcontroller->getAllLocation();
+    break;
+
+    case $route === '/settings/updatelocation':
+    $settingcontroller = new SettingController();
+    $settingcontroller->UpdateLocation();
     break;
 
     //inventory

@@ -56,6 +56,97 @@ class Setting
         }
     }
 
+    public function existsHeadQuarter( string $location_name ): ?string
+ {
+        $sql = "
+            SELECT 
+                CASE
+                    WHEN location_name = :location_name THEN 'HeadQuarter'
+                END AS field
+            FROM tbl_location
+            WHERE location_name = :location_name
+            LIMIT 1
+        ";
+
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->execute( [
+            ':location_name' => $location_name
+        ] );
+
+        $row = $stmt->fetch( PDO::FETCH_ASSOC );
+
+        return $row[ 'field' ] ?? null;
+    }
+
+    public function createHeadQuater( array $data ): bool
+ {
+        try {
+            $sql = "
+                INSERT INTO tbl_location (
+                    location_name,
+                    description,
+                    type
+                ) VALUES (
+                    :location_name,
+                    :description,
+                    :type
+                )
+            ";
+
+            $stmt = $this->conn->prepare( $sql );
+
+            return $stmt->execute( [
+                ':location_name' => $data[ 'location_name' ],
+                ':description'  => $data[ 'description' ],
+                ':type'  => $data[ 'type' ]
+            ] );
+        } catch ( PDOException $e ) {
+            return false;
+        }
+    }
+
+    public function existsStation( string $location_name, string $loc_id ): ?string
+ {
+        $sql = "
+            SELECT 
+                CASE
+                    WHEN location_name = :location_name THEN 'Station'
+                END AS field
+            FROM  tbl_location
+            WHERE (location_name = :location_name) and loc_id!=:loc_id
+            LIMIT 1
+        ";
+
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->execute( [
+            ':location_name' => $location_name,
+            ':loc_id'    => $loc_id
+        ] );
+
+        $row = $stmt->fetch( PDO::FETCH_ASSOC );
+
+        return $row[ 'field' ] ?? null;
+    }
+
+    public function updateLocat( array $data ): bool {
+
+        try {
+            $sql = "UPDATE tbl_location SET location_name=:location_name,description=:description,type=:type
+            where loc_id=:loc_id";
+
+            $stmt = $this->conn->prepare( $sql );
+
+            return $stmt->execute( [
+                ':location_name' => $data[ 'location_name' ],
+                ':description'  => $data[ 'description' ],
+                ':type'  => $data[ 'type' ],
+                ':loc_id'   => $data[ 'loc_id' ]
+            ] );
+        } catch ( PDOException $e ) {
+            return false;
+        }
+    }
+
     public function exists( string $role_name ): ?string
  {
         $sql = "
