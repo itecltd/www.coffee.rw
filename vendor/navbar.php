@@ -42,9 +42,25 @@
                     </li>
                     <li>
                         <a data-toggle="tab" href="#Settings">
-                            <i class="notika-icon notika-gear"></i> Settings
+                            <i class="notika-icon notika-settings"></i> Settings
                         </a>
                     </li>
+                    <li>
+                        <a data-toggle="tab" href="#Sellize">
+                            <i class="notika-icon notika-settings"></i> Sellize
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#CoffeeCategories">
+                            <i class="notika-icon notika-settings"></i> Coffee Categories & Type
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#CoffeeCategoriesStock">
+                            <i class="notika-icon notika-settings"></i> Coffee Categories,Type Stock
+                        </a>
+                    </li>
+
                 </ul>
 
                 <div class="tab-content custom-menu-content">
@@ -58,9 +74,8 @@
                     <!-- Users & Roles Content -->
                     <div id="UsersRoles" class="tab-pane notika-tab-menu-bg animated flipInX">
                         <ul class="notika-main-menu-dropdown">
-                        <li><a href="javascript:void(0)" onclick="loadContent('manage-users')">Manage Users</a></li>
+                         <li><a href="javascript:void(0)" onclick="loadContent('manage-users')">Manage Users</a></li>
                          <li><a href="javascript:void(0)" onclick="loadContent('manage-roles')">Manage Roles</a></li>
-                         <li><a href="javascript:void(0)" onclick="loadContent('permissions')">Permissions</a></li>
                         </ul>
                     </div>
 
@@ -115,6 +130,30 @@
                      
                         </ul>
                     </div>
+                    <!-- Sellize -->
+                    <div id="Sellize" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                            <li><a href="javascript:void(0)" onclick="loadContent('sellize-management')">Sellize Management</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Coffee Categories & Type -->
+                    <div id="CoffeeCategories" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                            <li><a href="javascript:void(0)" onclick="loadContent('coffee-categories')">Coffee Categories</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('coffee-types')">Coffee Types</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('unity')">Unity</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('coffee-types-assign-unity')">Assign Unity</a></li>
+
+                        </ul>
+                    </div>
+                    
+                    <!-- Coffee Categories,Type Stock -->
+                    <div id="CoffeeCategoriesStock" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                            <li><a href="javascript:void(0)" onclick="loadContent('coffee-categories-stock')">Coffee Categories,Type Stock</a></li>
+                        </ul>
+                    </div>    
                 </div>
             </div>
         </div>

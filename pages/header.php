@@ -82,6 +82,10 @@
  <link rel="stylesheet" href="../css/dialog/sweetalert2.min.css">
 <link rel="stylesheet" href="../css/dialog/dialog.css">
 
+ <!-- cropper CSS
+		============================================ -->
+    <link rel="stylesheet" href="../css/cropper/cropper.min.css">
+
 <!-- modernizr JS
 		============================================ -->
 <script src="../js/vendor/modernizr-2.8.3.min.js"></script>

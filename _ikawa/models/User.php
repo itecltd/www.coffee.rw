@@ -32,7 +32,7 @@ class User
 
     public function getByUsername( $username ) {
         $stmt = $this->conn->prepare( 'SELECT u.*, r.* FROM tbl_users u INNER JOIN tbl_roles r on r.role_id = u.role_id
-            WHERE u.username = :username' );
+            WHERE u.username = :username and u.status="active" ' );
         $stmt->execute( [ 'username' => $username ] );
         return $stmt->fetch( \PDO::FETCH_ASSOC );
     }

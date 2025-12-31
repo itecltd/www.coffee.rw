@@ -71,7 +71,7 @@ class SettingController
 
         if ( $duplicate !== null ) {
             Response::error(
-                ucfirst( $duplicate ) . ' already exists',
+                ucfirst( $role_name ) . ' already exists',
                 409
             );
             return;
@@ -90,4 +90,62 @@ class SettingController
             Response::error( 'Failed to create user', 500 );
         }
     }
+
+    public function UpdateRole()
+ {
+        // POST METHOD ONLY
+        if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'PUT' ) {
+            Response::error( 'Invalid request method', 405 );
+            return;
+        }
+
+        // READ JSON INPUT
+        $input = json_decode( file_get_contents( 'php://input' ), true );
+
+        if ( !is_array( $input ) ) {
+            Response::error( 'Invalid JSON payload', 400 );
+            return;
+        }
+
+        $required = [
+            'role_name', 'role_id'
+        ];
+
+        foreach ( $required as $field ) {
+            if ( empty( $input[ $field ] ) ) {
+                Response::error( "Missing field: {$field}", 400 );
+                return;
+            }
+        }
+
+        $role_name = trim( $input[ 'role_name' ] );
+        $role_id   = trim( $input[ 'role_id' ] );
+
+        //DUPLICATE CHECK
+        $duplicate = $this->settingModel->existsUpdate( $role_name, $role_id );
+
+        if ( $duplicate !== null ) {
+            Response::error(
+                ucfirst( $duplicate ) . ' already exists',
+                409
+            );
+            return;
+        }
+
+        $data = [
+            'role_name' =>$role_name,
+            'description'  => trim( $input[ 'description' ] ),
+            'role_id'      => $role_id
+        ];
+
+        if ( $this->settingModel->updateRole( $data ) ) {
+            Response::success( 'Role updated successfully', [
+                'role_name' => $role_name,
+                'role_id' => $role_id
+            ] );
+        } else {
+            Response::error( 'Failed to update role', 500 );
+        }
+    }
+
 }

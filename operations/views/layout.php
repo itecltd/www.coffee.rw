@@ -17,7 +17,19 @@ require __DIR__ . '/../../pages/footer.php';
 ?>
 <?php require __DIR__ . '/getpages.php';
 ?>
-<?php require __DIR__ . '/user-scripts.php';
+<?php require __DIR__ . '/scripts/user-scripts.php';
 ?>
-<?php require __DIR__ . '/roles-scripts.php';
+<?php require __DIR__ . '/scripts/roles-scripts.php';
+?>
+<?php require __DIR__ . '/scripts/supplier-scripts.php';
+?>
+<?php require __DIR__ . '/scripts/sellize-script.php';
+?>
+<?php require __DIR__ . '/scripts/category-script.php';
+?>
+<?php require __DIR__ . '/scripts/category-type-script.php';
+?>
+<?php require __DIR__ . '/scripts/unity-script.php';
+?>
+<?php require __DIR__ . '/scripts/category-type-unity-script.php';
 ?>

@@ -119,6 +119,10 @@
 <script src="../js/dialog/sweetalert2.min.js"></script>
 <script src="../js/dialog/dialog-active.js"></script>
 
+ <!-- cropper JS
+    ============================================ -->
+<script src="../js/cropper/cropper.min.js"></script>
+<script src="../js/cropper/cropper-actice.js"></script>
 
 <script>
 // Session expiry countdown
