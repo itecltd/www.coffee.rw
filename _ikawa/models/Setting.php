@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 namespace Models;
 
@@ -361,7 +360,6 @@ class Setting
     }
 
 }
-=======
 <?php
 namespace Models;
 
@@ -495,4 +493,3 @@ class Setting
     }
 
 }
->>>>>>> baptiste

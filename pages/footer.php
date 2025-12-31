@@ -1,4 +1,3 @@
-<<<<<<< HEAD
    <!-- Wizard area End-->
     <!-- Start Footer area-->
     <div class="footer-copyright-area">
@@ -262,7 +261,6 @@ $(document).ready(function() {
 </script>
 </body>
 
-=======
    <!-- Wizard area End-->
     <!-- Start Footer area-->
     <div class="footer-copyright-area">
@@ -526,5 +524,4 @@ $(document).ready(function() {
 </script>
 </body>
 
->>>>>>> baptiste
 </html>
