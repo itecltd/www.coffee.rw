@@ -10,7 +10,13 @@ $allowed_pages = [
     'manage-users' => 'views/manage-users.php',
     'manage-roles' => 'views/manage-roles.php',
     'permissions' => 'views/permissions-data.php',
-
+    'suppliers'=>'views/suppliers-data.php',
+    'profile'=>'views/profile-data.php',
+    'sellize-management'=>'views/sellize-management.php',
+    'coffee-categories'=>'views/coffee-categories.php',
+    'coffee-types'=>'views/coffee-types.php',
+    'coffee-types-assign-unity'=>'views/coffee-types-assign-unity.php',
+    'unity'=>'views/unity.php',
 ];
 
 if ( isset( $allowed_pages[ $page ] ) ) {

@@ -89,4 +89,45 @@ class Setting
         }
     }
 
+    public function existsUpdate( string $role_name, string $role_id ): ?string
+ {
+        $sql = "
+            SELECT 
+                CASE
+                    WHEN role_name = :role_name THEN 'role_name'
+                END AS field
+            FROM  tbl_roles
+            WHERE (role_name = :role_name) and role_id!=:role_id
+            LIMIT 1
+        ";
+
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->execute( [
+            ':role_name' => $role_name,
+            ':role_id'    => $role_id
+        ] );
+
+        $row = $stmt->fetch( PDO::FETCH_ASSOC );
+
+        return $row[ 'field' ] ?? null;
+    }
+
+    public function updateRole( array $data ): bool {
+
+        try {
+            $sql = "UPDATE tbl_roles SET role_name=:role_name,description=:description
+            where role_id=:role_id";
+
+            $stmt = $this->conn->prepare( $sql );
+
+            return $stmt->execute( [
+                ':role_name' => $data[ 'role_name' ],
+                ':description'  => $data[ 'description' ],
+                ':role_id'   => $data[ 'role_id' ]
+            ] );
+        } catch ( PDOException $e ) {
+            return false;
+        }
+    }
+
 }
