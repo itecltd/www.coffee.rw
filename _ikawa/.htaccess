@@ -5,3 +5,5 @@ RewriteBase /www.ikawa.rw/_ikawa/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ roots/index.php [QSA,L]
+
+

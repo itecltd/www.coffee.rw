@@ -113,12 +113,10 @@ function showToast(message, type = 'success') {
 function setButtonLoading(button, isLoading) {
     if(isLoading) {
         button.disabled = true;
-        button.classList.add('button-loading');
-        button.innerHTML = 'Saving <span class="spinner"></span>';
+        button.classList.add('button-loading');    
     } else {
         button.disabled = false;
         button.classList.remove('button-loading');
-        button.innerHTML = 'Save';
     }
 }
 </script>

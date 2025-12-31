@@ -10,7 +10,9 @@ $allowed_pages = [
     'manage-users' => 'views/manage-users.php',
     'manage-roles' => 'views/manage-roles.php',
     'permissions' => 'views/permissions-data.php',
-
+    'suppliers'=>'views/suppliers-data.php',
+    'profile'=>'views/profile-data.php',
+    'stations'=>'views/stations-data.php'
 ];
 
 if ( isset( $allowed_pages[ $page ] ) ) {
