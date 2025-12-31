@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../config/Response.php';
@@ -124,7 +123,6 @@ switch ( true ) {
     Response::error( 'Endpoint not found', 404 );
     break;
 }
-=======
 <?php
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../config/Response.php';
@@ -325,4 +323,3 @@ switch ( true ) {
     Response::error( 'Endpoint not found', 404 );
     break;
 }
->>>>>>> baptiste

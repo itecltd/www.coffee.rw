@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!-- SESSION EXPIRY MODAL -->
 <div id='sessionModal' style='
     position:fixed;
@@ -120,7 +119,6 @@ function setButtonLoading(button, isLoading) {
         button.classList.remove('button-loading');
     }
 }
-=======
 <!-- SESSION EXPIRY MODAL -->
 <div id='sessionModal' style='
     position:fixed;
@@ -242,5 +240,4 @@ function setButtonLoading(button, isLoading) {
         button.classList.remove('button-loading');
     }
 }
->>>>>>> baptiste
 </script>

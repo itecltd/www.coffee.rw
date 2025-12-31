@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -91,7 +90,6 @@
 		============================================ -->
 <script src="../js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-=======
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -184,4 +182,3 @@
 		============================================ -->
 <script src="../js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
->>>>>>> baptiste

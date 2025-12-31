@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!-- Main Menu area start -->
 <div class="main-menu-area mg-tb-40">
     <div class="container">
@@ -122,7 +121,6 @@
 </div>
 
 
-=======
 <!-- Main Menu area start -->
 <div class="main-menu-area mg-tb-40">
     <div class="container">
@@ -286,4 +284,3 @@
 </div>
 
 
->>>>>>> baptiste

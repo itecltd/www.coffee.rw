@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 require __DIR__ . '/../../_ikawa/config/App.php';
 require __DIR__ . '/../../_ikawa/middleware/auth.php';
@@ -30,7 +29,6 @@ require __DIR__ . '/../../pages/footer.php';
 <?php require __DIR__ . '/scripts/stations-scripts.php';
 ?>
 
-=======
 <?php
 require __DIR__ . '/../../_ikawa/config/App.php';
 require __DIR__ . '/../../_ikawa/middleware/auth.php';
@@ -66,4 +64,3 @@ require __DIR__ . '/../../pages/footer.php';
 ?>
 <?php require __DIR__ . '/scripts/category-type-unity-script.php';
 ?>
->>>>>>> baptiste

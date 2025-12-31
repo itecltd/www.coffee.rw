@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 
 <div class="modal animated bounce" id="myModalfour" role="dialog">
@@ -173,7 +172,6 @@
         </div>
     </div>
 
-=======
 
 
 <div class="modal animated bounce" id="myModalfour" role="dialog">
@@ -348,4 +346,3 @@
         </div>
     </div>
 
->>>>>>> baptiste

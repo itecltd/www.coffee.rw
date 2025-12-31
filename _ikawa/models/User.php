@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 namespace Models;
 
@@ -279,7 +278,6 @@ class User
         return $stmt->execute( [ ':user_id' => $user_id ] );
     }
 }
-=======
 <?php
 namespace Models;
 
@@ -560,4 +558,3 @@ class User
         return $stmt->execute( [ ':user_id' => $user_id ] );
     }
 }
->>>>>>> baptiste
