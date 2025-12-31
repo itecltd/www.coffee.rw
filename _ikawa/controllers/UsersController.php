@@ -57,8 +57,9 @@ class UsersController
         $_SESSION[ 'first_name' ]  = $user[ 'first_name' ];
         $_SESSION[ 'last_name' ]   = $user[ 'last_name' ];
         $_SESSION[ 'role_id' ]     = $user[ 'role_id' ];
+        $_SESSION[ 'loc_id' ]     = $user[ 'loc_id' ];
         $_SESSION[ 'status' ]      = $user[ 'status' ];
-        $_SESSION[ 'loc_id' ]      = $user[ 'loc_id' ];
+        $_SESSION[ 'loc_id' ]     = $user[ 'loc_id' ];
         $_SESSION[ 'role_name' ]      = $user[ 'role_name' ];
         // Save user_session
         $this->userModel->createSession( [

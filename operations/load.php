@@ -9,13 +9,8 @@ $allowed_pages = [
     'dashboard' => 'views/dashboard.php',
     'manage-users' => 'views/manage-users.php',
     'manage-roles' => 'views/manage-roles.php',
-    'manage-accounts' => 'views/manage-accounts.php',
-    'manage-expense-categories' => 'views/manage-expense-categories.php',
-    'manage-expense-consumers' => 'views/manage-expense-consumers.php',
-    'manage-expenses' => 'views/manage-expenses.php',
-    'manage-expense-consume' => 'views/manage-expense-consume.php',
     'permissions' => 'views/permissions-data.php',
-    'profile' => 'views/profile.php',
+
 ];
 
 if ( isset( $allowed_pages[ $page ] ) ) {
@@ -24,3 +19,4 @@ if ( isset( $allowed_pages[ $page ] ) ) {
     http_response_code( 404 );
     echo '<h3>Page not found</h3>';
 }
+

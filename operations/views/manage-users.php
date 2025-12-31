@@ -65,7 +65,7 @@
                             
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class = 'chosen-select-act fm-cmp-mg'>
-                                <select class = 'chosen' data-placeholder = 'Choose a Country...' name="edit_role_id" id="edit_role_id">
+                                <select class = 'chosen' data-placeholder = 'Choose role...' name="edit_role_id" id="edit_role_id">
                                  <option>Select Role</option>
                                 <?php
                                 $rolesUrl = App::baseUrl() . '/_ikawa/settings/roles';
@@ -341,7 +341,7 @@
                             
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class = 'chosen-select-act fm-cmp-mg'>
-                                <select class = 'chosen' data-placeholder = 'Choose a Country...' name="role_id" id="role_id">
+                                <select class = 'chosen' data-placeholder = 'Choose role...' name="role_id" id="role_id">
                                  <option>Select Role</option>
                                 <?php
                                 $rolesUrl = App::baseUrl() . '/_ikawa/settings/roles';

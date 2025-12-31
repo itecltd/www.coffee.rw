@@ -9,3 +9,10 @@ class App {
         return $protocol . '://' . $host . $folder;
     }
 }
+
+// for remote
+
+// <?php
+// $apiUrl = App::baseUrl() . '/settings/roles';
+// $json = file_get_contents( $apiUrl );
+// ?>
