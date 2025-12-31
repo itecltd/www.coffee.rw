@@ -70,6 +70,7 @@ switch ( true ) {
     break;
     //location
     case $route === '/settings/location':
+    case $route === '/settings/locations':
     $settingcontroller = new SettingController();
     $settingcontroller->getAllLocation();
     break;

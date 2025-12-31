@@ -20,10 +20,10 @@ class Account
     public function getAllAccounts()
     {
         try {
-            $query = 'SELECT a.*, pm.Mode_names, s.st_name, s.st_location 
+            $query = 'SELECT a.*, pm.Mode_names, l.location_name, l.description 
                       FROM tbl_accounts a 
                       JOIN tbl_paymentmodes pm ON a.mode_id = pm.Mode_id 
-                      LEFT JOIN tbl_station s ON a.st_id = s.st_id 
+                      LEFT JOIN tbl_location l ON a.st_id = l.loc_id 
                       WHERE a.status = 1 
                       ORDER BY a.acc_id DESC';
             $stmt = $this->conn->prepare($query);
@@ -37,10 +37,10 @@ class Account
     public function getAccountById($acc_id)
     {
         try {
-            $query = 'SELECT a.*, pm.Mode_names, s.st_name 
+            $query = 'SELECT a.*, pm.Mode_names, l.location_name, l.description 
                       FROM tbl_accounts a 
                       JOIN tbl_paymentmodes pm ON a.mode_id = pm.Mode_id 
-                      LEFT JOIN tbl_station s ON a.st_id = s.st_id 
+                      LEFT JOIN tbl_location l ON a.st_id = l.loc_id 
                       WHERE a.acc_id = :acc_id';
             $stmt = $this->conn->prepare($query);
             $stmt->execute(['acc_id' => $acc_id]);
@@ -105,10 +105,10 @@ class Account
     public function getAccountsByPaymentMode($mode_id)
     {
         try {
-            $query = 'SELECT a.*, pm.Mode_names, s.st_name, s.st_location 
+            $query = 'SELECT a.*, pm.Mode_names, l.location_name, l.description 
                       FROM tbl_accounts a 
                       JOIN tbl_paymentmodes pm ON a.mode_id = pm.Mode_id 
-                      LEFT JOIN tbl_station s ON a.st_id = s.st_id 
+                      LEFT JOIN tbl_location l ON a.st_id = l.loc_id 
                       WHERE a.mode_id = :mode_id AND a.status = 1 
                       ORDER BY a.acc_name ASC';
             $stmt = $this->conn->prepare($query);

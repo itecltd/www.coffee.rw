@@ -66,30 +66,30 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Station...' name="edit_st_id" id="edit_st_id">
-                                 <option value="">Select Station</option>
+                                <select class='chosen' data-placeholder='Choose Location...' name="edit_st_id" id="edit_st_id">
+                                 <option value="">Select Location</option>
                                 <?php
-                                $stationsUrl = App::baseUrl() . '/_ikawa/settings/stations';
-                                $response = @file_get_contents($stationsUrl);
+                                $locationsUrl = App::baseUrl() . '/_ikawa/settings/locations';
+                                $response = @file_get_contents($locationsUrl);
 
-                                $stations = [];
+                                $locations = [];
 
                                 if ($response !== false) {
                                     $decoded = json_decode($response, true);
 
                                     if ($decoded && isset($decoded['success']) && $decoded['success'] === true) {
-                                        $stations = $decoded['data'] ?? [];
+                                        $locations = $decoded['data'] ?? [];
                                     }
                                 }
                                 ?>
-                                   <?php if (!empty($stations)): ?>
-                                        <?php foreach ($stations as $station): ?>
-                                            <option value="<?= htmlspecialchars($station['st_id']) ?>">
-                                                <?= htmlspecialchars($station['st_name']) ?> - <?= htmlspecialchars($station['st_location']) ?>
+                                   <?php if (!empty($locations)): ?>
+                                        <?php foreach ($locations as $location): ?>
+                                            <option value="<?= htmlspecialchars($location['loc_id']) ?>">
+                                                <?= htmlspecialchars($location['location_name']) ?><?= !empty($location['description']) ? ' - ' . htmlspecialchars($location['description']) : '' ?>
                                             </option>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <option disabled>No stations found</option>
+                                        <option disabled>No locations found</option>
                                     <?php endif; ?>
                                 </select>
                               </div>
@@ -156,7 +156,7 @@
                                         <th>Account Name</th>
                                         <th>Reference Number</th>
                                         <th>Payment Mode</th>
-                                        <th>Station</th>
+                                        <th>Location</th>
                                         <th>Balance</th>
                                         <th>Action</th>
                                     </tr>
@@ -174,7 +174,7 @@
                                                 <td><?php echo htmlspecialchars($record['acc_name']); ?></td>
                                                 <td><?php echo htmlspecialchars($record['acc_reference_num']); ?></td>
                                                 <td><?php echo htmlspecialchars($record['Mode_names']); ?></td>
-                                                <td><?php echo htmlspecialchars($record['st_name'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($record['location_name'] ?? 'N/A'); ?></td>
                                                 <td><?php echo number_format($record['balance']); ?> RWF</td>
                                                 <td>
                                                 <div class="button-icon-btn button-icon-btn-rd">
@@ -278,30 +278,30 @@
                             </div>
                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Station...' name="st_id" id="st_id">
-                                 <option value="">Select Station</option>
+                                <select class='chosen' data-placeholder='Choose Location...' name="st_id" id="st_id">
+                                 <option value="">Select Location</option>
                                 <?php
-                                $stationsUrl = App::baseUrl() . '/_ikawa/settings/stations';
-                                $response = @file_get_contents($stationsUrl);
+                                $locationsUrl = App::baseUrl() . '/_ikawa/settings/locations';
+                                $response = @file_get_contents($locationsUrl);
 
-                                $stations = [];
+                                $locations = [];
 
                                 if ($response !== false) {
                                     $decoded = json_decode($response, true);
 
                                     if ($decoded && isset($decoded['success']) && $decoded['success'] === true) {
-                                        $stations = $decoded['data'] ?? [];
+                                        $locations = $decoded['data'] ?? [];
                                     }
                                 }
                                 ?>
-                                   <?php if (!empty($stations)): ?>
-                                        <?php foreach ($stations as $station): ?>
-                                            <option value="<?= htmlspecialchars($station['st_id']) ?>">
-                                                <?= htmlspecialchars($station['st_name']) ?> - <?= htmlspecialchars($station['st_location']) ?>
+                                   <?php if (!empty($locations)): ?>
+                                        <?php foreach ($locations as $location): ?>
+                                            <option value="<?= htmlspecialchars($location['loc_id']) ?>">
+                                                <?= htmlspecialchars($location['location_name']) ?><?= !empty($location['description']) ? ' - ' . htmlspecialchars($location['description']) : '' ?>
                                             </option>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <option disabled>No stations found</option>
+                                        <option disabled>No locations found</option>
                                     <?php endif; ?>
                                 </select>
                               </div>
