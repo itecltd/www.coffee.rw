@@ -9,7 +9,10 @@ $(document).on('click', '#saveSupplierBtn', function () {
             full_name: $('#full_name').val().trim(),
             email: $('#email').val().trim(),
             phone: $('#phone').val().trim(),
+<<<<<<< HEAD
             type: $('#type').val(),
+=======
+>>>>>>> baptiste
             address: $('#address').val().trim()
         };
 
@@ -72,7 +75,10 @@ $(document).on('click', '#saveSupplierBtn', function () {
                 record.full_name || '',
                 record.email || '',
                 record.phone || '',
+<<<<<<< HEAD
                 record.type || '',
+=======
+>>>>>>> baptiste
                 `<div class="button-icon-btn button-icon-btn-rd">
                     <button class="btn btn-default btn-icon-notika editrecord"
                         title="Edit Supplier"
@@ -80,8 +86,12 @@ $(document).on('click', '#saveSupplierBtn', function () {
                         data-full_name="${record.full_name || ''}"
                         data-email="${record.email || ''}"
                         data-phone="${record.phone || ''}"
+<<<<<<< HEAD
                         data-address="${record.address || ''}"
                         data-type="${record.type || ''}">
+=======
+                        data-address="${record.address || ''}">
+>>>>>>> baptiste
                         <i class="notika-icon notika-edit"></i>
                     </button>
                     <button class="btn btn-default btn-icon-notika deleterecord" 
@@ -107,7 +117,10 @@ $(document).on('click', '.editrecord', function() {
     $('#edit_email').val(btn.data('email'));
     $('#edit_phone').val(btn.data('phone'));
     $("#edit_address").val( btn.data('address'));
+<<<<<<< HEAD
     $('#edit_type').val(btn.data('type')).trigger('chosen:updated');
+=======
+>>>>>>> baptiste
     $("#sup_id").val( btn.data('id'));
     $('#myModalfour').modal('show');
 });
@@ -123,7 +136,10 @@ $(document).on('click', '#EditsupplierBtn', function (e) {
             email: $('#edit_email').val().trim(),
             phone: $('#edit_phone').val().trim(),
             address: $('#edit_address').val().trim(),
+<<<<<<< HEAD
             type: $('#edit_type').val().trim(),            
+=======
+>>>>>>> baptiste
             sup_id:$('#sup_id').val()
         };
 
@@ -185,7 +201,10 @@ $(document).on('click', '#EditsupplierBtn', function (e) {
                 record.full_name || '',
                 record.email || '',
                 record.phone || '',
+<<<<<<< HEAD
                 record.type || '',
+=======
+>>>>>>> baptiste
                 `<div class="button-icon-btn button-icon-btn-rd">
                     <button class="btn btn-default btn-icon-notika editrecord"
                         title="Edit Supplier"
@@ -193,8 +212,12 @@ $(document).on('click', '#EditsupplierBtn', function (e) {
                         data-full_name="${record.full_name || ''}"
                         data-email="${record.email || ''}"
                         data-phone="${record.phone || ''}"
+<<<<<<< HEAD
                         data-address="${record.address || ''}"
                         data-type="${record.type || ''}">
+=======
+                        data-address="${record.address || ''}">
+>>>>>>> baptiste
                         <i class="notika-icon notika-edit"></i>
                     </button>
                     <button class="btn btn-default btn-icon-notika deleterecord" 
