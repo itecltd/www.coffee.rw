@@ -119,7 +119,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="data-table-list">
                         <div class="basic-tb-hd">
-                            <h2>Roles</h2>
+                            <h2>Suppliers Info</h2>
                         </div>
                         <div class="table-responsive">
                             <table id="data-table-basic" class="table table-striped usersdata">

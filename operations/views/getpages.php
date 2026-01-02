@@ -35,9 +35,9 @@ function loadContent(page) {
                 });
             }
         }
-        else{
-          document.getElementById('app').innerHTML = '<h3>Page not found</h3>';  
-        }
+        // else{
+        //   document.getElementById('app').innerHTML = '<h3>Page not found</h3>';  
+        // }
     };
 
     xhr.open('GET', 'load.php?page=' + page, true);

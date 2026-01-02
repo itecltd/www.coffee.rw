@@ -8,17 +8,14 @@ require_once __DIR__ . '/../config/Response.php';
 use Models\Setting;
 use Config\Response;
 
-class SettingController
- {
+class SettingController {
     private $settingModel;
 
-    public function __construct()
- {
+    public function __construct() {
         $this->settingModel = new Setting();
     }
 
-    public function getAllRoles()
- {
+    public function getAllRoles() {
         $setting = $this->settingModel->getRoles();
 
         if ( $setting !== false ) {
@@ -28,8 +25,7 @@ class SettingController
         }
     }
 
-    public function getAllUnits()
- {
+    public function getAllUnits() {
         $units = $this->settingModel->getUnits();
 
         if ( $units !== false ) {
@@ -39,8 +35,7 @@ class SettingController
         }
     }
 
-    public function createHeadQuater()
- {
+    public function createHeadQuater() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'POST' ) {
             Response::error( 'Invalid request method', 405 );
@@ -94,8 +89,7 @@ class SettingController
         }
     }
 
-    public function UpdateLocation()
- {
+    public function UpdateLocation() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'PUT' ) {
             Response::error( 'Invalid request method', 405 );
@@ -162,8 +156,7 @@ class SettingController
         }
     }
 
-    public function CreateRole()
- {
+    public function CreateRole() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'POST' ) {
             Response::error( 'Invalid request method', 405 );
@@ -215,8 +208,7 @@ class SettingController
         }
     }
 
-    public function UpdateRole()
- {
+    public function UpdateRole() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'PUT' ) {
             Response::error( 'Invalid request method', 405 );
@@ -272,8 +264,7 @@ class SettingController
         }
     }
 
-    public function CreateCompany()
- {
+    public function CreateCompany() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'POST' ) {
             Response::error( 'Invalid request method', 405 );
@@ -341,8 +332,7 @@ class SettingController
         }
     }
 
-    public function UpdateCompanyData()
- {
+    public function UpdateCompanyData() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'PUT' ) {
             Response::error( 'Invalid request method', 405 );
@@ -399,6 +389,17 @@ class SettingController
             ] );
         } else {
             Response::error( 'Failed to update role', 500 );
+        }
+    }
+    //payments mode
+
+    public function getPaymentModes() {
+        $paymentModes = $this->settingModel->getPaymentModes();
+
+        if ( $paymentModes !== false ) {
+            Response::success( 'Payment modes retrieved successfully!', $paymentModes );
+        } else {
+            Response::error( 'Failed to retrieve payment modes', 500 );
         }
     }
 

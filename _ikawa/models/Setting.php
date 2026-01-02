@@ -7,18 +7,15 @@ use Config\Database;
 use PDO;
 use PDOException;
 
-class Setting
- {
+class Setting {
     private $conn;
 
-    public function __construct()
- {
+    public function __construct() {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
 
-    public function getRoles()
- {
+    public function getRoles() {
         try {
             $query = 'SELECT * FROM  tbl_roles where role_id !=1 ';
             $stmt = $this->conn->prepare( $query );
@@ -30,8 +27,7 @@ class Setting
         }
     }
 
-    public function getUnits()
- {
+    public function getUnits() {
         try {
             $query = 'SELECT * FROM  tbl_units ';
             $stmt = $this->conn->prepare( $query );
@@ -43,8 +39,7 @@ class Setting
         }
     }
 
-    public function getLocation()
- {
+    public function getLocation() {
         try {
             $query = 'SELECT * FROM  tbl_location';
             $stmt = $this->conn->prepare( $query );
@@ -56,8 +51,7 @@ class Setting
         }
     }
 
-    public function existsHeadQuarter( string $location_name ): ?string
- {
+    public function existsHeadQuarter( string $location_name ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -78,8 +72,7 @@ class Setting
         return $row[ 'field' ] ?? null;
     }
 
-    public function createHeadQuater( array $data ): bool
- {
+    public function createHeadQuater( array $data ): bool {
         try {
             $sql = "
                 INSERT INTO tbl_location (
@@ -105,8 +98,7 @@ class Setting
         }
     }
 
-    public function existsStation( string $location_name, string $loc_id ): ?string
- {
+    public function existsStation( string $location_name, string $loc_id ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -147,8 +139,7 @@ class Setting
         }
     }
 
-    public function exists( string $role_name ): ?string
- {
+    public function exists( string $role_name ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -169,8 +160,7 @@ class Setting
         return $row[ 'field' ] ?? null;
     }
 
-    public function createRole( array $data ): bool
- {
+    public function createRole( array $data ): bool {
         try {
             $sql = "
                 INSERT INTO tbl_roles (
@@ -193,8 +183,7 @@ class Setting
         }
     }
 
-    public function existsUpdate( string $role_name, string $role_id ): ?string
- {
+    public function existsUpdate( string $role_name, string $role_id ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -234,8 +223,7 @@ class Setting
         }
     }
 
-    public function existscompany( string $cpy_full_name, string  $phone, string $email ): ?string
- {
+    public function existscompany( string $cpy_full_name, string  $phone, string $email ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -262,8 +250,7 @@ class Setting
         return $row[ 'field' ] ?? null;
     }
 
-    public function createCompany( array $data ): bool
- {
+    public function createCompany( array $data ): bool {
         try {
             $sql = "
                 INSERT INTO  tbl_company (
@@ -297,8 +284,7 @@ class Setting
         }
     }
 
-    public function getCompany()
- {
+    public function getCompany() {
         try {
             $query = 'SELECT * FROM  tbl_company';
             $stmt = $this->conn->prepare( $query );
@@ -310,8 +296,7 @@ class Setting
         }
     }
 
-    public function existsCompanyUpdate( string $cpy_full_name, string $phone, string $email, string $cpy_id ): ?string
- {
+    public function existsCompanyUpdate( string $cpy_full_name, string $phone, string $email, string $cpy_id ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -354,6 +339,19 @@ class Setting
                 ':address'  => $data[ 'address' ],
                 ':cpy_id'   => $data[ 'cpy_id' ]
             ] );
+        } catch ( PDOException $e ) {
+            return false;
+        }
+    }
+
+    // payment mode
+
+    public function getPaymentModes() {
+        try {
+            $query = 'SELECT * FROM tbl_paymentmodes WHERE status = 1 ORDER BY Mode_id DESC';
+            $stmt = $this->conn->prepare( $query );
+            $stmt->execute();
+            return $stmt->fetchAll( PDO::FETCH_ASSOC );
         } catch ( PDOException $e ) {
             return false;
         }
