@@ -23,6 +23,7 @@ $allowed_pages = [
     'coffee-types'=>'views/coffee-types.php',
     'coffee-types-assign-unity'=>'views/coffee-types-assign-unity.php',
     'unity'=>'views/unity.php',
+    'company-clients'=>'views/company-clients-data.php'
 ];
 
 if ( isset( $allowed_pages[ $page ] ) ) {

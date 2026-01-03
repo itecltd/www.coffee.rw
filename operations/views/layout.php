@@ -58,3 +58,7 @@ require __DIR__ . '/../../pages/footer.php';
 <!-- Category type unit -->
 <?php require __DIR__ . '/scripts/category-type-unity-script.php';
 ?>
+<!-- clients scripts -->
+
+<?php require __DIR__ . '/scripts/company-clients-scripts.php';
+?>

@@ -52,6 +52,7 @@
                             <li><a href="javascript:void(0)" onclick="loadContent('profile')">Company Profile</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('stations')">Stations</a></li>
                              <li><a href="javascript:void(0)" onclick="loadContent('suppliers')">Suppliers</a></li>
+                             <li><a href="javascript:void(0)" onclick="loadContent('company-clients')">Clients</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Account Settings</a></li>
                             
                      

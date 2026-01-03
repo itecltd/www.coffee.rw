@@ -373,6 +373,28 @@ switch ( true ) {
     $categoryTypeUnityController = new CategoryTypeUnityController();
     $categoryTypeUnityController->delete();
     break;
+    // countries
+    case $route === '/inventory/getcountries':
+    $inventorycontroller = new InventoryController();
+    $inventorycontroller->CountryLists();
+    break;
+    case $route === '/inventory/createclient':
+    $inventorycontroller = new InventoryController();
+    $inventorycontroller->CreateClient();
+    break;
+    case $route === '/inventory/get-all-clients':
+    $inventorycontroller = new InventoryController();
+    $inventorycontroller->ClientsList();
+    break;
+    case $route === '/inventory/upadteclient':
+    $inventorycontroller = new InventoryController();
+    $inventorycontroller->ClientUpdate();
+    break;
+
+    case preg_match( '#^/inventory/deleteclient/(\d+)$#', $route, $matches ):
+    $inventorycontroller = new InventoryController();
+    $inventorycontroller->deleteClient( $matches[ 1 ] );
+    break;
 
     default:
     Response::error( 'Endpoint not found', 404 );
