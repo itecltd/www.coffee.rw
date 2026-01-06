@@ -24,7 +24,7 @@ class Account
                       FROM tbl_accounts a 
                       JOIN tbl_paymentmodes pm ON a.mode_id = pm.Mode_id 
                       LEFT JOIN tbl_location l ON a.st_id = l.loc_id 
-                      WHERE a.status = 1 
+                      WHERE a.status IN (0, 1) 
                       ORDER BY a.acc_id DESC';
             $stmt = $this->conn->prepare($query);
             $stmt->execute();

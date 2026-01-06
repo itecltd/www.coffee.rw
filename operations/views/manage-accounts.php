@@ -158,6 +158,7 @@
                                         <th>Payment Mode</th>
                                         <th>Location</th>
                                         <th>Balance</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -168,16 +169,22 @@
                                     $result = json_decode($json, true);
                                     if ($result && $result['success'] && !empty($result['data'])) {
                                         foreach ($result['data'] as $index => $record) {
+                                            $statusClass = $record['status'] == 0 ? 'style="background-color: #fff3cd;"' : '';
+                                            $statusText = $record['status'] == 1 ? 'Active' : 'Onhold';
+                                            $statusBadge = $record['status'] == 1 ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-warning">Onhold</span>';
+                                            $canDelete = $record['balance'] == 0 && $record['status'] == 1;
                                             ?>
-                                            <tr>
+                                            <tr <?= $statusClass ?>>
                                                 <td><?php echo $index + 1 ?></td>
                                                 <td><?php echo htmlspecialchars($record['acc_name']); ?></td>
                                                 <td><?php echo htmlspecialchars($record['acc_reference_num']); ?></td>
                                                 <td><?php echo htmlspecialchars($record['Mode_names']); ?></td>
                                                 <td><?php echo htmlspecialchars($record['location_name'] ?? 'N/A'); ?></td>
                                                 <td><?php echo number_format($record['balance']); ?> RWF</td>
+                                                <td><?= $statusBadge ?></td>
                                                 <td>
                                                 <div class="button-icon-btn button-icon-btn-rd">
+                                                <?php if ($record['status'] == 1): ?>
                                                 <button
                                                  class="btn btn-default btn-icon-notika editAccountBtn"
                                                 title="Edit Account"
@@ -188,20 +195,24 @@
                                                 data-st_id="<?= htmlspecialchars($record['st_id']) ?>">
                                                 <i class="notika-icon notika-edit"></i>
                                             </button>
+                                            <?php endif; ?>
+                                            <?php if ($canDelete): ?>
                                             <button
                                                  class="btn btn-danger btn-icon-notika deleteAccountBtn"
-                                                title="Delete Account"
+                                                title="Set to Onhold"
                                                 data-id="<?= $record['acc_id'] ?>"
+                                                data-balance="<?= $record['balance'] ?>"
                                                 data-acc_name="<?= htmlspecialchars($record['acc_name']) ?>">
                                                 <i class="notika-icon notika-close"></i>
                                             </button>
+                                            <?php endif; ?>
                                              </div>
                                             </td>
                                            </tr>
                                        <?php  }
                                     } else {
                                         ?>
-                                          <tr><td colspan="7" class="text-center">No accounts found</td></tr>
+                                          <tr><td colspan="8" class="text-center">No accounts found</td></tr>
                                     <?php }  ?>
                                 </tbody>
                                 

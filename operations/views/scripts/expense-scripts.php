@@ -86,7 +86,7 @@ $(document).ready(function () {
             }
             $(btn).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
         } else {
-            var originalText = $(btn).data('original-text') || 'Save';
+            var originalText = $(btn).data('original-text') || 'Save Expense Type';
             $(btn).prop('disabled', false).html(originalText);
         }
     }

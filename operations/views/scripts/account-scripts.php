@@ -40,15 +40,9 @@ window.loadAccounts = function() {
                 accountTable.clear();
 
                 $.each(response.data, function (index, account) {
-                    accountTable.row.add([
-                        index + 1,
-                        account.acc_name,
-                        account.acc_reference_num,
-                        account.Mode_names,
-                        account.st_name || 'N/A',
-                        parseInt(account.balance).toLocaleString() + ' RWF',
-                        `<div class="button-icon-btn button-icon-btn-rd">
-                            <button class="btn btn-default btn-icon-notika editAccountBtn"
+                    var statusBadge = account.status == 1 ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-warning">Onhold</span>';
+                    var canDelete = account.balance == 0 && account.status == 1;
+                    var editButton = account.status == 1 ? `<button class="btn btn-default btn-icon-notika editAccountBtn"
                                 title="Edit Account"
                                 data-id="${account.acc_id}"
                                 data-acc_name="${account.acc_name}"
@@ -56,15 +50,30 @@ window.loadAccounts = function() {
                                 data-mode_id="${account.mode_id}"
                                 data-st_id="${account.st_id}">
                                 <i class="notika-icon notika-edit"></i>
-                            </button>
-                            <button class="btn btn-danger btn-icon-notika deleteAccountBtn"
-                                title="Delete Account"
+                            </button>` : '';
+                    var deleteButton = canDelete ? `<button class="btn btn-danger btn-icon-notika deleteAccountBtn"
+                                title="Set to Onhold"
                                 data-id="${account.acc_id}"
+                                data-balance="${account.balance}"
                                 data-acc_name="${account.acc_name}">
                                 <i class="notika-icon notika-close"></i>
-                            </button>
-                        </div>`
-                    ]);
+                            </button>` : '';
+                    
+                    var row = accountTable.row.add([
+                        index + 1,
+                        account.acc_name,
+                        account.acc_reference_num,
+                        account.Mode_names,
+                        account.st_name || 'N/A',
+                        parseInt(account.balance).toLocaleString() + ' RWF',
+                        statusBadge,
+                        `<div class="button-icon-btn button-icon-btn-rd">${editButton}${deleteButton}</div>`
+                    ]).node();
+                    
+                    // Apply warning background for onhold accounts
+                    if (account.status == 0) {
+                        $(row).css('background-color', '#fff3cd');
+                    }
                 });
 
                 accountTable.draw(false);
@@ -214,19 +223,25 @@ $(document).ready(function () {
         const btn = $(this);
         const accId = btn.data('id');
         const accName = btn.data('acc_name') || 'this account';
+        const balance = parseFloat(btn.data('balance')) || 0;
+
+        if (balance > 0) {
+            swal("Cannot Set to Onhold!", "This account has a balance of " + balance.toLocaleString() + " RWF. Only accounts with 0 balance can be set to onhold.", "error");
+            return;
+        }
 
         swal({   
             title: "Are you sure?",   
-            text: "You will delete " + accName + "! This action cannot be undone.",   
+            text: "You will set " + accName + " to onhold status. Onhold accounts cannot be used in transactions.",   
             type: "warning",   
             showCancelButton: true,   
-            confirmButtonText: "Yes, delete!",
+            confirmButtonText: "Yes, set to onhold!",
             cancelButtonText: "No, cancel!"
         }).then(function(isConfirm){
             if (isConfirm) {
                 // Show loading state on button
                 const originalHtml = btn.html();
-                btn.html('<i class="notika-icon notika-loading"></i> Deleting...').prop('disabled', true);
+                btn.html('<i class="notika-icon notika-loading"></i> Processing...').prop('disabled', true);
                 
                 $.ajax({
                     url: '<?= App::baseUrl() ?>/_ikawa/accounts/delete/' + accId,
@@ -234,14 +249,14 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         if (response.success) {
-                            swal("Deleted!", response.message || "Account has been deleted successfully.", "success");
+                            swal("Success!", response.message || "Account has been set to onhold successfully.", "success");
                             loadAccounts();
                         } else {
-                            swal("Error!", response.message || "Failed to delete account.", "error");
+                            swal("Error!", response.message || "Failed to update account status.", "error");
                         }
                     },
                     error: function (xhr, status, error) {
-                        let errorMsg = "Failed to delete account. Please try again.";
+                        let errorMsg = "Failed to update account status. Please try again.";
                         if (xhr.responseJSON && xhr.responseJSON.message) {
                             errorMsg = xhr.responseJSON.message;
                         }

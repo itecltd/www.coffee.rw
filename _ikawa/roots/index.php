@@ -1,4 +1,7 @@
 <?php
+// Start output buffering to prevent any output before JSON responses
+ob_start();
+
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../config/Response.php';
 require_once __DIR__ . '/../controllers/UsersController.php';

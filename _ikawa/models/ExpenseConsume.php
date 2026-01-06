@@ -109,7 +109,11 @@ class ExpenseConsume
                 'recorded_date' => $data['recorded_date']
             ]);
 
-            return $success;
+            // Return the last inserted con_id instead of just success
+            if ($success) {
+                return $this->conn->lastInsertId();
+            }
+            return false;
         } catch (PDOException $e) {
             error_log("Error creating expense consume: " . $e->getMessage());
             return false;

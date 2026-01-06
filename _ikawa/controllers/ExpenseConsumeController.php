@@ -51,6 +51,11 @@ class ExpenseConsumeController
 
     public function createExpenseConsume()
     {
+        // Clean any output buffer to ensure clean JSON response
+        if (ob_get_level()) {
+            ob_clean();
+        }
+        
         // POST METHOD ONLY
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Response::error('Invalid request method', 405);
@@ -187,13 +192,14 @@ class ExpenseConsumeController
                 }
 
                 // Create journal entries (expense + charges) for this payment
+                // Use con_id as reference_id in journal entries
                 $journal_success = $this->journalEntryModel->createExpenseTransaction(
                     $data['recorded_date'],
                     $acc_id,
                     $amount,
                     $charges,
                     $acc_id,
-                    $data['expense_id'],
+                    $con_id,  // Use the con_id as reference_id
                     $data['description'],
                     $user_id
                 );

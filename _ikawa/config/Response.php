@@ -13,6 +13,11 @@ class Response
     */
     public static function send( $success = true, $message = '', $data = null, $statusCode = 200 )
  {
+        // Clean any output buffer before sending JSON
+        if (ob_get_level()) {
+            ob_clean();
+        }
+        
         // Set HTTP status code
         http_response_code( $statusCode );
 

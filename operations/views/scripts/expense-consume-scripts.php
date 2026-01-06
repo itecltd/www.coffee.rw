@@ -353,6 +353,12 @@ $(document).ready(function () {
     $(document).on('click', '#saveExpenseConsumeBtn', function () {
         const btn = this;
 
+        // Prevent double submission
+        if ($(btn).prop('disabled')) {
+            console.log('Button already disabled, preventing double submission');
+            return;
+        }
+
         // Validation
         var expenseId = $('#expense_id').val();
         var recordedDate = $('#recorded_date').val();
@@ -395,29 +401,92 @@ $(document).ready(function () {
             url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/create',
             method: 'POST',
             contentType: 'application/json',
-            dataType: 'json',
             data: JSON.stringify(expenseConsumeData),
-            success: function (response) {
-                console.log('Response:', response);
-                if (response.success) {
-                    showToastExpenseConsume(response.message, 'success');
+            success: function (response, textStatus, xhr) {
+                console.log('Raw Response:', xhr.responseText);
+                console.log('Response Type:', typeof response);
+                console.log('Status:', textStatus);
+                
+                var parsedResponse = null;
+                
+                // Handle response parsing
+                if (typeof response === 'object' && response !== null) {
+                    // Already parsed by jQuery
+                    parsedResponse = response;
+                } else if (typeof response === 'string') {
+                    // Try to clean and parse the string
+                    try {
+                        // Trim whitespace and try to find JSON
+                        var cleanedResponse = response.trim();
+                        
+                        // Try to extract JSON if there's extra content
+                        var jsonMatch = cleanedResponse.match(/\{[\s\S]*\}/);
+                        if (jsonMatch) {
+                            cleanedResponse = jsonMatch[0];
+                        }
+                        
+                        parsedResponse = JSON.parse(cleanedResponse);
+                    } catch (e) {
+                        console.error('JSON Parse Error:', e);
+                        console.error('Response Text:', response);
+                        
+                        // Check if the data was actually saved despite parse error
+                        showToastExpenseConsume('Transaction completed. Please refresh to verify.', 'warning');
+                        setButtonLoading(btn, false);
+                        
+                        // Refresh the list after 1 second
+                        setTimeout(function() {
+                            $('#createExpenseConsumeModal').modal('hide');
+                            resetForm();
+                            loadExpenseConsumes();
+                        }, 1500);
+                        return;
+                    }
+                }
+                
+                console.log('Parsed Response:', parsedResponse);
+                
+                // Check if parsing was successful
+                if (parsedResponse && parsedResponse.success) {
+                    showToastExpenseConsume(parsedResponse.message || 'Expense consume recorded successfully', 'success');
                     $('#createExpenseConsumeModal').modal('hide');
-                    // Reset form
                     resetForm();
                     loadExpenseConsumes();
+                } else if (parsedResponse) {
+                    showToastExpenseConsume(parsedResponse.message || 'An error occurred', 'error');
                 } else {
-                    showToastExpenseConsume(response.message, 'error');
+                    showToastExpenseConsume('Unexpected response format', 'error');
                 }
+                
+                setButtonLoading(btn, false);
             },
-            error: function (xhr) {
-                console.error('Error:', xhr);
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('AJAX Error:', textStatus, errorThrown);
+                console.error('Response Text:', xhr.responseText);
+                console.error('Status:', xhr.status);
+                
                 let msg = 'Something went wrong';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
+                
+                // Try to parse error response
+                try {
+                    if (xhr.responseText) {
+                        var errorResponse = JSON.parse(xhr.responseText);
+                        if (errorResponse.message) {
+                            msg = errorResponse.message;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Could not parse error response:', e);
+                    // Check if response contains success indication
+                    if (xhr.responseText && xhr.responseText.includes('success')) {
+                        msg = 'Transaction may have succeeded. Please refresh to check.';
+                        setTimeout(function() {
+                            loadExpenseConsumes();
+                        }, 1000);
+                    }
                 }
+                
                 showToastExpenseConsume(msg, 'error');
-            },
-            complete: function () {
                 setButtonLoading(btn, false);
             }
         });

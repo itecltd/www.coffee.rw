@@ -256,11 +256,6 @@
     <div class="modal fade" id="createExpenseConsumeModal" role="dialog">
         <div class="modal-dialog modal-large">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" style="color: white; opacity: 0.9;">&times;</button>
-                    <h5 class="modal-title"><i class="notika-icon notika-plus-symbol"></i> Record New Expense Consumption</h5>
-                </div>
-                <br>
                 <div class="modal-body">
                 <?php
                 // Load payment modes for the cards
@@ -277,7 +272,6 @@
                 <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
-                                <label>Expense Category <span class="text-danger">*</span></label>
                                 <select class='chosen' data-placeholder='Choose Category...' name="expense_category" id="expense_category">
                                  <option value="">Select Category</option>
                                 <?php
@@ -309,7 +303,6 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
-                                <label>Expense Type <span class="text-danger">*</span></label>
                                 <select class='chosen' data-placeholder='Choose Expense Type...' name="expense_id" id="expense_id" disabled>
                                  <option value="">Select Category First</option>
                                 </select>
@@ -320,7 +313,7 @@
                     <!-- Payment Modes Section with Inline Accounts -->
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <label>Payment Mode <span class="text-danger">*</span></label>
+                       
                             <div class="payment-modes-container">
                                 <?php if (!empty($paymentModes)): ?>
                                     <?php foreach ($paymentModes as $mode): ?>
@@ -400,7 +393,6 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class='chosen-select-act fm-cmp-mg'>
-                                <label>Payer Name</label>
                                 <select class='chosen' data-placeholder='Choose Payer...' name="payer_name" id="payer_name">
                                  <option value="">Select Payer (Optional)</option>
                                 <?php
@@ -432,7 +424,6 @@
 
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group ic-cmp-int">
-                                <label>Recorded Date <span class="text-danger">*</span></label>
                                 <div class="form-ic-cmp">
                                     <i class="notika-icon notika-calendar"></i>
                                 </div>
@@ -446,7 +437,6 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label>Description</label>
                                 <textarea class="form-control" name="description" id="description" rows="2" placeholder="Enter expense description (Optional)"></textarea>
                             </div>
                     </div>
