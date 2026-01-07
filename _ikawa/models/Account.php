@@ -140,6 +140,18 @@ class Account
         }
     }
 
+    public function reactivateAccount($acc_id)
+    {
+        try {
+            $query = 'UPDATE tbl_accounts SET status = 1 WHERE acc_id = :acc_id';
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute(['acc_id' => $acc_id]);
+        } catch (PDOException $e) {
+            error_log("Error reactivating account: " . $e->getMessage());
+            return false;
+        }
+    }
+
     /**
      * Get accounts by payment mode ID
      */
@@ -218,6 +230,26 @@ class Account
         } catch (PDOException $e) {
             error_log("Error getting account balance: " . $e->getMessage());
             return 0;
+        }
+    }
+
+    /**
+     * Refund balance (add amount back to account)
+     */
+    public function refundBalance($acc_id, $amount)
+    {
+        try {
+            $query = 'UPDATE tbl_accounts 
+                      SET balance = balance + :amount 
+                      WHERE acc_id = :acc_id';
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute([
+                'amount' => $amount,
+                'acc_id' => $acc_id
+            ]);
+        } catch (PDOException $e) {
+            error_log("Error refunding account balance: " . $e->getMessage());
+            return false;
         }
     }
 }

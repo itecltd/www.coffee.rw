@@ -46,20 +46,9 @@ window.loadExpenseConsumes = function() {
                         (record.st_name || 'N/A') + ' - ' + (record.st_location || ''),
                         new Intl.NumberFormat('en-RW', { style: 'currency', currency: 'RWF', minimumFractionDigits: 0 }).format(record.amount),
                         record.payment_mode_name || 'N/A',
-                        record.payer_name || '-',
+                        record.consumer_name || '-',
                         record.recorded_date,
                         `<div class="button-icon-btn button-icon-btn-rd">
-                            <button class="btn btn-default btn-icon-notika editExpenseConsumeBtn"
-                                title="Edit"
-                                data-id="${record.con_id}"
-                                data-expense_id="${record.expense_id}"
-                                data-amount="${record.amount}"
-                                data-pay_mode="${record.pay_mode}"
-                                data-payer_name="${record.payer_name || ''}"
-                                data-description="${record.description || ''}"
-                                data-recorded_date="${record.recorded_date}">
-                                <i class="notika-icon notika-edit"></i>
-                            </button>
                             <button class="btn btn-danger btn-icon-notika deleteExpenseConsumeBtn"
                                 title="Delete"
                                 data-id="${record.con_id}"
@@ -517,125 +506,14 @@ $(document).ready(function () {
         calculateTotals();
     }
 
-    // Handle Edit Expense Consume button click
-    $(document).on('click', '.editExpenseConsumeBtn', function () {
-        console.log('Edit button clicked');
-        const conId = $(this).data('id');
-        const expenseId = $(this).data('expense_id');
-        const stationId = $(this).data('station_id');
-        const amount = $(this).data('amount');
-        const payMode = $(this).data('pay_mode');
-        const payerName = $(this).data('payer_name');
-        const description = $(this).data('description');
-        const recordedDate = $(this).data('recorded_date');
-
-        console.log('Edit data:', {conId, expenseId, amount, payMode, payerName, description, recordedDate});
-
-        $('#edit_con_id').val(conId);
-        $('#edit_expense_id').val(expenseId).trigger('chosen:updated');
-        $('#edit_amount').val(amount);
-        $('#edit_pay_mode').val(payMode).trigger('chosen:updated');
-        $('#edit_payer_name').val(payerName);
-        $('#edit_description').val(description);
-        $('#edit_recorded_date').val(recordedDate);
-
-        // Reset button text and data
-        $('#updateExpenseConsumeBtn').html('Save changes').removeData('original-text');
-
-        $('#editExpenseConsumeModal').modal('show');
-    });
-
-    // Handle Update Expense Consume button
-    $(document).on('click', '#updateExpenseConsumeBtn', function () {
-        const btn = this;
-        setButtonLoading(btn, true);
-
-        const expenseConsumeData = {
-            con_id: $('#edit_con_id').val(),
-            expense_id: $('#edit_expense_id').val(),
-            amount: $('#edit_amount').val(),
-            pay_mode: $('#edit_pay_mode').val(),
-            payer_name: $('#edit_payer_name').val().trim(),
-            description: $('#edit_description').val().trim(),
-            recorded_date: $('#edit_recorded_date').val()
-        };
-
-        console.log('Update data being sent:', expenseConsumeData);
-
-        // Validation
-        if (!expenseConsumeData.con_id) {
-            showToastExpenseConsume('Missing expense consume ID!', 'error');
-            setButtonLoading(btn, false);
-            return;
-        }
-
-        if (!expenseConsumeData.expense_id) {
-            showToastExpenseConsume('Please select an expense type!', 'error');
-            setButtonLoading(btn, false);
-            return;
-        }
-
-        if (!expenseConsumeData.amount || expenseConsumeData.amount === '') {
-            showToastExpenseConsume('Please enter an amount!', 'error');
-            setButtonLoading(btn, false);
-            return;
-        }
-
-        if (parseFloat(expenseConsumeData.amount) <= 0) {
-            showToastExpenseConsume('Amount must be greater than zero!', 'error');
-            setButtonLoading(btn, false);
-            return;
-        }
-
-        if (!expenseConsumeData.pay_mode) {
-            showToastExpenseConsume('Please select a payment account!', 'error');
-            setButtonLoading(btn, false);
-            return;
-        }
-
-        if (!expenseConsumeData.recorded_date) {
-            showToastExpenseConsume('Please select a recorded date!', 'error');
-            setButtonLoading(btn, false);
-            return;
-        }
-
-        $.ajax({
-            url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/update',
-            method: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(expenseConsumeData),
-            success: function (response) {
-                if (response.success) {
-                    showToastExpenseConsume(response.message, 'success');
-                    $('#editExpenseConsumeModal').modal('hide');
-                    loadExpenseConsumes();
-                } else {
-                    showToastExpenseConsume(response.message, 'error');
-                }
-            },
-            error: function (xhr) {
-                let msg = 'Something went wrong';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
-                }
-                showToastExpenseConsume(msg, 'error');
-            },
-            complete: function () {
-                setButtonLoading(btn, false);
-            }
-        });
-    });
+    // Edit functionality removed: edit buttons and modal are deprecated for expense consume records
 
     // Handle Delete Expense Consume button
     $(document).on('click', '.deleteExpenseConsumeBtn', function (e) {
         e.preventDefault();
-        console.log('Delete button clicked');
         const btn = $(this);
         const conId = btn.data('id');
-        const expenseName = btn.attr('data-expense-name') || 'this record';
-
-        console.log('Delete data:', {conId, expenseName, allData: btn.data()});
+        const expenseName = btn.data('expense-name') || 'this record';
 
         if (!conId) {
             showToastExpenseConsume('Invalid expense ID', 'error');
@@ -644,38 +522,47 @@ $(document).ready(function () {
 
         swal({   
             title: "Are you sure?",   
-            text: "You will delete " + expenseName + "! This action cannot be undone.",   
+            text: "This will cancel the expense and refund the amount back to the account.",   
             type: "warning",   
             showCancelButton: true,   
-            confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "Yes, delete it!",   
-            closeOnConfirm: false 
-        }, function(){
-            console.log('Delete confirmed, sending request for con_id:', conId);
-            $.ajax({
-                url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/delete',
-                method: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({ con_id: conId }),
-                success: function (response) {
-                    console.log('Delete response:', response);
-                    if (response.success) {
-                        swal("Deleted!", response.message, "success");
-                        loadExpenseConsumes();
-                    } else {
-                        swal("Error!", response.message, "error");
+            confirmButtonText: "Yes, cancel it!",
+            cancelButtonText: "No, keep it"
+        }).then(function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/delete',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({ con_id: conId }),
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Cancelled!", response.message, "success");
+                            loadExpenseConsumes();
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    },
+                    error: function (xhr) {
+                        let msg = 'Something went wrong';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            msg = xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            msg = xhr.responseText;
+                        }
+                        
+                        // Show detailed error in console for debugging
+                        console.error('Delete error details:', {
+                            status: xhr.status,
+                            statusText: xhr.statusText,
+                            responseText: xhr.responseText,
+                            responseJSON: xhr.responseJSON
+                        });
+                        
+                        swal("Error!", msg, "error");
                     }
-                },
-                error: function (xhr) {
-                    console.error('Delete error:', xhr);
-                    let msg = 'Something went wrong';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        msg = xhr.responseJSON.message;
-                    }
-                    swal("Error!", msg, "error");
-                }
-            });
+                });
+            }
         });
     });
 

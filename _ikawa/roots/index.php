@@ -160,6 +160,11 @@ switch ( true ) {
     $accountController = new AccountController();
     $accountController->deleteAccount( $matches[ 1 ] );
     break;
+    
+    case preg_match( '#^/accounts/reactivate/(\d+)$#', $route, $matches ):
+    $accountController = new AccountController();
+    $accountController->reactivateAccount( $matches[ 1 ] );
+    break;
     // payment modes
     case $route === '/settings/paymentmodes':
     $settingcontroller = new SettingController();

@@ -75,6 +75,12 @@ window.loadAccounts = function() {
                                 data-acc_name="${account.acc_name}">
                                 <i class="notika-icon notika-close"></i>
                             </button>` : '';
+                    var activateButton = account.status == 0 ? `<button class="btn btn-success btn-icon-notika activateAccountBtn"
+                                title="Activate Account"
+                                data-id="${account.acc_id}"
+                                data-acc_name="${account.acc_name}">
+                                <i class="notika-icon notika-checked"></i>
+                            </button>` : '';
                     
                     var row = accountTable.row.add([
                         index + 1,
@@ -84,7 +90,7 @@ window.loadAccounts = function() {
                         account.st_name || 'N/A',
                         parseInt(account.balance).toLocaleString() + ' RWF',
                         statusBadge,
-                        `<div class="button-icon-btn button-icon-btn-rd">${editButton}${deleteButton}</div>`
+                        `<div class="button-icon-btn button-icon-btn-rd">${editButton}${deleteButton}${activateButton}</div>`
                     ]).node();
                     
                     // Apply warning background for onhold accounts
@@ -283,6 +289,51 @@ $(document).ready(function () {
                     },
                     complete: function () {
                         // Restore button state
+                        btn.html(originalHtml).prop('disabled', false);
+                    }
+                });
+            }
+        });
+    });
+
+    // Handle Activate Account button
+    $(document).on('click', '.activateAccountBtn', function () {
+        const btn = $(this);
+        const accId = btn.data('id');
+        const accName = btn.data('acc_name') || 'this account';
+
+        swal({   
+            title: "Are you sure?",   
+            text: "You will reactivate " + accName + ". This account will be available for transactions again.",   
+            type: "info",   
+            showCancelButton: true,   
+            confirmButtonText: "Yes, activate it!",
+            cancelButtonText: "No, cancel!"
+        }).then(function(isConfirm){
+            if (isConfirm) {
+                const originalHtml = btn.html();
+                btn.html('<i class="notika-icon notika-loading"></i> Processing...').prop('disabled', true);
+                
+                $.ajax({
+                    url: '<?= App::baseUrl() ?>/_ikawa/accounts/reactivate/' + accId,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Success!", response.message || "Account has been reactivated successfully.", "success");
+                            loadAccounts();
+                        } else {
+                            swal("Error!", response.message || "Failed to reactivate account.", "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMsg = "Failed to reactivate account. Please try again.";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        }
+                        swal("Error!", errorMsg, "error");
+                    },
+                    complete: function () {
                         btn.html(originalHtml).prop('disabled', false);
                     }
                 });

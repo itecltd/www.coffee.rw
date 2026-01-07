@@ -191,4 +191,45 @@ class JournalEntry {
             return [];
         }
     }
+
+    /**
+     * Get journal entries by reference ID (con_id from expenseconsume)
+     */
+    public function getEntriesByReferenceId($reference_id) {
+        try {
+            $query = "SELECT * FROM " . $this->table_name . " 
+                      WHERE reference_id = :reference_id";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(['reference_id' => $reference_id]);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $this->log("Error fetching journal entries by reference ID: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Cancel journal entries by reference ID (set action to 'canceled')
+     */
+    public function cancelEntriesByReferenceId($reference_id, $user_id) {
+        try {
+            $query = "UPDATE " . $this->table_name . " 
+                      SET action = 'canceled'
+                      WHERE reference_id = :reference_id";
+            
+            $stmt = $this->conn->prepare($query);
+            $result = $stmt->execute(['reference_id' => $reference_id]);
+            
+            if ($result) {
+                $this->log("Cancelled journal entries for reference_id: $reference_id by user: $user_id");
+            }
+            
+            return $result;
+        } catch (PDOException $e) {
+            $this->log("Error cancelling journal entries: " . $e->getMessage());
+            return false;
+        }
+    }
 }

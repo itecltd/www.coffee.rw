@@ -190,4 +190,20 @@ class AccountController
             Response::error('Failed to update account status', 500);
         }
     }
+
+    public function reactivateAccount($acc_id)
+    {
+        if (empty($acc_id)) {
+            Response::error('Account ID is required', 400);
+            return;
+        }
+
+        $result = $this->accountModel->reactivateAccount($acc_id);
+
+        if ($result) {
+            Response::success('Account reactivated successfully!');
+        } else {
+            Response::error('Failed to reactivate account', 500);
+        }
+    }
 }

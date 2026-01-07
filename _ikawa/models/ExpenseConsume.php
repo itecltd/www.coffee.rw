@@ -50,11 +50,14 @@ class ExpenseConsume
                       e.expense_name,
                       l.location_name as st_name,
                       l.description as st_location,
-                      a.acc_name as payment_mode_name
+                      a.acc_name as payment_mode_name,
+                      cons.cons_name as consumer_name,
+                      cons.phone as consumer_phone
                       FROM tbl_expenseconsume ec
                       LEFT JOIN tbl_expenses e ON ec.expense_id = e.expense_id
                       LEFT JOIN tbl_location l ON ec.station_id = l.loc_id
                       LEFT JOIN tbl_accounts a ON ec.pay_mode = a.acc_id
+                      LEFT JOIN tbl_expenseconsumer cons ON ec.payer_name = cons.cons_id
                       WHERE ec.status = 1 
                       ORDER BY ec.con_id DESC';
             $stmt = $this->conn->prepare($query);
@@ -73,11 +76,14 @@ class ExpenseConsume
                       e.expense_name,
                       l.location_name as st_name,
                       l.description as st_location,
-                      a.acc_name as payment_mode_name
+                      a.acc_name as payment_mode_name,
+                      cons.cons_name as consumer_name,
+                      cons.phone as consumer_phone
                       FROM tbl_expenseconsume ec
                       LEFT JOIN tbl_expenses e ON ec.expense_id = e.expense_id
                       LEFT JOIN tbl_location l ON ec.station_id = l.loc_id
                       LEFT JOIN tbl_accounts a ON ec.pay_mode = a.acc_id
+                      LEFT JOIN tbl_expenseconsumer cons ON ec.payer_name = cons.cons_id
                       WHERE ec.con_id = :con_id';
             $stmt = $this->conn->prepare($query);
             $stmt->execute(['con_id' => $con_id]);
@@ -161,6 +167,19 @@ class ExpenseConsume
             return $stmt->execute(['con_id' => $con_id]);
         } catch (PDOException $e) {
             error_log("Error deleting expense consume: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function cancelExpenseConsume($con_id)
+    {
+        try {
+            // Set status to 11 (cancelled)
+            $query = 'UPDATE tbl_expenseconsume SET status = 11 WHERE con_id = :con_id';
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute(['con_id' => $con_id]);
+        } catch (PDOException $e) {
+            error_log("Error cancelling expense consume: " . $e->getMessage());
             return false;
         }
     }

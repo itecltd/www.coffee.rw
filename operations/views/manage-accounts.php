@@ -217,6 +217,15 @@
                                                 <i class="notika-icon notika-close"></i>
                                             </button>
                                             <?php endif; ?>
+                                            <?php if ($record['status'] == 0): ?>
+                                            <button
+                                                 class="btn btn-success btn-icon-notika activateAccountBtn"
+                                                title="Activate Account"
+                                                data-id="<?= $record['acc_id'] ?>"
+                                                data-acc_name="<?= htmlspecialchars($record['acc_name']) ?>">
+                                                <i class="notika-icon notika-checked"></i>
+                                            </button>
+                                            <?php endif; ?>
                                              </div>
                                             </td>
                                            </tr>

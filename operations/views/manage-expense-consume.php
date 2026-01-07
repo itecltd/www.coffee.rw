@@ -1,141 +1,4 @@
-<!-- Edit Expense Consume Modal -->
-<div class="modal animated bounce" id="editExpenseConsumeModal" role="dialog">
-    <div class="modal-dialog modal-large">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Expense Consume</h4>
-            </div>
-            <div class="modal-body">
-               <div class="row">
-                <input type="hidden" name="edit_con_id" id="edit_con_id">
-                            
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class='chosen-select-act fm-cmp-mg'>
-                                <label>Expense Type <span class="text-danger">*</span></label>
-                                <select class='chosen' data-placeholder='Choose Expense Type...' name="edit_expense_id" id="edit_expense_id">
-                                 <option value="">Select Expense Type</option>
-                                <?php
-                                $expensesUrl = App::baseUrl() . '/_ikawa/expenses/get-all';
-                                $response = @file_get_contents($expensesUrl);
-
-                                $expenses = [];
-
-                                if ($response !== false) {
-                                    $decoded = json_decode($response, true);
-
-                                    if ($decoded && isset($decoded['success']) && $decoded['success'] === true) {
-                                        $expenses = $decoded['data'] ?? [];
-                                    }
-                                }
-                                ?>
-                                   <?php if (!empty($expenses)): ?>
-                                        <?php foreach ($expenses as $expense): ?>
-                                            <option value="<?= htmlspecialchars($expense['expense_id']) ?>">
-                                                <?= htmlspecialchars($expense['expense_name']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <option disabled>No expenses found</option>
-                                    <?php endif; ?>
-                                </select>
-                              </div>
-                            </div>
-                    </div>
-
-                    <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group ic-cmp-int">
-                                    <label>Amount <span class="text-danger">*</span></label>
-                                    <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-dollar"></i>
-                                    </div>
-                                    <div class="nk-int-st">
-                                        <input type="number" name="edit_amount" id="edit_amount" class="form-control" placeholder="Amount" min="0" step="0.01" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class='chosen-select-act fm-cmp-mg'>
-                                <label>Payment Account <span class="text-danger">*</span></label>
-                                <select class='chosen' data-placeholder='Choose Payment Account...' name="edit_pay_mode" id="edit_pay_mode" required>
-                                 <option value="">Select Payment Account</option>
-                                <?php
-                                $accountsUrl = App::baseUrl() . '/_ikawa/accounts/get-all';
-                                $response = @file_get_contents($accountsUrl);
-
-                                $accounts = [];
-
-                                if ($response !== false) {
-                                    $decoded = json_decode($response, true);
-
-                                    if ($decoded && isset($decoded['success']) && $decoded['success'] === true) {
-                                        $accounts = $decoded['data'] ?? [];
-                                    }
-                                }
-                                ?>
-                                   <?php if (!empty($accounts)): ?>
-                                        <?php foreach ($accounts as $account): ?>
-                                            <option value="<?= htmlspecialchars($account['acc_id']) ?>">
-                                                <?= htmlspecialchars($account['acc_name']) ?> - <?= htmlspecialchars($account['acc_reference_num']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <option disabled>No payment accounts found</option>
-                                    <?php endif; ?>
-                                </select>
-                              </div>
-                            </div>
-                    </div>
-
-                    <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group ic-cmp-int">
-                                    <label>Payer Name</label>
-                                    <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-support"></i>
-                                    </div>
-                                    <div class="nk-int-st">
-                                        <input type="text" name="edit_payer_name" id="edit_payer_name" class="form-control" placeholder="Payer Name (Optional)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group ic-cmp-int">
-                                    <label>Recorded Date <span class="text-danger">*</span></label>
-                                    <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-calendar"></i>
-                                    </div>
-                                    <div class="nk-int-st">
-                                        <input type="date" name="edit_recorded_date" id="edit_recorded_date" class="form-control" required>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-                    <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group ic-cmp-int">
-                                    <label>Description</label>
-                                    <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-edit"></i>
-                                    </div>
-                                    <div class="nk-int-st">
-                                        <textarea name="edit_description" id="edit_description" class="form-control" placeholder="Description (Optional)" rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                 </div>
-             <div class="modal-footer">
-                <button type="button" id="updateExpenseConsumeBtn" class="btn btn-default">Save changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Edit Expense Consume Modal removed -->
 
 <div class="breadcomb-area">
     <div class="container">
@@ -190,7 +53,7 @@
                                         <th>Station</th>
                                         <th>Amount</th>
                                         <th>Payment Mode</th>
-                                        <th>Payer Name</th>
+                                        <th>Consumer</th>
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -209,23 +72,11 @@
                                                 <td><?php echo htmlspecialchars($record['st_name'] ?? 'N/A') . ' - ' . htmlspecialchars($record['st_location'] ?? ''); ?></td>
                                                 <td><?php echo number_format($record['amount'], 0); ?> RWF</td>
                                                 <td><?php echo htmlspecialchars($record['payment_mode_name'] ?? 'N/A'); ?></td>
-                                                <td><?php echo htmlspecialchars($record['payer_name'] ?? '-'); ?></td>
+                                                <td><?php echo htmlspecialchars($record['consumer_name'] ?? '-'); ?></td>
                                                 <td><?php echo htmlspecialchars($record['recorded_date']); ?></td>
                                                 <td>
                                                 <div class="button-icon-btn button-icon-btn-rd">
-                                                <button
-                                                 class="btn btn-default btn-icon-notika editExpenseConsumeBtn"
-                                                title="Edit"
-                                                data-id="<?= $record['con_id'] ?>"
-                                                data-expense_id="<?= htmlspecialchars($record['expense_id']) ?>"
-                                                data-station_id="<?= htmlspecialchars($record['station_id']) ?>"
-                                                data-amount="<?= htmlspecialchars($record['amount']) ?>"
-                                                data-pay_mode="<?= htmlspecialchars($record['pay_mode']) ?>"
-                                                data-payer_name="<?= htmlspecialchars($record['payer_name'] ?? '') ?>"
-                                                data-description="<?= htmlspecialchars($record['description'] ?? '') ?>"
-                                                data-recorded_date="<?= htmlspecialchars($record['recorded_date']) ?>">
-                                                <i class="notika-icon notika-edit"></i>
-                                            </button>
+                                            
                                             <button
                                                  class="btn btn-danger btn-icon-notika deleteExpenseConsumeBtn"
                                                 title="Delete"
@@ -300,7 +151,7 @@
                                 </select>
                               </div>
                             </div>
-
+<br>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
                                 <select class='chosen' data-placeholder='Choose Expense Type...' name="expense_id" id="expense_id" disabled>
@@ -309,7 +160,58 @@
                               </div>
                             </div>
                     </div>
+<br>
 
+                    <!-- Payer and Date Section -->
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class='chosen-select-act fm-cmp-mg'>
+                                <select class='chosen' data-placeholder='Choose Payer...' name="payer_name" id="payer_name" required>
+                                 <option value="" >Select consumer</option>
+                                <?php
+                                $consumersUrl = App::baseUrl() . '/_ikawa/expense-consumers/get-all';
+                                $consResponse = @file_get_contents($consumersUrl);
+
+                                $consumers = [];
+
+                                if ($consResponse !== false) {
+                                    $consDecoded = json_decode($consResponse, true);
+
+                                    if ($consDecoded && isset($consDecoded['success']) && $consDecoded['success'] === true) {
+                                        $consumers = $consDecoded['data'] ?? [];
+                                    }
+                                }
+                                ?>
+                                   <?php if (!empty($consumers)): ?>
+                                        <?php foreach ($consumers as $consumer): ?>
+                                            <option value="<?= htmlspecialchars($consumer['cons_id']) ?>">
+                                                <?= htmlspecialchars($consumer['cons_name']) ?> - <?= htmlspecialchars($consumer['phone']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <option disabled>No consumers found</option>
+                                    <?php endif; ?>
+                                </select>
+                              </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group ic-cmp-int">
+                                <div class="form-ic-cmp">
+                                    <i class="notika-icon notika-calendar"></i>
+                                </div>
+                                <div class="nk-int-st">
+                                    <input type="date" name="recorded_date" id="recorded_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                       <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <textarea class="form-control" name="description" id="description" rows="2" placeholder="Enter expense description (Optional)"></textarea>
+                            </div>
+                    </div>
                     <!-- Payment Modes Section with Inline Accounts -->
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -389,57 +291,8 @@
                         </div>
                     </div>
 
-                    <!-- Payer and Date Section -->
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Payer...' name="payer_name" id="payer_name">
-                                 <option value="">Select Payer (Optional)</option>
-                                <?php
-                                $consumersUrl = App::baseUrl() . '/_ikawa/expense-consumers/get-all';
-                                $consResponse = @file_get_contents($consumersUrl);
 
-                                $consumers = [];
-
-                                if ($consResponse !== false) {
-                                    $consDecoded = json_decode($consResponse, true);
-
-                                    if ($consDecoded && isset($consDecoded['success']) && $consDecoded['success'] === true) {
-                                        $consumers = $consDecoded['data'] ?? [];
-                                    }
-                                }
-                                ?>
-                                   <?php if (!empty($consumers)): ?>
-                                        <?php foreach ($consumers as $consumer): ?>
-                                            <option value="<?= htmlspecialchars($consumer['cons_id']) ?>">
-                                                <?= htmlspecialchars($consumer['cons_name']) ?> - <?= htmlspecialchars($consumer['phone']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <option disabled>No consumers found</option>
-                                    <?php endif; ?>
-                                </select>
-                              </div>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group ic-cmp-int">
-                                <div class="form-ic-cmp">
-                                    <i class="notika-icon notika-calendar"></i>
-                                </div>
-                                <div class="nk-int-st">
-                                    <input type="date" name="recorded_date" id="recorded_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <textarea class="form-control" name="description" id="description" rows="2" placeholder="Enter expense description (Optional)"></textarea>
-                            </div>
-                    </div>
+                 
 
                     <!-- Payment Entries List - Always at Bottom -->
                     <div class="row" id="payment_entries_section" style="display: none; margin-top: 20px;">

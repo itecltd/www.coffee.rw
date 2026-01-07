@@ -171,11 +171,11 @@ class ExpenseConsumeController
                 $total_required = $amount + $charges;
 
                 // Create expense consume record for this entry
-                // Save the total amount (amount + charges) in tbl_expenseconsume
+                // Save only the amount (not including charges) in tbl_expenseconsume
                 $data = [
                     'expense_id' => (int)$input['expense_id'],
                     'station_id' => (int)$station_id,
-                    'amount' => $total_required,  // Total: amount + charges
+                    'amount' => $amount,  // Only the expense amount, not charges
                     'pay_mode' => $acc_id,
                     'trans_id' => $trans_id,
                     'payer_name' => isset($input['payer_name']) ? trim($input['payer_name']) : null,
@@ -313,6 +313,18 @@ class ExpenseConsumeController
             return;
         }
 
+        // Start session to get user_id
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['user_id'])) {
+            Response::error('User not authenticated', 401);
+            return;
+        }
+
+        $user_id = $_SESSION['user_id'];
+
         // READ JSON INPUT
         $input = json_decode(file_get_contents('php://input'), true);
 
@@ -328,10 +340,75 @@ class ExpenseConsumeController
 
         $con_id = (int)$input['con_id'];
 
-        if ($this->expenseConsumeModel->deleteExpenseConsume($con_id)) {
-            Response::success('Expense consume deleted successfully', ['con_id' => $con_id]);
-        } else {
-            Response::error('Failed to delete expense consume', 500);
+        // Get expense consume details before deletion
+        $expenseConsume = $this->expenseConsumeModel->getExpenseConsumeById($con_id);
+        
+        if (!$expenseConsume) {
+            Response::error('Expense consume not found', 404);
+            return;
+        }
+
+        // Get the account and amounts to refund
+        $acc_id = $expenseConsume['pay_mode'];
+        
+        // Get all journal entries for this con_id to calculate total refund (amount + charges)
+        $journalEntries = $this->journalEntryModel->getEntriesByReferenceId($con_id);
+        
+        $total_refund = 0;
+        
+        foreach ($journalEntries as $entry) {
+            $total_refund += (float)$entry['amount'];
+        }
+
+        // Get database connection for transaction
+        $db = (new \Config\Database())->getConnection();
+
+        try {
+            // Begin database transaction
+            $db->beginTransaction();
+
+            // 1. Refund amount back to account (add back the total amount + charges)
+            $refund_success = $this->accountModel->refundBalance($acc_id, $total_refund);
+            
+            if (!$refund_success) {
+                $db->rollBack();
+                Response::error('Failed to refund amount to account', 500);
+                return;
+            }
+
+            // 2. Update journal entries action to 'canceled'
+            $cancel_journal_success = $this->journalEntryModel->cancelEntriesByReferenceId($con_id, $user_id);
+            
+            if (!$cancel_journal_success) {
+                $db->rollBack();
+                Response::error('Failed to cancel journal entries', 500);
+                return;
+            }
+
+            // 3. Set expense consume status to 11 (cancelled)
+            $cancel_success = $this->expenseConsumeModel->cancelExpenseConsume($con_id);
+            
+            if (!$cancel_success) {
+                $db->rollBack();
+                Response::error('Failed to cancel expense consume', 500);
+                return;
+            }
+
+            // Commit all changes
+            $db->commit();
+
+            Response::success('Expense cancelled and amount refunded successfully', [
+                'con_id' => $con_id,
+                'refunded_amount' => $total_refund,
+                'account_id' => $acc_id
+            ]);
+
+        } catch (\Exception $e) {
+            $db->rollBack();
+            $errorMsg = $e->getMessage();
+            error_log("Error in deleteExpenseConsume: " . $errorMsg);
+            error_log("Stack trace: " . $e->getTraceAsString());
+            Response::error('Error: ' . $errorMsg, 500);
         }
     }
 
