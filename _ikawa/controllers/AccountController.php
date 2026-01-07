@@ -28,6 +28,25 @@ class AccountController
         }
     }
 
+    public function getAccountsByLocation()
+    {
+        // Get st_id from query parameter
+        $st_id = isset($_GET['st_id']) ? $_GET['st_id'] : null;
+        
+        if (empty($st_id)) {
+            Response::error('Location ID (st_id) is required', 400);
+            return;
+        }
+        
+        $accounts = $this->accountModel->getAccountsByLocation($st_id);
+
+        if ($accounts !== false) {
+            Response::success('Accounts retrieved successfully!', $accounts);
+        } else {
+            Response::error('Failed to retrieve accounts', 500);
+        }
+    }
+
     public function getAccountById($acc_id)
     {
         $account = $this->accountModel->getAccountById($acc_id);
@@ -55,7 +74,15 @@ class AccountController
             return;
         }
 
-        $required = ['mode_id', 'acc_name', 'acc_reference_num', 'st_id'];
+        // Get logged-in user's location from session
+        session_start();
+        if (empty($_SESSION['loc_id'])) {
+            Response::error('User location not found in session', 403);
+            return;
+        }
+        $st_id = $_SESSION['loc_id'];
+
+        $required = ['mode_id', 'acc_name', 'acc_reference_num'];
 
         foreach ($required as $field) {
             if (empty($input[$field])) {
@@ -65,20 +92,19 @@ class AccountController
         }
 
         $acc_name = trim($input['acc_name']);
+        $acc_reference_num = trim($input['acc_reference_num']);
         
-        // DUPLICATE CHECK
-        $duplicate = $this->accountModel->accountExists($acc_name);
-
-        if ($duplicate !== null) {
-            Response::error('Account name already exists', 409);
+        // Check if reference number already exists
+        if ($this->accountModel->referenceNumberExists($acc_reference_num)) {
+            Response::error('Reference number already exists', 409);
             return;
         }
-
+        
         $data = [
             'mode_id' => $input['mode_id'],
             'acc_name' => $acc_name,
-            'acc_reference_num' => trim($input['acc_reference_num']),
-            'st_id' => $input['st_id']
+            'acc_reference_num' => $acc_reference_num,
+            'st_id' => $st_id
         ];
 
         $result = $this->accountModel->createAccount($data);
@@ -115,11 +141,20 @@ class AccountController
             }
         }
 
+        $acc_reference_num = trim($input['acc_reference_num']);
+        $acc_id = $input['acc_id'];
+        
+        // Check if reference number already exists (excluding current account)
+        if ($this->accountModel->referenceNumberExists($acc_reference_num, $acc_id)) {
+            Response::error('Reference number already exists', 409);
+            return;
+        }
+
         $data = [
-            'acc_id' => $input['acc_id'],
+            'acc_id' => $acc_id,
             'mode_id' => $input['mode_id'],
             'acc_name' => trim($input['acc_name']),
-            'acc_reference_num' => trim($input['acc_reference_num']),
+            'acc_reference_num' => $acc_reference_num,
             'st_id' => $input['st_id']
         ];
 

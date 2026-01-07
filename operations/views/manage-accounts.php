@@ -164,9 +164,20 @@
                                 </thead>
                                 <tbody id="accountsdata">
                                   <?php
-                                    $apiUrl = App::baseUrl() . '/_ikawa/accounts/get-all';
-                                    $json = @file_get_contents($apiUrl);
-                                    $result = json_decode($json, true);
+                                    // Use location-filtered endpoint
+                                    if (session_status() === PHP_SESSION_NONE) {
+                                        session_start();
+                                    }
+                                    $userLocationId = isset($_SESSION['loc_id']) ? $_SESSION['loc_id'] : '';
+                                    
+                                    if ($userLocationId) {
+                                        $apiUrl = App::baseUrl() . '/_ikawa/accounts/get-allbylocation?st_id=' . $userLocationId;
+                                        $json = @file_get_contents($apiUrl);
+                                        $result = json_decode($json, true);
+                                    } else {
+                                        $result = ['success' => false, 'data' => []];
+                                    }
+                                    
                                     if ($result && $result['success'] && !empty($result['data'])) {
                                         foreach ($result['data'] as $index => $record) {
                                             $statusClass = $record['status'] == 0 ? 'style="background-color: #fff3cd;"' : '';
@@ -229,10 +240,7 @@
     <div class="modal fade" id="createAccountModal" role="dialog">
         <div class="modal-dialog modal-large">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Create New Account</h4>
-                </div>
+              
                 <div class="modal-body">
                 <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -257,7 +265,7 @@
                             </div>
                     </div>
                     <div class="row">
-                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class='chosen-select-act fm-cmp-mg'>
                                 <select class='chosen' data-placeholder='Choose Payment Mode...' name="mode_id" id="mode_id">
                                  <option value="">Select Payment Mode</option>
@@ -283,36 +291,6 @@
                                         <?php endforeach; ?>
                                     <?php else: ?>
                                         <option disabled>No payment modes found</option>
-                                    <?php endif; ?>
-                                </select>
-                              </div>
-                            </div>
-                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Location...' name="st_id" id="st_id">
-                                 <option value="">Select Location</option>
-                                <?php
-                                $locationsUrl = App::baseUrl() . '/_ikawa/settings/location';
-                                $response = @file_get_contents($locationsUrl);
-
-                                $locations = [];
-
-                                if ($response !== false) {
-                                    $decoded = json_decode($response, true);
-
-                                    if ($decoded && isset($decoded['success']) && $decoded['success'] === true) {
-                                        $locations = $decoded['data'] ?? [];
-                                    }
-                                }
-                                ?>
-                                   <?php if (!empty($locations)): ?>
-                                        <?php foreach ($locations as $location): ?>
-                                            <option value="<?= htmlspecialchars($location['loc_id']) ?>">
-                                                <?= htmlspecialchars($location['location_name']) ?><?= !empty($location['description']) ? ' - ' . htmlspecialchars($location['description']) : '' ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <option disabled>No locations found</option>
                                     <?php endif; ?>
                                 </select>
                               </div>

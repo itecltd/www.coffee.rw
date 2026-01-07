@@ -34,6 +34,24 @@ class Account
         }
     }
 
+    public function getAccountsByLocation($st_id)
+    {
+        try {
+            $query = 'SELECT a.*, pm.Mode_names, l.location_name, l.description 
+                      FROM tbl_accounts a 
+                      JOIN tbl_paymentmodes pm ON a.mode_id = pm.Mode_id 
+                      LEFT JOIN tbl_location l ON a.st_id = l.loc_id 
+                      WHERE a.status IN (0, 1) AND a.st_id = :st_id 
+                      ORDER BY a.acc_id DESC';
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(['st_id' => $st_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting accounts by location: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function getAccountById($acc_id)
     {
         try {
@@ -60,6 +78,29 @@ class Account
             return $result ? $result['acc_name'] : null;
         } catch (PDOException $e) {
             return null;
+        }
+    }
+
+    public function referenceNumberExists($acc_reference_num, $exclude_acc_id = null)
+    {
+        try {
+            if ($exclude_acc_id) {
+                $query = 'SELECT acc_id FROM tbl_accounts WHERE acc_reference_num = :acc_reference_num AND acc_id != :exclude_acc_id LIMIT 1';
+                $stmt = $this->conn->prepare($query);
+                $stmt->execute([
+                    'acc_reference_num' => $acc_reference_num,
+                    'exclude_acc_id' => $exclude_acc_id
+                ]);
+            } else {
+                $query = 'SELECT acc_id FROM tbl_accounts WHERE acc_reference_num = :acc_reference_num LIMIT 1';
+                $stmt = $this->conn->prepare($query);
+                $stmt->execute(['acc_reference_num' => $acc_reference_num]);
+            }
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result !== false;
+        } catch (PDOException $e) {
+            error_log("Error checking reference number: " . $e->getMessage());
+            return true; // Return true on error to prevent duplicate inserts
         }
     }
 

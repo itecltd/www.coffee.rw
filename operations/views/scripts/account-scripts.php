@@ -1,4 +1,9 @@
 
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <script>
 // Toast notification function (global)
 function showToast(message, type) {
@@ -17,11 +22,23 @@ function showToast(message, type) {
 
 // Global function to load accounts
 window.loadAccounts = function() {
+    // Get user's location from PHP session
+    var userLocation = '<?= isset($_SESSION["loc_id"]) ? $_SESSION["loc_id"] : "" ?>';
+    
+    console.log('User Location ID:', userLocation);
+    
+    if (!userLocation) {
+        showToast('User location not found', 'error');
+        return;
+    }
+    
     $.ajax({
-        url: '<?= App::baseUrl() ?>/_ikawa/accounts/get-all',
+        url: '<?= App::baseUrl() ?>/_ikawa/accounts/get-allbylocation?st_id=' + userLocation,
         method: 'GET',
         dataType: 'json',
         success: function (response) {
+            console.log('API Response:', response);
+            
             // Get or initialize DataTable
             var accountTable;
             if ($.fn.DataTable.isDataTable('#data-table-basic')) {
@@ -81,7 +98,10 @@ window.loadAccounts = function() {
                 accountTable.clear().draw();
             }
         },
-        error: function () {
+        error: function (xhr, status, error) {
+            console.error('AJAX Error:', error);
+            console.error('Status:', status);
+            console.error('Response:', xhr.responseText);
             showToast('Failed to load accounts', 'error');
         }
     });
@@ -111,11 +131,10 @@ $(document).ready(function () {
         const accountData = {
             acc_name: $('#acc_name').val().trim(),
             acc_reference_num: $('#acc_reference_num').val().trim(),
-            mode_id: $('#mode_id').val(),
-            st_id: $('#st_id').val()
+            mode_id: $('#mode_id').val()
         };
 
-        if (!accountData.acc_name || !accountData.acc_reference_num || !accountData.mode_id || !accountData.st_id) {
+        if (!accountData.acc_name || !accountData.acc_reference_num || !accountData.mode_id) {
             showToast('Please fill all required fields!', 'error');
             setButtonLoading(btn, false);
             return;
@@ -276,6 +295,9 @@ $(document).ready(function () {
         $(this).find('input').val('');
         $(this).find('select').val('').trigger('chosen:updated');
     });
+
+    // Load accounts on page load
+    loadAccounts();
 
 });
 </script>
