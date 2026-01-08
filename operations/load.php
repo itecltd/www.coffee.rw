@@ -18,6 +18,7 @@ $allowed_pages = [
     'manage-expense-consumers' => 'views/manage-expense-consumers.php',
     'manage-expenses' => 'views/manage-expenses.php',
     'manage-expense-consume' => 'views/manage-expense-consume.php',
+    'expense-consumed-statement' => 'views/expense-consumed-statement.php',
     'sellize-management'=>'views/sellize-management.php',
     'coffee-categories'=>'views/coffee-categories.php',
     'coffee-types'=>'views/coffee-types.php',

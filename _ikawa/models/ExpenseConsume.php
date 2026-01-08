@@ -217,4 +217,74 @@ class ExpenseConsume
             return false;
         }
     }
+
+    /**
+     * Get expense statement with filters
+     * Excludes status 11 (canceled) in consume and canceled in journal entries
+     * Retrieves charges from journal entries matching reference_id
+     */
+    public function getExpenseStatement($filters = [])
+    {
+        try {
+            $query = 'SELECT 
+                        ec.con_id,
+                        ec.recorded_date,
+                        ec.pay_date,
+                        ec.amount,
+                        ec.description,
+                        e.expense_name,
+                        l.location_name as st_name,
+                        a.acc_name as payment_mode_name,
+                        cons.cons_name as consumer_name,
+                        cons.phone as consumer_phone,
+                        COALESCE(
+                            (SELECT SUM(je.charges) 
+                             FROM tbl_journal_entries je 
+                             WHERE je.reference_id = ec.con_id 
+                             AND je.action != "canceled"
+                             AND je.charges > 0
+                            ), 0
+                        ) as charges
+                      FROM tbl_expenseconsume ec
+                      LEFT JOIN tbl_expenses e ON ec.expense_id = e.expense_id
+                      LEFT JOIN tbl_location l ON ec.station_id = l.loc_id
+                      LEFT JOIN tbl_accounts a ON ec.pay_mode = a.acc_id
+                      LEFT JOIN tbl_expenseconsumer cons ON ec.payer_name = cons.cons_id
+                      WHERE ec.status != 11';
+
+            $params = [];
+
+            // Filter by consumer
+            if (!empty($filters['consumer_id'])) {
+                $query .= ' AND ec.payer_name = :consumer_id';
+                $params['consumer_id'] = $filters['consumer_id'];
+            }
+
+            // Filter by expense type
+            if (!empty($filters['expense_id'])) {
+                $query .= ' AND ec.expense_id = :expense_id';
+                $params['expense_id'] = $filters['expense_id'];
+            }
+
+            // Filter by date range using pay_date (or recorded_date if pay_date is null)
+            if (!empty($filters['date_from'])) {
+                $query .= ' AND COALESCE(ec.pay_date, ec.recorded_date) >= :date_from';
+                $params['date_from'] = $filters['date_from'];
+            }
+
+            if (!empty($filters['date_to'])) {
+                $query .= ' AND COALESCE(ec.pay_date, ec.recorded_date) <= :date_to';
+                $params['date_to'] = $filters['date_to'];
+            }
+
+            $query .= ' ORDER BY COALESCE(ec.pay_date, ec.recorded_date) DESC';
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching expense statement: " . $e->getMessage());
+            return false;
+        }
+    }
 }

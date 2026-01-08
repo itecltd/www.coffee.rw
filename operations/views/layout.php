@@ -43,6 +43,9 @@ require __DIR__ . '/../../pages/footer.php';
 <!-- expense consume  -->
 <?php require __DIR__ . '/scripts/expense-consume-scripts.php';
 ?>
+<!-- expense statement  -->
+<?php require __DIR__ . '/scripts/expense-statement-scripts.php';
+?>
 <!-- Selize -->
 <?php require __DIR__ . '/scripts/sellize-script.php';
 ?>

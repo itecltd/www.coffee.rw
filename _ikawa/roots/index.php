@@ -286,6 +286,12 @@ switch ( true ) {
     $expenseConsumeController->getAccountsByPaymentMode( $matches[ 1 ] );
     break;
 
+    // Get expense consumed statement
+    case $route === '/expense-consume/statement':
+    $expenseConsumeController = new ExpenseConsumeController();
+    $expenseConsumeController->getExpenseStatement();
+    break;
+
     // Categories
     case $route === '/categories/create':
     $categoryController = new CategoryController();

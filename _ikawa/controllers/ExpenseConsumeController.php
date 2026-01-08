@@ -455,4 +455,54 @@ class ExpenseConsumeController
             Response::error('Failed to retrieve accounts', 500);
         }
     }
+
+    /**
+     * Get expense statement with filters
+     * Excludes status 11 and canceled journal entries
+     */
+    public function getExpenseStatement()
+    {
+        // Clean any output buffer to ensure clean JSON response
+        if (ob_get_level()) {
+            ob_clean();
+        }
+
+        // POST METHOD ONLY
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            Response::error('Invalid request method', 405);
+            return;
+        }
+
+        // READ JSON INPUT
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!is_array($input)) {
+            Response::error('Invalid JSON payload', 400);
+            return;
+        }
+
+        // Prepare filters
+        $filters = [
+            'consumer_id' => $input['consumer_id'] ?? '',
+            'expense_id' => $input['expense_id'] ?? '',
+            'date_from' => $input['date_from'] ?? '',
+            'date_to' => $input['date_to'] ?? '',
+            'display' => $input['display'] ?? 'both'
+        ];
+
+        // Validate date range
+        if (empty($filters['date_from']) || empty($filters['date_to'])) {
+            Response::error('Date range is required', 400);
+            return;
+        }
+
+        // Get statement data
+        $data = $this->expenseConsumeModel->getExpenseStatement($filters);
+
+        if ($data !== false) {
+            Response::success('Statement retrieved successfully!', $data);
+        } else {
+            Response::error('Failed to retrieve statement data', 500);
+        }
+    }
 }

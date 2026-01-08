@@ -12,22 +12,24 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-menu"></i>
+                                        <!-- <i class="notika-icon notika-menu"></i> -->
                                     </div>
-                                    <div class="nk-int-st">
-                                        <select name="edit_categ_id" id="edit_categ_id" class="form-control chosen" data-placeholder="Select Category">
-                                            <option value="">Select Category</option>
-                                            <?php
-                                            $categUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
-                                            $categJson = @file_get_contents($categUrl);
-                                            $categResult = json_decode($categJson, true);
-                                            if ($categResult && $categResult['success'] && !empty($categResult['data'])) {
-                                                foreach ($categResult['data'] as $category) {
-                                                    echo '<option value="' . $category['categ_id'] . '">' . htmlspecialchars($category['categ_name']) . '</option>';
+                                    <div>
+                                        <div class='chosen-select-act fm-cmp-mg'>
+                                            <select name="edit_categ_id" id="edit_categ_id" class="chosen" data-placeholder="Select Category">
+                                                <option value="">Select Category</option>
+                                                <?php
+                                                $categUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
+                                                $categJson = @file_get_contents($categUrl);
+                                                $categResult = json_decode($categJson, true);
+                                                if ($categResult && $categResult['success'] && !empty($categResult['data'])) {
+                                                    foreach ($categResult['data'] as $category) {
+                                                        echo '<option value="' . $category['categ_id'] . '">' . htmlspecialchars($category['categ_name']) . '</option>';
+                                                    }
                                                 }
-                                            }
-                                            ?>
-                                        </select>
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -175,22 +177,24 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group ic-cmp-int">
                                     <div class="form-ic-cmp">
-                                        <i class="notika-icon notika-menu"></i>
+                                        <!-- <i class="notika-icon notika-menu"></i> -->
                                     </div>
-                                    <div class="nk-int-st">
-                                        <select name="categ_id" id="categ_id" class="form-control chosen" data-placeholder="Select Category">
-                                            <option value="">Select Category</option>
-                                            <?php
-                                            $categUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
-                                            $categJson = @file_get_contents($categUrl);
-                                            $categResult = json_decode($categJson, true);
-                                            if ($categResult && $categResult['success'] && !empty($categResult['data'])) {
-                                                foreach ($categResult['data'] as $category) {
-                                                    echo '<option value="' . $category['categ_id'] . '">' . htmlspecialchars($category['categ_name']) . '</option>';
+                                    <div>
+                                        <div class='chosen-select-act fm-cmp-mg'>
+                                            <select name="categ_id" id="categ_id" class="chosen" data-placeholder="Select Category">
+                                                <option value="">Select Category</option>
+                                                <?php
+                                                $categUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
+                                                $categJson = @file_get_contents($categUrl);
+                                                $categResult = json_decode($categJson, true);
+                                                if ($categResult && $categResult['success'] && !empty($categResult['data'])) {
+                                                    foreach ($categResult['data'] as $category) {
+                                                        echo '<option value="' . $category['categ_id'] . '">' . htmlspecialchars($category['categ_name']) . '</option>';
+                                                    }
                                                 }
-                                            }
-                                            ?>
-                                        </select>
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
