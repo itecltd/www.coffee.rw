@@ -7,18 +7,15 @@ use Config\Database;
 use PDO;
 use PDOException;
 
-class User
- {
+class User {
     private $conn;
 
-    public function __construct()
- {
+    public function __construct() {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
 
-    public function getAllUsers()
- {
+    public function getAllUsers() {
         try {
             $query = 'SELECT * FROM tbl_users us JOIN  tbl_roles rl ON us.role_id=rl.role_id where us.status="active" ORDER BY us.user_id ASC';
             $stmt = $this->conn->prepare( $query );
@@ -37,8 +34,7 @@ class User
         return $stmt->fetch( \PDO::FETCH_ASSOC );
     }
 
-    public function hasActiveSession( int $userId ): bool
- {
+    public function hasActiveSession( int $userId ): bool {
         $sql = "SELECT 1 
             FROM user_sessions
             WHERE user_id = :user_id
@@ -52,8 +48,7 @@ class User
         return ( bool ) $stmt->fetchColumn();
     }
 
-    public function createSession( array $data )
- {
+    public function createSession( array $data ) {
         $sql = "INSERT INTO user_sessions
             (user_id, session_key, ip_address, user_agent, started_at, ended_at, is_active)
             VALUES (
@@ -70,8 +65,7 @@ class User
         return $stmt->execute( $data );
     }
 
-    public function logAccess( array $data )
- {
+    public function logAccess( array $data ) {
         $sql = "INSERT INTO access_logs 
             (user_id, action, ip_address, user_agent, created_at)
             VALUES (:user_id, :action, :ip_address, :user_agent, NOW())";
@@ -80,8 +74,7 @@ class User
         return $stmt->execute( $data );
     }
 
-    public function deleteSession( string $sessionKey )
- {
+    public function deleteSession( string $sessionKey ) {
         $sql = 'DELETE FROM user_sessions WHERE session_key = :session_key';
         $stmt = $this->conn->prepare( $sql );
         return $stmt->execute( [ 'session_key' => $sessionKey ] );
@@ -125,8 +118,7 @@ class User
         ] );
     }
 
-    public function exists( string $username, string $email, string $phone ): ?string
- {
+    public function exists( string $username, string $email, string $phone ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -153,8 +145,7 @@ class User
         return $row[ 'field' ] ?? null;
     }
 
-    public function existsUpdate( string $username, string $email, string $phone, string $user_id ): ?string
- {
+    public function existsUpdate( string $username, string $email, string $phone, string $user_id ): ?string {
         $sql = "
             SELECT 
                 CASE
@@ -182,8 +173,7 @@ class User
         return $row[ 'field' ] ?? null;
     }
 
-    public function create( array $data ): bool
- {
+    public function create( array $data ): bool {
         try {
             $sql = "
                 INSERT INTO tbl_users (

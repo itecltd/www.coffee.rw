@@ -23,7 +23,10 @@ $allowed_pages = [
     'coffee-types'=>'views/coffee-types.php',
     'coffee-types-assign-unity'=>'views/coffee-types-assign-unity.php',
     'unity'=>'views/unity.php',
-    'company-clients'=>'views/company-clients-data.php'
+    'company-clients'=>'views/company-clients-data.php',
+    'accounts-transfer'=>'views/FinancialManagement/accounts-transfer-data.php',
+    'request-Advance'=> 'views/AdvanceManagment/request-Advance-data.php',
+    'pending-request-Advance'=>'views/AdvanceManagment/pending-request-Advance-data.php'
 ];
 
 if ( isset( $allowed_pages[ $page ] ) ) {

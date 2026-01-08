@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../config/Response.php';
 require_once __DIR__ . '/../controllers/UsersController.php';
@@ -14,6 +15,9 @@ require_once __DIR__ . '/../controllers/CategoryController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeController.php';
 require_once __DIR__ . '/../controllers/UnityController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeUnityController.php';
+require_once __DIR__ . '/../controllers/FinancialController.php';
+require_once __DIR__ . '/../controllers/InadvanceController.php';
+
 use Controllers\SellizeController;
 use Controllers\CategoryController;
 use Controllers\CategoryTypeController;
@@ -28,6 +32,9 @@ use Controllers\UsersController;
 use Controllers\SettingController;
 use Config\Response;
 use Controllers\InventoryController;
+use Controllers\FinancialController;
+use Controllers\InadvanceController;
+
 // Get request URI
 $requestUri = parse_url( $_SERVER[ 'REQUEST_URI' ], PHP_URL_PATH );
 
@@ -394,6 +401,42 @@ switch ( true ) {
     case preg_match( '#^/inventory/deleteclient/(\d+)$#', $route, $matches ):
     $inventorycontroller = new InventoryController();
     $inventorycontroller->deleteClient( $matches[ 1 ] );
+    break;
+    // Accounts Transfers
+    case $route === '/financial/createtransfer':
+    $financialcontroller = new FinancialController();
+    $financialcontroller->CreateTransfers();
+    break;
+
+    // Get Suppliersfor type
+    case $route === '/inadvance/get-suppliers':
+    $inadvancecontroller = new InadvanceController();
+    $inadvancecontroller->getSupplier();
+    break;
+    // Request Inadvance
+
+    case $route === '/inadvance/create':
+    $inadvancecontroller = new InadvanceController();
+    $inadvancecontroller->createInAdvance();
+    break;
+
+    case $route === '/inadvance/advancelist':
+    $inadvancecontroller = new InadvanceController();
+    $inadvancecontroller->getAllAdvances();
+    break;
+
+    case $route === '/inadvance/advancelistpending':
+    $inadvancecontroller = new InadvanceController();
+    $inadvancecontroller->getAllAdvancesPending();
+    break;
+    case $route === '/inadvance/rejectadvance':
+    $inadvancecontroller = new InadvanceController();
+    $inadvancecontroller->rejectAdvancePending();
+    break;
+
+    case preg_match( '#^/inadvance/approveadvancerequest/(\d+)$#', $route, $matches ):
+    $inadvancecontroller = new InadvanceController();
+    $inadvancecontroller->approveinadvancerequest( $matches[ 1 ] );
     break;
 
     default:

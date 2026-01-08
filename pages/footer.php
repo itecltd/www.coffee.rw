@@ -124,6 +124,11 @@
 <script src="../js/cropper/cropper.min.js"></script>
 <script src="../js/cropper/cropper-actice.js"></script>
 
+   <!--  summernote JS
+		============================================ -->
+<script src="../js/summernote/summernote-updated.min.js"></script>
+<script src="../js/summernote/summernote-active.js"></script>
+
 <script>
 // Session expiry countdown
 function startSessionCountdown(remainingSeconds) {

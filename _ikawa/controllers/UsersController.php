@@ -8,17 +8,14 @@ require_once __DIR__ . '/../config/Response.php';
 use Models\User;
 use Config\Response;
 
-class UsersController
- {
+class UsersController {
     private $userModel;
 
-    public function __construct()
- {
+    public function __construct() {
         $this->userModel = new User();
     }
 
-    public function login()
- {
+    public function login() {
         $data = json_decode( file_get_contents( 'php://input' ), true );
 
         $username = $data[ 'username' ] ?? '';
@@ -43,7 +40,7 @@ class UsersController
 
         // Session + logging starts here
 
-        session_start();
+        // session_start();
 
         $sessionKey = bin2hex( random_bytes( 32 ) );
         $ipAddress  = $_SERVER[ 'REMOTE_ADDR' ] ?? 'UNKNOWN';
@@ -82,8 +79,7 @@ class UsersController
         ] );
     }
 
-    public function getUsers()
- {
+    public function getUsers() {
         $users = $this->userModel->getAllUsers();
 
         if ( $users !== false ) {
@@ -93,9 +89,8 @@ class UsersController
         }
     }
 
-    public function logout()
- {
-        session_start();
+    public function logout() {
+        // session_start();
 
         if ( !isset( $_SESSION[ 'session_key' ] ) ) {
             Response::error( 'No active session', 400 );
@@ -125,7 +120,7 @@ class UsersController
     }
 
     public function extendSession() {
-        session_start();
+        // session_start();
 
         if ( !isset( $_SESSION[ 'user_id' ] ) || !isset( $_SESSION[ 'session_key' ] ) ) {
             echo json_encode( [ 'success' => false, 'message' => 'Not logged in' ] );
@@ -142,8 +137,7 @@ class UsersController
         }
     }
 
-    public function createUser()
- {
+    public function createUser() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'POST' ) {
             Response::error( 'Invalid request method', 405 );
@@ -211,8 +205,7 @@ class UsersController
         }
     }
 
-    public function updateUser()
- {
+    public function updateUser() {
         // POST METHOD ONLY
         if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'PUT' ) {
             Response::error( 'Invalid request method', 405 );

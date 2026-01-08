@@ -62,3 +62,7 @@ require __DIR__ . '/../../pages/footer.php';
 
 <?php require __DIR__ . '/scripts/company-clients-scripts.php';
 ?>
+<?php require __DIR__ . '/FinancialManagement/accounts-transfer-scripts.php';
+?>
+<?php require __DIR__ . '/AdvanceManagment/request-Advance-scripts.php';
+?>

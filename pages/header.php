@@ -89,4 +89,8 @@
 <!-- modernizr JS
 		============================================ -->
 <script src="../js/vendor/modernizr-2.8.3.min.js"></script>
+
+ <!-- summernote CSS
+		============================================ -->
+    <link rel="stylesheet" href="../css/summernote/summernote.css">
 </head>

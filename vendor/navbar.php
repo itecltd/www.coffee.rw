@@ -29,6 +29,16 @@
                             <i class="notika-icon notika-edit"></i>Expense Management
                         </a>
                     </li>
+                    <li>
+                        <a data-toggle="tab" href="#Finance">
+                            <i class="notika-icon notika-dollar"></i> Financial Management
+                        </a>
+                    </li>
+                   <li class="menu-item">
+                    <a data-toggle="tab" href="#Advances">
+                        <i class="notika-icon notika-form"></i> Advances Management
+                    </a>
+                </li>
                 </ul>
 
                 <div class="tab-content custom-menu-content">
@@ -52,10 +62,7 @@
                             <li><a href="javascript:void(0)" onclick="loadContent('profile')">Company Profile</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('stations')">Stations</a></li>
                              <li><a href="javascript:void(0)" onclick="loadContent('suppliers')">Suppliers</a></li>
-                             <li><a href="javascript:void(0)" onclick="loadContent('company-clients')">Clients</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Account Settings</a></li>
-                            
-                     
+                             <li><a href="javascript:void(0)" onclick="loadContent('company-clients')">Clients</a></li>                      
                         </ul>
                     </div>
                     <!-- Expenses -->
@@ -76,6 +83,21 @@
                           <li><a href="javascript:void(0)" onclick="loadContent('coffee-categories')">Product Categories</a></li>
                           <li><a href="javascript:void(0)" onclick="loadContent('coffee-types')">Product Types</a></li>
                           <li><a href="javascript:void(0)" onclick="loadContent('coffee-types-assign-unity')">Assign Product</a></li>
+                        </ul>
+                    </div>
+                     <!-- Financial Management -->
+                    <div id="Finance" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                        <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Accounts</a></li>
+                        <li><a href="javascript:void(0)" onclick="loadContent('accounts-transfer')">Accounts Transfer</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="Advances" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                        <li><a href="javascript:void(0)" onclick="loadContent('request-Advance')">Request Advance</a></li>
+                        <li><a href="javascript:void(0)" onclick="loadContent('pending-request-Advance')">Pending Requests Advance</a></li>
+                        <li><a href="javascript:void(0)" onclick="loadContent('disburse-approved-Advance')">Advance Disbursement</a></li>
                         </ul>
                     </div>
                 </div>
