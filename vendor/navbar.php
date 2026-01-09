@@ -65,7 +65,7 @@
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-expense-consumers')">Expense Consumers</a></li>
              
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-expense-consume')">Expense Consumption</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('expense-consumed-statement')">Expense Consumed Statement</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('expense-consumed-statement')">Expense Statement</a></li>
                      
                         </ul>
                     </div>
