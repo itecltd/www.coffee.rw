@@ -31,10 +31,21 @@ class User
     }
 
     public function getByUsername( $username ) {
-        $stmt = $this->conn->prepare( 'SELECT u.*, r.* FROM tbl_users u INNER JOIN tbl_roles r on r.role_id = u.role_id
-            WHERE u.username = :username and u.status="active" ' );
-        $stmt->execute( [ 'username' => $username ] );
-        return $stmt->fetch( \PDO::FETCH_ASSOC );
+        try {
+            $sql = "
+                SELECT u.*, r.role_name, l.location_name
+                FROM tbl_users u
+                LEFT JOIN tbl_roles r ON u.role_id = r.role_id
+                LEFT JOIN tbl_location l ON u.loc_id = l.loc_id
+                WHERE u.username = :username
+            ";
+            $stmt = $this->conn->prepare( $sql );
+            $stmt->execute( [ 'username' => $username ] );
+            return $stmt->fetch( \PDO::FETCH_ASSOC );
+        } catch (PDOException $e) {
+            error_log("Error fetching user: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function hasActiveSession( int $userId ): bool

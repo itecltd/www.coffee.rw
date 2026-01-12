@@ -61,3 +61,6 @@ require __DIR__ . '/../../pages/footer.php';
 <!-- Station Stock Management -->
 <?php require __DIR__ . '/scripts/station-stock-script.php';
 ?>
+<!-- Transfer to Production -->
+<?php require __DIR__ . '/scripts/transfer-to-production-script.php';
+?>

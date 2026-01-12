@@ -87,8 +87,7 @@
                     <div id="StockManagement" class="tab-pane notika-tab-menu-bg animated flipInX">
                         <ul class="notika-main-menu-dropdown">
                             <li><a href="javascript:void(0)" onclick="loadContent('station-manage-stock')">Manage Stock</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('stock-in')">Stock In</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('stock-out')">Stock Out</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('transfer-to-production')">Transifer To Production</a></li>
                         </ul>
                     </div>
                 </div>

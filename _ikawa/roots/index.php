@@ -15,6 +15,8 @@ require_once __DIR__ . '/../controllers/CategoryTypeController.php';
 require_once __DIR__ . '/../controllers/UnityController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeUnityController.php';
 require_once __DIR__ . '/../controllers/StockController.php';
+require_once __DIR__ . '/../controllers/TruckController.php';
+require_once __DIR__ . '/../controllers/ProductionTransferController.php';
 
 use Controllers\SellizeController;
 use Controllers\CategoryController;
@@ -22,6 +24,8 @@ use Controllers\CategoryTypeController;
 use Controllers\UnityController;
 use Controllers\CategoryTypeUnityController;
 use Controllers\StockController;
+use Controllers\TruckController;
+use Controllers\ProductionTransferController;
 use Controllers\ExpenseController;
 use Controllers\ExpenseConsumeController;
 use Controllers\ExpenseConsumerController;
@@ -415,6 +419,43 @@ switch ( true ) {
     case $route === '/stock/get-summary-stock':
     $stockController = new StockController();
     $stockController->getSummaryStock();
+    break;
+
+    // Trucks
+    case $route === '/trucks/get-all':
+    $truckController = new TruckController();
+    $truckController->getAllTrucks();
+    break;
+
+    case $route === '/trucks/create':
+    $truckController = new TruckController();
+    $truckController->create();
+    break;
+
+    case $route === '/trucks/update':
+    $truckController = new TruckController();
+    $truckController->update();
+    break;
+
+    // Production Transfers
+    case $route === '/transfers/get-available-stock':
+    $transferController = new ProductionTransferController();
+    $transferController->getAvailableStock();
+    break;
+
+    case $route === '/transfers/create-multiple':
+    $transferController = new ProductionTransferController();
+    $transferController->createMultiple();
+    break;
+
+    case $route === '/transfers/get-all':
+    $transferController = new ProductionTransferController();
+    $transferController->getTransfers();
+    break;
+
+    case preg_match('#^/transfers/get-details/(\d+)$#', $route, $matches):
+    $transferController = new ProductionTransferController();
+    $transferController->getTransferDetails($matches[1]);
     break;
 
     default:
