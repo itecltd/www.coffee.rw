@@ -14,11 +14,14 @@ require_once __DIR__ . '/../controllers/CategoryController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeController.php';
 require_once __DIR__ . '/../controllers/UnityController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeUnityController.php';
+require_once __DIR__ . '/../controllers/StockController.php';
+
 use Controllers\SellizeController;
 use Controllers\CategoryController;
 use Controllers\CategoryTypeController;
 use Controllers\UnityController;
 use Controllers\CategoryTypeUnityController;
+use Controllers\StockController;
 use Controllers\ExpenseController;
 use Controllers\ExpenseConsumeController;
 use Controllers\ExpenseConsumerController;
@@ -372,6 +375,46 @@ switch ( true ) {
     case $route === '/category-type-units/delete':
     $categoryTypeUnityController = new CategoryTypeUnityController();
     $categoryTypeUnityController->delete();
+    break;
+    case preg_match('#^/category-type-units/get-units-by-type/(\d+)$#', $route, $matches):
+    $categoryTypeUnityController = new CategoryTypeUnityController();
+    $categoryTypeUnityController->getUnitsByType($matches[1]);
+    break;
+
+    case $route === '/category-type-units/get-types-with-units':
+    $categoryTypeUnityController = new CategoryTypeUnityController();
+    $categoryTypeUnityController->getTypesWithUnits();
+    break;
+
+    case preg_match('#^/category-type-units/get-types-by-category/(\d+)$#', $route, $matches):
+    $categoryTypeUnityController = new CategoryTypeUnityController();
+    $categoryTypeUnityController->getTypesByCategory($matches[1]);
+    break;
+
+    case preg_match('#^/category-type-units/get-type-unity-by-category/(\d+)$#', $route, $matches):
+    $categoryTypeUnityController = new CategoryTypeUnityController();
+    $categoryTypeUnityController->getTypeUnityByCategory($matches[1]);
+    break;
+
+    // Stock Management
+    case $route === '/stock/create':
+    $stockController = new StockController();
+    $stockController->create();
+    break;
+
+    case $route === '/stock/create-multiple':
+    $stockController = new StockController();
+    $stockController->createMultiple();
+    break;
+
+    case $route === '/stock/get-detailed-stock':
+    $stockController = new StockController();
+    $stockController->getDetailedStock();
+    break;
+
+    case $route === '/stock/get-summary-stock':
+    $stockController = new StockController();
+    $stockController->getSummaryStock();
     break;
 
     default:

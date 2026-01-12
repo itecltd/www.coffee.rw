@@ -99,11 +99,6 @@
                                             data-unit_name="<?= htmlspecialchars($unity['unit_name']) ?>">
                                             <i class="notika-icon notika-edit"></i>
                                         </button>
-
-                                            <button class="btn btn-default btn-icon-notika deleteunity"  title="Delete Unity"
-                                              data-id="<?= $unity['unit_id'] ?>"
-                                              data-unit_name="<?= htmlspecialchars($unity['unit_name']) ?>" ><i class="notika-icon text-danger notika-trash"></i></button>
-
                                         </div>
                                         </td>
                                        </tr>

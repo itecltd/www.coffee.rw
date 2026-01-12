@@ -58,3 +58,6 @@ require __DIR__ . '/../../pages/footer.php';
 <!-- Category type unit -->
 <?php require __DIR__ . '/scripts/category-type-unity-script.php';
 ?>
+<!-- Station Stock Management -->
+<?php require __DIR__ . '/scripts/station-stock-script.php';
+?>

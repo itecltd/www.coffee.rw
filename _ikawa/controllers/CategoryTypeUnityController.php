@@ -148,4 +148,63 @@ class CategoryTypeUnityController
             Response::error('Failed to delete assignment', 500);
         }
     }
+
+    public function getUnitsByType($type_id)
+    {
+        if (empty($type_id)) {
+            Response::error('Type ID is required', 400);
+            return;
+        }
+
+        $units = $this->categoryTypeUnityModel->getUnitsByType($type_id);
+
+        if ($units !== false) {
+            Response::success('Units retrieved successfully', $units);
+        } else {
+            Response::error('Failed to retrieve units', 500);
+        }
+    }
+
+    public function getTypesWithUnits()
+    {
+        $types = $this->categoryTypeUnityModel->getTypesWithUnits();
+
+        if ($types !== false) {
+            Response::success('Category types retrieved successfully', $types);
+        } else {
+            Response::error('Failed to retrieve category types', 500);
+        }
+    }
+
+    public function getTypesByCategory($category_id)
+    {
+        if (empty($category_id)) {
+            Response::error('Category ID is required', 400);
+            return;
+        }
+
+        $types = $this->categoryTypeUnityModel->getTypesByCategory($category_id);
+
+        if ($types !== false) {
+            Response::success('Category types retrieved successfully', $types);
+        } else {
+            Response::error('Failed to retrieve category types', 500);
+        }
+    }
+
+    public function getTypeUnityByCategory($category_id)
+    {
+        if (empty($category_id)) {
+            Response::error('Category ID is required', 400);
+            return;
+        }
+
+        $data = $this->categoryTypeUnityModel->getTypeUnityByCategory($category_id);
+
+        if ($data !== false) {
+            Response::success('Type-Unity combinations retrieved successfully', $data);
+        } else {
+            Response::error('Failed to retrieve data', 500);
+        }
+    }
 }

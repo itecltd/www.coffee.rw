@@ -29,6 +29,11 @@
                             <i class="notika-icon notika-edit"></i>Expense Management
                         </a>
                     </li>
+                    <li>
+                        <a data-toggle="tab" href="#StockManagement">
+                            <i class="notika-icon notika-edit"></i>Stock Management
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="tab-content custom-menu-content">
@@ -75,6 +80,15 @@
                           <li><a href="javascript:void(0)" onclick="loadContent('coffee-categories')">Product Categories</a></li>
                           <li><a href="javascript:void(0)" onclick="loadContent('coffee-types')">Product Types</a></li>
                           <li><a href="javascript:void(0)" onclick="loadContent('coffee-types-assign-unity')">Assign Product</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Stock Management -->
+                    <div id="StockManagement" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                            <li><a href="javascript:void(0)" onclick="loadContent('station-manage-stock')">Manage Stock</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('stock-in')">Stock In</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('stock-out')">Stock Out</a></li>
                         </ul>
                     </div>
                 </div>

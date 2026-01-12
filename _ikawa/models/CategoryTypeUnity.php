@@ -139,4 +139,89 @@ class CategoryTypeUnity
             return false;
         }
     }
+
+    public function getUnitsByType(string $type_id)
+    {
+        try {
+            $sql = "
+                SELECT u.unit_id, u.unit_name 
+                FROM tbl_units u
+                INNER JOIN tbl_category_type_units ctu ON u.unit_id = ctu.unit_id
+                WHERE ctu.type_id = :type_id AND ctu.status = 'active'
+                ORDER BY u.unit_name
+            ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':type_id' => $type_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching units by type: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getTypesWithUnits()
+    {
+        try {
+            $sql = "
+                SELECT DISTINCT ct.type_id, ct.type_name, c.category_name
+                FROM tbl_category_types ct
+                INNER JOIN tbl_category_type_units ctu ON ct.type_id = ctu.type_id
+                LEFT JOIN tbl_categories c ON ct.category_id = c.category_id
+                WHERE ctu.status = 'active'
+                ORDER BY c.category_name, ct.type_name
+            ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching types with units: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getTypesByCategory(string $category_id)
+    {
+        try {
+            $sql = "
+                SELECT DISTINCT ct.type_id, ct.type_name
+                FROM tbl_category_types ct
+                INNER JOIN tbl_category_type_units ctu ON ct.type_id = ctu.type_id
+                WHERE ct.category_id = :category_id 
+                AND ctu.status = 'active'
+                ORDER BY ct.type_name
+            ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':category_id' => $category_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching types by category: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getTypeUnityByCategory(string $category_id)
+    {
+        try {
+            $sql = "
+                SELECT 
+                    ct.type_id, 
+                    ct.type_name,
+                    u.unit_id,
+                    u.unit_name,
+                    CONCAT(ct.type_name, ' / ', u.unit_name) as type_unit_name
+                FROM tbl_category_types ct
+                INNER JOIN tbl_category_type_units ctu ON ct.type_id = ctu.type_id
+                INNER JOIN tbl_units u ON ctu.unit_id = u.unit_id
+                WHERE ct.category_id = :category_id 
+                AND ctu.status = 'active'
+                ORDER BY ct.type_name, u.unit_name
+            ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':category_id' => $category_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching type-unity by category: " . $e->getMessage());
+            return false;
+        }
+    }
 }

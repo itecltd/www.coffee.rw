@@ -36,12 +36,6 @@ $(document).ready(function () {
                                 data-unit_name="${record.unit_name}">
                                 <i class="notika-icon notika-edit"></i>
                             </button>
-                            <button class="btn btn-default btn-icon-notika deleteunity"
-                                title="Delete Unity"
-                                data-id="${record.unit_id}"
-                                data-unit_name="${record.unit_name}">
-                                <i class="notika-icon text-danger notika-trash"></i>
-                            </button>
                         </div>
                     </td>
                 </tr>`;
@@ -150,40 +144,6 @@ $(document).ready(function () {
             },
             complete: function() {
                 setButtonLoading(btn, false);
-            }
-        });
-    });
-
-    // Handle Delete Unity
-    $(document).on('click', '.deleteunity', function() {
-        const btn = $(this);
-        const unitId = btn.data('id');
-        const unitName = btn.data('unit_name');
-        
-        if (!confirm(`Are you sure you want to delete "${unitName}"?`)) {
-            return;
-        }
-
-        $.ajax({
-            url: '<?= App::baseUrl() ?>/_ikawa/unity/delete',
-            method: 'DELETE',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify({ unit_id: unitId }),
-            success: function (response) {
-                if (response.success) {
-                    showToast(response.message, 'success');
-                    loadData();
-                } else {
-                    showToast(response.message, 'error');
-                }
-            },
-            error: function (xhr) {
-                let msg = 'Something went wrong';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
-                }
-                showToast(msg, 'error');
             }
         });
     });
