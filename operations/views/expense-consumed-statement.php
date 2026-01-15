@@ -88,6 +88,32 @@
                                 </div>
                             </div>
 
+                            <!-- Receipt Type Filter -->
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                <div class='chosen-select-act fm-cmp-mg'>
+                                    <select class='chosen' data-placeholder='Select Receipt Type...' name="filter_receipt_type" id="filter_receipt_type">
+                                        <option value="">All Receipt Types</option>
+                                        <?php
+                                        $receiptTypesUrl = App::baseUrl() . '/_ikawa/receipt-types/get-all';
+                                        $rtResponse = @file_get_contents($receiptTypesUrl);
+                                        $receiptTypes = [];
+                                        if ($rtResponse !== false) {
+                                            $rtDecoded = json_decode($rtResponse, true);
+                                            if ($rtDecoded && isset($rtDecoded['success']) && $rtDecoded['success'] === true) {
+                                                $receiptTypes = $rtDecoded['data'] ?? [];
+                                            }
+                                        }
+                                        if (!empty($receiptTypes)) {
+                                            foreach ($receiptTypes as $receiptType) {
+                                                echo '<option value="' . htmlspecialchars($receiptType['rec_id']) . '">' 
+                                                    . htmlspecialchars($receiptType['rec_name']) . '</option>';
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Date From -->
                             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">

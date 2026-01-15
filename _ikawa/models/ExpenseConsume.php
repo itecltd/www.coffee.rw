@@ -98,9 +98,9 @@ class ExpenseConsume
     {
         try {
             $query = 'INSERT INTO tbl_expenseconsume 
-                      (expense_id, co_id, station_id, amount, pay_mode, trans_id, payer_name, description, recorded_date, status) 
+                      (expense_id, co_id, station_id, amount, pay_mode, trans_id, payer_name, description, recorded_date, receipt_type, status) 
                       VALUES 
-                      (:expense_id, :co_id, :station_id, :amount, :pay_mode, :trans_id, :payer_name, :description, :recorded_date, 1)';
+                      (:expense_id, :co_id, :station_id, :amount, :pay_mode, :trans_id, :payer_name, :description, :recorded_date, :receipt_type, 1)';
             
             $stmt = $this->conn->prepare($query);
             $success = $stmt->execute([
@@ -112,7 +112,8 @@ class ExpenseConsume
                 'trans_id' => $data['trans_id'] ?? null,
                 'payer_name' => $data['payer_name'] ?? null,
                 'description' => $data['description'] ?? null,
-                'recorded_date' => $data['recorded_date']
+                'recorded_date' => $data['recorded_date'],
+                'receipt_type' => $data['receipt_type'] ?? null
             ]);
 
             // Return the last inserted con_id instead of just success
@@ -136,7 +137,8 @@ class ExpenseConsume
                           pay_mode = :pay_mode,
                           payer_name = :payer_name,
                           description = :description,
-                          recorded_date = :recorded_date
+                          recorded_date = :recorded_date,
+                          receipt_type = :receipt_type
                       WHERE con_id = :con_id';
             
             $stmt = $this->conn->prepare($query);
@@ -148,6 +150,7 @@ class ExpenseConsume
                 'payer_name' => $data['payer_name'] ?? null,
                 'description' => $data['description'] ?? null,
                 'recorded_date' => $data['recorded_date'],
+                'receipt_type' => $data['receipt_type'] ?? null,
                 'con_id' => $data['con_id']
             ]);
 
@@ -266,14 +269,20 @@ class ExpenseConsume
                 $params['expense_id'] = $filters['expense_id'];
             }
 
+            // Filter by receipt type
+            if (!empty($filters['receipt_type'])) {
+                $query .= ' AND ec.receipt_type = :receipt_type';
+                $params['receipt_type'] = $filters['receipt_type'];
+            }
+
             // Filter by date range using pay_date (or recorded_date if pay_date is null)
             if (!empty($filters['date_from'])) {
-                $query .= ' AND COALESCE(ec.pay_date, ec.recorded_date) >= :date_from';
+                $query .= ' AND DATE(COALESCE(ec.pay_date, ec.recorded_date)) >= :date_from';
                 $params['date_from'] = $filters['date_from'];
             }
 
             if (!empty($filters['date_to'])) {
-                $query .= ' AND COALESCE(ec.pay_date, ec.recorded_date) <= :date_to';
+                $query .= ' AND DATE(COALESCE(ec.pay_date, ec.recorded_date)) <= :date_to';
                 $params['date_to'] = $filters['date_to'];
             }
 

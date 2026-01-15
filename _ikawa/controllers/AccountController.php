@@ -174,14 +174,6 @@ class AccountController
             return;
         }
 
-        // Check account balance before deletion
-        $balance = $this->accountModel->getBalance($acc_id);
-        
-        if ($balance > 0) {
-            Response::error('Cannot delete account with balance greater than 0. Current balance: ' . number_format($balance) . ' RWF', 400);
-            return;
-        }
-
         $result = $this->accountModel->deleteAccount($acc_id);
 
         if ($result) {

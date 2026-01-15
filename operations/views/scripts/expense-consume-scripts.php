@@ -1,5 +1,14 @@
 
 <script>
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    $currentRoleId = $_SESSION['role_id'] ?? 0;
+    $currentLocId = $_SESSION['loc_id'] ?? 0;
+?>
+var currentRoleId = <?= (int)$currentRoleId ?>;
+var currentUserLocation = <?= (int)$currentLocId ?>;
 // Toast notification function (global)
 function showToastExpenseConsume(message, type) {
     var toast = $('<div class="toast ' + type + '">' + message + '</div>');
@@ -48,14 +57,26 @@ window.loadExpenseConsumes = function() {
                         record.payment_mode_name || 'N/A',
                         record.consumer_name || '-',
                         record.recorded_date,
-                        `<div class="button-icon-btn button-icon-btn-rd">
-                            <button class="btn btn-danger btn-icon-notika deleteExpenseConsumeBtn"
-                                title="Delete"
-                                data-id="${record.con_id}"
-                                data-expense-name="${record.expense_name}">
-                                <i class="notika-icon notika-close"></i>
-                            </button>
-                        </div>`
+                        (function(){
+                            var html = '';
+                            if (currentRoleId === 1) {
+                                html = `<div class="button-icon-btn button-icon-btn-rd">
+                                            <button class="btn btn-primary btn-icon-notika editExpenseConsumeBtn"
+                                                title="Edit"
+                                                data-id="${record.con_id}"
+                                                data-expense-name="${record.expense_name}">
+                                                <i class="notika-icon notika-edit"></i>
+                                            </button>
+                                        </div>`;
+                            } else {
+                                html = `<div class="button-icon-btn button-icon-btn-rd">
+                                            <button class="btn btn-primary btn-icon-notika" disabled title="Edit disabled">
+                                                <i class="notika-icon notika-edit"></i>
+                                            </button>
+                                        </div>`;
+                            }
+                            return html;
+                        })()
                     ]);
                 });
 
@@ -158,24 +179,27 @@ $(document).ready(function () {
             $chevron.css('transform', 'rotate(180deg)');
             $wrapper.css('border-color', '#00c292');
             
-            // Load accounts if not already loaded
+            // Load accounts by user location if not already loaded
             var $select = $wrapper.find('.payment-account-select');
             if ($select.find('option').length <= 1) {
                 $select.html('<option value="">Loading...</option>');
                 
                 $.ajax({
-                    url: '<?= App::baseUrl() ?>/_ikawa/accounts/by-mode/' + modeId,
+                    url: '<?= App::baseUrl() ?>/_ikawa/accounts/get-allbylocation?st_id=' + currentUserLocation,
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         if (response.success && response.data && response.data.length > 0) {
                             var options = '<option value="">Select...</option>';
+                            // Filter accounts by current payment mode
                             response.data.forEach(function(account) {
-                                options += `<option value="${account.acc_id}" 
-                                                   data-account-name="${account.acc_name}"
-                                                   data-balance="${account.balance}">
-                                                ${account.acc_name} (${account.acc_reference_num}) - Bal: ${new Intl.NumberFormat('en-RW').format(account.balance)} RWF
-                                            </option>`;
+                                if (account.mode_id == modeId) {
+                                    options += `<option value="${account.acc_id}" 
+                                                       data-account-name="${account.acc_name}"
+                                                       data-balance="${account.balance}">
+                                                    ${account.acc_name} (${account.acc_reference_num}) - Bal: ${new Intl.NumberFormat('en-RW').format(account.balance)} RWF
+                                                </option>`;
+                                }
                             });
                             $select.html(options);
                         } else {
@@ -377,13 +401,15 @@ $(document).ready(function () {
         
         const expenseConsumeData = {
             expense_id: parseInt(expenseId),
-            payer_name: $('#payer_name').val().trim(),
+            payer_name: $('#payer_name').val() ? $('#payer_name').val().trim() : null,
             description: $('#description').val().trim(),
             recorded_date: recordedDate,
+            receipt_type: $('#receipt_type').val() && $('#receipt_type').val() !== '' ? parseInt($('#receipt_type').val()) : null,
             payment_entries: cleanPaymentEntries
         };
 
         console.log('Submitting data:', expenseConsumeData);
+        console.log('Receipt type selected:', $('#receipt_type').val());
         console.log('Payment entries JSON:', JSON.stringify(cleanPaymentEntries));
 
         $.ajax({
@@ -508,60 +534,237 @@ $(document).ready(function () {
 
     // Edit functionality removed: edit buttons and modal are deprecated for expense consume records
 
-    // Handle Delete Expense Consume button
-    $(document).on('click', '.deleteExpenseConsumeBtn', function (e) {
+    // Delete functionality removed from UI and scripts.
+
+    // Handle Edit Expense Consume button
+    $(document).on('click', '.editExpenseConsumeBtn', function (e) {
         e.preventDefault();
-        const btn = $(this);
-        const conId = btn.data('id');
-        const expenseName = btn.data('expense-name') || 'this record';
+        var btn = $(this);
+        var conId = btn.data('id');
 
         if (!conId) {
             showToastExpenseConsume('Invalid expense ID', 'error');
             return;
         }
 
-        swal({   
-            title: "Are you sure?",   
-            text: "This will cancel the expense and refund the amount back to the account.",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonText: "Yes, cancel it!",
-            cancelButtonText: "No, keep it"
-        }).then(function(isConfirm){
-            if (isConfirm) {
+        // Fetch all consumes and find the record (no direct get-by-id route)
+        $.ajax({
+            url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/get-all',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (!response.success || !response.data) {
+                    showToastExpenseConsume('Could not load record for editing', 'error');
+                    return;
+                }
+
+                var record = null;
+                response.data.forEach(function (r) {
+                    if (r.con_id == conId) record = r;
+                });
+
+                if (!record) {
+                    showToastExpenseConsume('Record not found', 'error');
+                    return;
+                }
+
+                // Populate modal fields
+                $('#edit_con_id').val(record.con_id);
+                $('#edit_expense_id').val(record.expense_id || '');
+                $('#edit_amount').val(parseFloat(record.amount).toFixed(2));
+                $('#edit_charges').val(record.charges ? parseFloat(record.charges).toFixed(2) : '0.00');
+                $('#edit_recorded_date').val(record.recorded_date);
+                $('#edit_description').val(record.description || '');
+                $('#edit_receipt_type').val(record.receipt_type || '');
+                
+                // Set consumer value - use the cons_id not the consumer name
+                if (record.payer_name) {
+                    $('#edit_payer_name').val(record.payer_name);
+                } else {
+                    $('#edit_payer_name').val('');
+                }
+                
+                console.log('Setting payer_name to:', record.payer_name);
+
+                // Load expense types for the category, then set the expense_id
+                if (record.expense_id) {
+                    // First, get the expense to determine its category
+                    $.ajax({
+                        url: '<?= App::baseUrl() ?>/_ikawa/expenses/get-all',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (expResp) {
+                            if (expResp.success && expResp.data) {
+                                var currentExpense = null;
+                                expResp.data.forEach(function (exp) {
+                                    if (exp.expense_id == record.expense_id) {
+                                        currentExpense = exp;
+                                    }
+                                });
+
+                                if (currentExpense && currentExpense.categ_id) {
+                                    // Set category
+                                    $('#edit_expense_category').val(currentExpense.categ_id);
+                                    
+                                    // Load expense types for this category
+                                    loadExpenseTypesForEdit(currentExpense.categ_id, record.expense_id);
+                                } else {
+                                    $('#edit_expense_id').val(record.expense_id);
+                                }
+                            }
+                        },
+                        error: function () {
+                            console.log('Could not load expense details');
+                        }
+                    });
+                }
+
+                // Load accounts for the logged-in user's location
                 $.ajax({
-                    url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/delete',
-                    method: 'POST',
-                    contentType: 'application/json',
+                    url: '<?= App::baseUrl() ?>/_ikawa/accounts/get-allbylocation?st_id=' + currentUserLocation,
+                    method: 'GET',
                     dataType: 'json',
-                    data: JSON.stringify({ con_id: conId }),
-                    success: function (response) {
-                        if (response.success) {
-                            swal("Cancelled!", response.message, "success");
-                            loadExpenseConsumes();
+                    success: function (accResp) {
+                        var $select = $('#edit_pay_mode');
+                        $select.empty();
+                        if (accResp.success && accResp.data && accResp.data.length > 0) {
+                            $select.append('<option value="">Select account</option>');
+                            accResp.data.forEach(function (acc) {
+                                var option = $('<option>').val(acc.acc_id).text(acc.acc_name + ' - Bal: ' + parseFloat(acc.balance).toLocaleString() + ' RWF').attr('data-balance', acc.balance);
+                                $select.append(option);
+                            });
+
+                            // Select the current account
+                            if (record.pay_mode) {
+                                $select.val(record.pay_mode);
+                                var bal = $select.find('option:selected').data('balance') || 0;
+                                $('#edit_account_balance').text('Balance: ' + parseFloat(bal).toLocaleString() + ' RWF');
+                            }
                         } else {
-                            swal("Error!", response.message, "error");
+                            $select.append('<option value="">No accounts</option>');
                         }
+
+                        $('#editExpenseConsumeModal').modal('show');
                     },
-                    error: function (xhr) {
-                        let msg = 'Something went wrong';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            msg = xhr.responseJSON.message;
-                        } else if (xhr.responseText) {
-                            msg = xhr.responseText;
-                        }
-                        
-                        // Show detailed error in console for debugging
-                        console.error('Delete error details:', {
-                            status: xhr.status,
-                            statusText: xhr.statusText,
-                            responseText: xhr.responseText,
-                            responseJSON: xhr.responseJSON
-                        });
-                        
-                        swal("Error!", msg, "error");
+                    error: function () {
+                        showToastExpenseConsume('Failed to load accounts', 'error');
                     }
                 });
+            },
+            error: function () {
+                showToastExpenseConsume('Failed to load record for editing', 'error');
+            }
+        });
+    });
+
+    // Load expense types for the edit modal
+    function loadExpenseTypesForEdit(categId, selectedExpenseId) {
+        $.ajax({
+            url: '<?= App::baseUrl() ?>/_ikawa/expenses/get-all',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var $select = $('#edit_expense_id');
+                $select.empty();
+                if (response.success && response.data) {
+                    var filtered = response.data.filter(function (exp) {
+                        return exp.categ_id == categId;
+                    });
+                    if (filtered.length > 0) {
+                        $select.append('<option value="">Select expense type</option>');
+                        filtered.forEach(function (exp) {
+                            $select.append($('<option>').val(exp.expense_id).text(exp.expense_name));
+                        });
+                        if (selectedExpenseId) {
+                            $select.val(selectedExpenseId);
+                        }
+                    } else {
+                        $select.append('<option value="">No expense types available</option>');
+                    }
+                } else {
+                    $select.append('<option value="">Error loading</option>');
+                }
+            },
+            error: function () {
+                $('#edit_expense_id').html('<option value="">Error loading</option>');
+            }
+        });
+    }
+
+    // Handle category change in edit modal
+    $(document).on('change', '#edit_expense_category', function () {
+        var categId = $(this).val();
+        if (categId) {
+            loadExpenseTypesForEdit(categId, null);
+        } else {
+            $('#edit_expense_id').html('<option value="">Select Category First</option>');
+        }
+    });
+
+    // Update account balance display on account change in edit modal
+    $(document).on('change', '#edit_pay_mode', function () {
+        var bal = $(this).find('option:selected').data('balance') || 0;
+        $('#edit_account_balance').text('Balance: ' + parseFloat(bal).toLocaleString() + ' RWF');
+    });
+
+    // Handle Save on edit modal
+    $(document).on('click', '#saveEditExpenseConsumeBtn', function () {
+        var conId = $('#edit_con_id').val();
+        var amount = parseFloat($('#edit_amount').val()) || 0;
+        var charges = parseFloat($('#edit_charges').val()) || 0;
+        var payMode = parseInt($('#edit_pay_mode').val()) || null;
+        var payerName = $('#edit_payer_name').val() || '';
+        var recordedDate = $('#edit_recorded_date').val();
+        var description = $('#edit_description').val();
+
+        if (!conId || !amount || !recordedDate || !payMode) {
+            showToastExpenseConsume('Please fill required fields', 'error');
+            return;
+        }
+
+        var total = amount + charges;
+        var accBal = parseFloat($('#edit_pay_mode').find('option:selected').data('balance')) || 0;
+
+        if (total > accBal) {
+            showToastExpenseConsume('Amount + charges exceed selected account balance', 'error');
+            return;
+        }
+
+        var payload = {
+            con_id: parseInt(conId),
+            expense_id: parseInt($('#edit_expense_id').val()) || undefined,
+            amount: amount,
+            charges: charges,
+            pay_mode: payMode,
+            payer_name: payerName || null,
+            recorded_date: recordedDate,
+            description: description,
+            receipt_type: $('#edit_receipt_type').val() && $('#edit_receipt_type').val() !== '' ? parseInt($('#edit_receipt_type').val()) : null
+        };
+
+        console.log('Edit payload:', payload);
+
+        $.ajax({
+            url: '<?= App::baseUrl() ?>/_ikawa/expense-consume/update',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function (response) {
+                if (response.success) {
+                    showToastExpenseConsume(response.message || 'Updated successfully', 'success');
+                    $('#editExpenseConsumeModal').modal('hide');
+                    loadExpenseConsumes();
+                } else {
+                    showToastExpenseConsume(response.message || 'Failed to update', 'error');
+                }
+            },
+            error: function (xhr) {
+                var msg = 'Something went wrong';
+                try {
+                    var err = JSON.parse(xhr.responseText);
+                    msg = err.message || msg;
+                } catch (e) {}
+                showToastExpenseConsume(msg, 'error');
             }
         });
     });

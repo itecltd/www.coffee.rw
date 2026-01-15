@@ -57,8 +57,10 @@ window.loadAccounts = function() {
                 accountTable.clear();
 
                 $.each(response.data, function (index, account) {
+                    console.log('Account data:', account); // Debug log
+                    console.log('Location name:', account.location_name); // Debug location specifically
                     var statusBadge = account.status == 1 ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-warning">Onhold</span>';
-                    var canDelete = account.balance == 0 && account.status == 1;
+                    var canDelete = account.status == 1;
                     var editButton = account.status == 1 ? `<button class="btn btn-default btn-icon-notika editAccountBtn"
                                 title="Edit Account"
                                 data-id="${account.acc_id}"
@@ -87,7 +89,7 @@ window.loadAccounts = function() {
                         account.acc_name,
                         account.acc_reference_num,
                         account.Mode_names,
-                        account.st_name || 'N/A',
+                        account.location_name || 'N/A',
                         parseInt(account.balance).toLocaleString() + ' RWF',
                         statusBadge,
                         `<div class="button-icon-btn button-icon-btn-rd">${editButton}${deleteButton}${activateButton}</div>`
@@ -249,11 +251,6 @@ $(document).ready(function () {
         const accId = btn.data('id');
         const accName = btn.data('acc_name') || 'this account';
         const balance = parseFloat(btn.data('balance')) || 0;
-
-        if (balance > 0) {
-            swal("Cannot Set to Onhold!", "This account has a balance of " + balance.toLocaleString() + " RWF. Only accounts with 0 balance can be set to onhold.", "error");
-            return;
-        }
 
         swal({   
             title: "Are you sure?",   

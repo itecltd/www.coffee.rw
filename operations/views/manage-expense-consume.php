@@ -32,6 +32,170 @@
         </div>
     </div>
 </div>
+                    <!-- Edit Expense Consume Modal -->
+                    <div class="modal fade" id="editExpenseConsumeModal" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <!-- <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Edit Expense Consumption</h4>
+                                </div> -->
+                                <div class="modal-body">
+                                    <form id="editExpenseConsumeForm">
+                                        <input type="hidden" id="edit_con_id" />
+
+                                        <!-- Row 1: Category, Expense Type, Receipt Type -->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Expense Category</label> -->
+                                                    <select class='form-control input-sm' id="edit_expense_category">
+                                                        <option value="">Select Category</option>
+                                                        <?php
+                                                        $categoriesUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
+                                                        $catResponse = @file_get_contents($categoriesUrl);
+                                                        $categories = [];
+                                                        if ($catResponse !== false) {
+                                                            $catDecoded = json_decode($catResponse, true);
+                                                            if ($catDecoded && isset($catDecoded['success']) && $catDecoded['success'] === true) {
+                                                                $categories = $catDecoded['data'] ?? [];
+                                                            }
+                                                        }
+                                                        if (!empty($categories)):
+                                                            foreach ($categories as $category):
+                                                        ?>
+                                                            <option value="<?= htmlspecialchars($category['categ_id']) ?>">
+                                                                <?= htmlspecialchars($category['categ_name']) ?>
+                                                            </option>
+                                                        <?php
+                                                            endforeach;
+                                                        endif;
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Expense Type</label> -->
+                                                    <select class='form-control input-sm' id="edit_expense_id">
+                                                        <option value="">Select Category First</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Receipt Type</label> -->
+                                                    <select class='form-control input-sm' id="edit_receipt_type">
+                                                        <option value="">Optional</option>
+                                                        <?php
+                                                        $receiptTypesUrl = App::baseUrl() . '/_ikawa/receipt-types/get-all';
+                                                        $rtResponse = @file_get_contents($receiptTypesUrl);
+                                                        $receiptTypes = [];
+                                                        if ($rtResponse !== false) {
+                                                            $rtDecoded = json_decode($rtResponse, true);
+                                                            if ($rtDecoded && isset($rtDecoded['success']) && $rtDecoded['success'] === true) {
+                                                                $receiptTypes = $rtDecoded['data'] ?? [];
+                                                            }
+                                                        }
+                                                        if (!empty($receiptTypes)):
+                                                            foreach ($receiptTypes as $receiptType):
+                                                        ?>
+                                                            <option value="<?= htmlspecialchars($receiptType['rec_id']) ?>">
+                                                                <?= htmlspecialchars($receiptType['rec_name']) ?>
+                                                            </option>
+                                                        <?php
+                                                            endforeach;
+                                                        endif;
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 2: Amount, Charges, Consumer -->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Amount <span class="text-danger">*</span></label> -->
+                                                    <input type="number" step="0.01" id="edit_amount" class="form-control input-sm" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Charges</label> -->
+                                                    <input type="number" step="0.01" id="edit_charges" class="form-control input-sm" value="0" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Consumer</label> -->
+                                                    <select id="edit_payer_name" class="form-control input-sm">
+                                                        <option value="">Select consumer</option>
+                                                        <?php
+                                                        $consumersUrl = App::baseUrl() . '/_ikawa/expense-consumers/get-all';
+                                                        $consResponse = @file_get_contents($consumersUrl);
+                                                        $consumers = [];
+                                                        if ($consResponse !== false) {
+                                                            $consDecoded = json_decode($consResponse, true);
+                                                            if ($consDecoded && isset($consDecoded['success']) && $consDecoded['success'] === true) {
+                                                                $consumers = $consDecoded['data'] ?? [];
+                                                            }
+                                                        }
+                                                        if (!empty($consumers)):
+                                                            foreach ($consumers as $consumer):
+                                                        ?>
+                                                            <option value="<?= htmlspecialchars($consumer['cons_id']) ?>">
+                                                                <?= htmlspecialchars($consumer['cons_name']) ?> - <?= htmlspecialchars($consumer['phone']) ?>
+                                                            </option>
+                                                        <?php
+                                                            endforeach;
+                                                        endif;
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 3: Account, Date -->
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <!-- <label>Account <span class="text-danger">*</span></label> -->
+                                                    <select id="edit_pay_mode" class="form-control input-sm">
+                                                        <option value="">Loading accounts...</option>
+                                                    </select>
+                                                    <small id="edit_account_balance" class="help-block" style="margin-top: 5px;"></small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <!-- <label>Date <span class="text-danger">*</span></label> -->
+                                                    <input type="date" id="edit_recorded_date" class="form-control input-sm" required />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 4: Description -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <!-- <label>Description</label> -->
+                                                    <textarea id="edit_description" class="form-control input-sm" rows="2"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="button" id="saveEditExpenseConsumeBtn" class="btn btn-success">
+                                                <i class="notika-icon notika-edit"></i> Save Changes
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
     
    
@@ -76,14 +240,26 @@
                                                 <td><?php echo htmlspecialchars($record['recorded_date']); ?></td>
                                                 <td>
                                                 <div class="button-icon-btn button-icon-btn-rd">
-                                            
+                                            <?php
+                                                if (session_status() == PHP_SESSION_NONE) {
+                                                    session_start();
+                                                }
+                                                $role_id = $_SESSION['role_id'] ?? 0;
+                                                // Show edit button only to admin (role_id == 1).
+                                                if ($role_id == 1) {
+                                            ?>
                                             <button
-                                                 class="btn btn-danger btn-icon-notika deleteExpenseConsumeBtn"
-                                                title="Delete"
+                                                class="btn btn-primary btn-icon-notika editExpenseConsumeBtn"
+                                                title="Edit"
                                                 data-id="<?= $record['con_id'] ?>"
                                                 data-expense_name="<?= htmlspecialchars($record['expense_name'] ?? 'this record') ?>">
-                                                <i class="notika-icon notika-close"></i>
+                                                <i class="notika-icon notika-edit"></i>
                                             </button>
+                                            <?php } else { ?>
+                                                <button class="btn btn-primary btn-icon-notika" disabled title="Edit disabled">
+                                                    <i class="notika-icon notika-edit"></i>
+                                                </button>
+                                            <?php } ?>
                                              </div>
                                             </td>
                                            </tr>
@@ -105,8 +281,14 @@
 
      <!-- Create new expense consume modal -->
     <div class="modal fade" id="createExpenseConsumeModal" role="dialog">
-        <div class="modal-dialog modal-large">
+        <div class="modal-dialog modal-large" style="width: 90%; max-width: 1200px;">
             <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <!-- <h4 class="modal-title">
+                        <i class="notika-icon notika-finance"></i> Record Expense Consumption
+                    </h4> -->
+                </div>
                 <div class="modal-body">
                 <?php
                 // Load payment modes for the cards
@@ -120,11 +302,16 @@
                     }
                 }
                 ?>
+                
+                <!-- Row 1: Category, Expense Type, Receipt Type -->
                 <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Category...' name="expense_category" id="expense_category">
-                                 <option value="">Select Category</option>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class='chosen-select-act fm-cmp-mg'>
+                            <!-- <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                                Expense Category <span class="text-danger">*</span>
+                            </label> -->
+                            <select class='chosen' data-placeholder='Choose Category...' name="expense_category" id="expense_category">
+                                <option value="">Select Category</option>
                                 <?php
                                 $categoriesUrl = App::baseUrl() . '/_ikawa/expense-categories/get-all';
                                 $catResponse = @file_get_contents($categoriesUrl);
@@ -139,35 +326,74 @@
                                     }
                                 }
                                 ?>
-                                   <?php if (!empty($categories)): ?>
-                                        <?php foreach ($categories as $category): ?>
-                                            <option value="<?= htmlspecialchars($category['categ_id']) ?>">
-                                                <?= htmlspecialchars($category['categ_name']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <option disabled>No categories found</option>
-                                    <?php endif; ?>
-                                </select>
-                              </div>
-                            </div>
-<br>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Expense Type...' name="expense_id" id="expense_id" disabled>
-                                 <option value="">Select Category First</option>
-                                </select>
-                              </div>
-                            </div>
+                                <?php if (!empty($categories)): ?>
+                                    <?php foreach ($categories as $category): ?>
+                                        <option value="<?= htmlspecialchars($category['categ_id']) ?>">
+                                            <?= htmlspecialchars($category['categ_name']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option disabled>No categories found</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
                     </div>
-<br>
 
-                    <!-- Payer and Date Section -->
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class='chosen-select-act fm-cmp-mg'>
-                                <select class='chosen' data-placeholder='Choose Payer...' name="payer_name" id="payer_name" required>
-                                 <option value="" >Select consumer</option>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class='chosen-select-act fm-cmp-mg'>
+                            <!-- <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                                Expense Type <span class="text-danger">*</span>
+                            </label> -->
+                            <select class='chosen' data-placeholder='Choose Expense Type...' name="expense_id" id="expense_id" disabled>
+                                <option value="">Select Category First</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class='chosen-select-act fm-cmp-mg'>
+                            <!-- <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                                Receipt Type
+                            </label> -->
+                            <select class='chosen' data-placeholder='Choose Receipt Type...' name="receipt_type" id="receipt_type">
+                                <option value="">Optional</option>
+                                <?php
+                                $receiptTypesUrl = App::baseUrl() . '/_ikawa/receipt-types/get-all';
+                                $rtResponse = @file_get_contents($receiptTypesUrl);
+
+                                $receiptTypes = [];
+
+                                if ($rtResponse !== false) {
+                                    $rtDecoded = json_decode($rtResponse, true);
+
+                                    if ($rtDecoded && isset($rtDecoded['success']) && $rtDecoded['success'] === true) {
+                                        $receiptTypes = $rtDecoded['data'] ?? [];
+                                    }
+                                }
+                                ?>
+                                <?php if (!empty($receiptTypes)): ?>
+                                    <?php foreach ($receiptTypes as $receiptType): ?>
+                                        <option value="<?= htmlspecialchars($receiptType['rec_id']) ?>">
+                                            <?= htmlspecialchars($receiptType['rec_name']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option disabled>No receipt types found</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Payer and Date -->
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class='chosen-select-act fm-cmp-mg'>
+                            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                                Consumer/Payer <span class="text-danger">*</span>
+                            </label>
+                            <select class='chosen' data-placeholder='Choose Payer...' name="payer_name" id="payer_name" required>
+                                <option value="">Select consumer</option>
                                 <?php
                                 $consumersUrl = App::baseUrl() . '/_ikawa/expense-consumers/get-all';
                                 $consResponse = @file_get_contents($consumersUrl);
@@ -182,40 +408,53 @@
                                     }
                                 }
                                 ?>
-                                   <?php if (!empty($consumers)): ?>
-                                        <?php foreach ($consumers as $consumer): ?>
-                                            <option value="<?= htmlspecialchars($consumer['cons_id']) ?>">
-                                                <?= htmlspecialchars($consumer['cons_name']) ?> - <?= htmlspecialchars($consumer['phone']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <option disabled>No consumers found</option>
-                                    <?php endif; ?>
-                                </select>
-                              </div>
+                                <?php if (!empty($consumers)): ?>
+                                    <?php foreach ($consumers as $consumer): ?>
+                                        <option value="<?= htmlspecialchars($consumer['cons_id']) ?>">
+                                            <?= htmlspecialchars($consumer['cons_name']) ?> - <?= htmlspecialchars($consumer['phone']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option disabled>No consumers found</option>
+                                <?php endif; ?>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group ic-cmp-int">
-                                <div class="form-ic-cmp">
-                                    <i class="notika-icon notika-calendar"></i>
-                                </div>
-                                <div class="nk-int-st">
-                                    <input type="date" name="recorded_date" id="recorded_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
-                                </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                            Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="form-group ic-cmp-int" style="margin-bottom: 0;">
+                            <div class="form-ic-cmp">
+                                <i class="notika-icon notika-calendar"></i>
+                            </div>
+                            <div class="nk-int-st">
+                                <input type="date" name="recorded_date" id="recorded_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
                             </div>
                         </div>
                     </div>
-                       <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <textarea class="form-control" name="description" id="description" rows="2" placeholder="Enter expense description (Optional)"></textarea>
-                            </div>
+                </div>
+                
+                <!-- Row 3: Description -->
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                            Description
+                        </label>
+                        <div class="form-group">
+                            <textarea class="form-control" name="description" id="description" rows="2" placeholder="Enter expense description (Optional)" style="resize: vertical;"></textarea>
+                        </div>
                     </div>
-                    <!-- Payment Modes Section with Inline Accounts -->
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                       
+                </div>
+
+                <!-- Payment Modes Section with Inline Accounts -->
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <hr style="margin: 10px 0; border-top: 2px solid #00c292;">
+                        <h5 style="color: #00c292; font-weight: 600; margin-bottom: 15px;">
+                            <i class="notika-icon notika-credit-card"></i> Payment Accounts
+                        </h5>
                             <div class="payment-modes-container">
                                 <?php if (!empty($paymentModes)): ?>
                                     <?php foreach ($paymentModes as $mode): ?>
@@ -233,7 +472,7 @@
                                                     <!-- Account Dropdown -->
                                                     <div class="col-xs-12 col-sm-3">
                                                         <div class="form-group" style="margin-bottom: 5px;">
-                                                            <label style="font-size: 11px; margin-bottom: 3px;">Account <span class="text-danger">*</span></label>
+                                                            <!-- <label style="font-size: 11px; margin-bottom: 3px;">Account <span class="text-danger">*</span></label> -->
                                                             <select class='form-control input-sm payment-account-select' style="height: 32px; font-size: 12px;">
                                                                 <option value="">Select...</option>
                                                             </select>
@@ -245,7 +484,7 @@
                                                         <!-- Amount -->
                                                         <div class="col-xs-6 col-sm-2">
                                                             <div class="form-group" style="margin-bottom: 5px;">
-                                                                <label style="font-size: 11px; margin-bottom: 3px;">Amount <span class="text-danger">*</span></label>
+                                                                <!-- <label style="font-size: 11px; margin-bottom: 3px;">Amount <span class="text-danger">*</span></label> -->
                                                                 <input type="number" class="form-control input-sm entry-amount" placeholder="0.00" min="0" step="0.01" style="height: 32px; font-size: 12px;">
                                                             </div>
                                                         </div>
@@ -253,7 +492,7 @@
                                                         <!-- Charges -->
                                                         <div class="col-xs-6 col-sm-2">
                                                             <div class="form-group" style="margin-bottom: 5px;">
-                                                                <label style="font-size: 11px; margin-bottom: 3px;">Charges</label>
+                                                                <!-- <label style="font-size: 11px; margin-bottom: 3px;">Charges</label> -->
                                                                 <input type="number" class="form-control input-sm entry-charges" placeholder="0.00" min="0" step="0.01" value="0" style="height: 32px; font-size: 12px;">
                                                             </div>
                                                         </div>

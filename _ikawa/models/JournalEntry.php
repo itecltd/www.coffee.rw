@@ -7,17 +7,102 @@ use PDOException;
 class JournalEntry {
     private $conn;
     private $table_name = "tbl_journal_entries";
-    private $log_file;
 
     public function __construct($db) {
         $this->conn = $db;
-        $this->log_file = __DIR__ . '/../../logs/journal_entries.log';
     }
-    
-    private function log($message) {
-        $timestamp = date('Y-m-d H:i:s');
-        $logMessage = "[$timestamp] $message" . PHP_EOL;
-        file_put_contents($this->log_file, $logMessage, FILE_APPEND);
+
+    /**
+     * Update existing journal entries for a given reference_id.
+     * Will update the 'expense' row (amount) and the 'charges' row (charges).
+     * If a charges row does not exist and $charges_amount > 0, it will insert one.
+     */
+    public function updateEntriesByReferenceId($reference_id, $entry_date, $debit_account_id, $expense_amount, $charges_amount, $method_id, $description, $user_id) {
+        try {
+            // Update expense entry (action='expense')
+            $updateExpense = "UPDATE " . $this->table_name . " 
+                              SET entry_date = :entry_date,
+                                  debit_account_id = :debit_account_id,
+                                  amount = :amount,
+                                  method_id = :method_id,
+                                  description = :description,
+                                  user_id = :user_id
+                              WHERE reference_id = :reference_id AND action = 'expense'";
+
+            $stmtExp = $this->conn->prepare($updateExpense);
+            $stmtExp->execute([
+                'entry_date' => $entry_date,
+                'debit_account_id' => $debit_account_id,
+                'amount' => $expense_amount,
+                'method_id' => $method_id,
+                'description' => $description,
+                'user_id' => $user_id,
+                'reference_id' => $reference_id
+            ]);
+
+            // Check if a charges row exists
+            $queryChargesExist = "SELECT entry_id FROM " . $this->table_name . " WHERE reference_id = :reference_id AND action = 'charges' LIMIT 1";
+            $stmtCheck = $this->conn->prepare($queryChargesExist);
+            $stmtCheck->execute(['reference_id' => $reference_id]);
+            $chargesRow = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+
+            if ($charges_amount > 0) {
+                if ($chargesRow) {
+                    // Update existing charges row - cast charges to int
+                    $updateCharges = "UPDATE " . $this->table_name . " 
+                                      SET entry_date = :entry_date,
+                                          debit_account_id = :debit_account_id,
+                                          charges = :charges,
+                                          method_id = :method_id,
+                                          description = :description,
+                                          user_id = :user_id
+                                      WHERE reference_id = :reference_id AND action = 'charges'";
+
+                    $stmtCh = $this->conn->prepare($updateCharges);
+                    $stmtCh->execute([
+                        'entry_date' => $entry_date,
+                        'debit_account_id' => $debit_account_id,
+                        'charges' => (int)$charges_amount,
+                        'method_id' => $method_id,
+                        'description' => $description,
+                        'user_id' => $user_id,
+                        'reference_id' => $reference_id
+                    ]);
+                } else {
+                    // Insert new charges row - cast charges to int
+                    $insertCharges = "INSERT INTO " . $this->table_name . " (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
+                                      VALUES (:entry_date, :debit_account_id, NULL, 0, :charges, :method_id, :reference_id, :description, :user_id, 'charges')";
+                    $stmtIns = $this->conn->prepare($insertCharges);
+                    $stmtIns->execute([
+                        'entry_date' => $entry_date,
+                        'debit_account_id' => $debit_account_id,
+                        'charges' => (int)$charges_amount,
+                        'method_id' => $method_id,
+                        'reference_id' => $reference_id,
+                        'description' => $description,
+                        'user_id' => $user_id
+                    ]);
+                }
+            } else {
+                // charges_amount == 0; if a charges row exists, set charges to 0
+                if ($chargesRow) {
+                    $stmtZero = $this->conn->prepare("UPDATE " . $this->table_name . " SET charges = 0, entry_date = :entry_date, debit_account_id = :debit_account_id, method_id = :method_id, description = :description, user_id = :user_id WHERE reference_id = :reference_id AND action = 'charges'");
+                    $stmtZero->execute([
+                        'entry_date' => $entry_date,
+                        'debit_account_id' => $debit_account_id,
+                        'method_id' => $method_id,
+                        'description' => $description,
+                        'user_id' => $user_id,
+                        'reference_id' => $reference_id
+                    ]);
+                }
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            error_log('Error updating journal entries: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -25,17 +110,6 @@ class JournalEntry {
      */
     public function createEntry($entry_date, $debit_account_id, $amount, $charges, $method_id, $reference_id, $description, $user_id, $action) {
         try {
-            $this->log("=== CREATE ENTRY START ===");
-            $this->log("Entry Date: $entry_date");
-            $this->log("Debit Account ID: $debit_account_id");
-            $this->log("Amount: $amount");
-            $this->log("Charges: $charges");
-            $this->log("Method ID: $method_id");
-            $this->log("Reference ID: $reference_id");
-            $this->log("Description: " . ($description ?? 'NULL'));
-            $this->log("User ID: $user_id");
-            $this->log("Action: $action");
-            
             // Convert charges to integer as per database schema
             $charges_int = (int)$charges;
             
@@ -43,7 +117,6 @@ class JournalEntry {
                       (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action)
                       VALUES (:entry_date, :debit_account_id, NULL, :amount, :charges, :method_id, :reference_id, :description, :user_id, :action)";
             
-            $this->log("Preparing query: $query");
             $stmt = $this->conn->prepare($query);
             
             $stmt->bindParam(':entry_date', $entry_date, PDO::PARAM_STR);
@@ -64,17 +137,11 @@ class JournalEntry {
             
             if ($stmt->execute()) {
                 $lastId = $this->conn->lastInsertId();
-                $this->log("Journal entry created successfully. ID: $lastId");
                 return $lastId;
-            } else {
-                $this->log("Statement execute failed");
-                $this->log("Error Info: " . print_r($stmt->errorInfo(), true));
             }
             
             return false;
         } catch (PDOException $e) {
-            $this->log("PDOException in createEntry: " . $e->getMessage());
-            $this->log("SQL State: " . $e->getCode());
             return false;
         }
     }
@@ -84,11 +151,7 @@ class JournalEntry {
      */
     public function createExpenseTransaction($entry_date, $debit_account_id, $expense_amount, $charges_amount, $method_id, $reference_id, $description, $user_id) {
         try {
-            $this->log("\n=== CREATE EXPENSE TRANSACTION START ===");
-            $this->log("Expense Amount: $expense_amount, Charges Amount: $charges_amount");
-            
             // Create expense entry first (amount = expense amount, charges = 0)
-            $this->log("Creating expense entry...");
             $expenseEntryId = $this->createEntry(
                 $entry_date,
                 $debit_account_id,
@@ -102,14 +165,11 @@ class JournalEntry {
             );
             
             if (!$expenseEntryId) {
-                $this->log("FAILED to create expense entry");
                 return false;
             }
-            $this->log("Expense entry created with ID: $expenseEntryId");
             
             // Create charges entry second if charges amount > 0 (amount = 0, charges = charges amount)
             if ($charges_amount > 0) {
-                $this->log("Creating charges entry...");
                 $chargesEntryId = $this->createEntry(
                     $entry_date,
                     $debit_account_id,
@@ -123,17 +183,13 @@ class JournalEntry {
                 );
                 
                 if (!$chargesEntryId) {
-                    $this->log("FAILED to create charges entry");
                     return false;
                 }
-                $this->log("Charges entry created with ID: $chargesEntryId");
             }
             
-            $this->log("=== CREATE EXPENSE TRANSACTION SUCCESS ===");
             return true;
             
         } catch (PDOException $e) {
-            $this->log("PDOException in createExpenseTransaction: " . $e->getMessage());
             return false;
         }
     }
@@ -159,7 +215,6 @@ class JournalEntry {
             
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            $this->log("Error fetching journal entries: " . $e->getMessage());
             return [];
         }
     }
@@ -187,7 +242,6 @@ class JournalEntry {
             
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            $this->log("Error fetching journal entries by reference: " . $e->getMessage());
             return [];
         }
     }
@@ -198,14 +252,21 @@ class JournalEntry {
     public function getEntriesByReferenceId($reference_id) {
         try {
             $query = "SELECT * FROM " . $this->table_name . " 
-                      WHERE reference_id = :reference_id";
+                      WHERE reference_id = :reference_id 
+                      ORDER BY entry_id ASC";
             
             $stmt = $this->conn->prepare($query);
-            $stmt->execute(['reference_id' => $reference_id]);
+            $success = $stmt->execute(['reference_id' => $reference_id]);
             
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$success) {
+                error_log("Failed to execute query for reference_id: {$reference_id}");
+                return [];
+            }
+            
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
         } catch (PDOException $e) {
-            $this->log("Error fetching journal entries by reference ID: " . $e->getMessage());
+            error_log("Error getting journal entries by reference ID {$reference_id}: " . $e->getMessage());
             return [];
         }
     }
@@ -222,13 +283,8 @@ class JournalEntry {
             $stmt = $this->conn->prepare($query);
             $result = $stmt->execute(['reference_id' => $reference_id]);
             
-            if ($result) {
-                $this->log("Cancelled journal entries for reference_id: $reference_id by user: $user_id");
-            }
-            
             return $result;
         } catch (PDOException $e) {
-            $this->log("Error cancelling journal entries: " . $e->getMessage());
             return false;
         }
     }

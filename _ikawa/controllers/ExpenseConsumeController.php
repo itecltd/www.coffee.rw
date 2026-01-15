@@ -32,6 +32,25 @@ class ExpenseConsumeController
         $expenseConsumes = $this->expenseConsumeModel->getAllExpenseConsumes();
 
         if ($expenseConsumes !== false) {
+            // Add charges from journal entries for each expense consume
+            foreach ($expenseConsumes as &$expenseConsume) {
+                $con_id = $expenseConsume['con_id'];
+                
+                // Get journal entries for this expense consume
+                $journalEntries = $this->journalEntryModel->getEntriesByReferenceId($con_id);
+                
+                // Sum all charges from journal entries
+                $total_charges = 0;
+                foreach ($journalEntries as $entry) {
+                    if (isset($entry['charges']) && $entry['charges'] > 0) {
+                        $total_charges += (float)$entry['charges'];
+                    }
+                }
+                
+                // Add charges to the expense consume record
+                $expenseConsume['charges'] = $total_charges;
+            }
+            
             Response::success('Expense consumes retrieved successfully!', $expenseConsumes);
         } else {
             Response::error('Failed to retrieve expense consumes', 500);
@@ -43,6 +62,20 @@ class ExpenseConsumeController
         $expenseConsume = $this->expenseConsumeModel->getExpenseConsumeById($con_id);
 
         if ($expenseConsume !== false) {
+            // Get journal entries using con_id as reference_id
+            $journalEntries = $this->journalEntryModel->getEntriesByReferenceId($con_id);
+            
+            // Sum all charges from journal entries
+            $total_charges = 0;
+            foreach ($journalEntries as $entry) {
+                if (isset($entry['charges']) && $entry['charges'] > 0) {
+                    $total_charges += (float)$entry['charges'];
+                }
+            }
+            
+            // Add charges to the response
+            $expenseConsume['charges'] = $total_charges;
+            
             Response::success('Expense consume retrieved successfully!', $expenseConsume);
         } else {
             Response::error('Expense consume not found', 404);
@@ -180,7 +213,8 @@ class ExpenseConsumeController
                     'trans_id' => $trans_id,
                     'payer_name' => isset($input['payer_name']) ? trim($input['payer_name']) : null,
                     'description' => isset($input['description']) ? trim($input['description']) : null,
-                    'recorded_date' => trim($input['recorded_date'])
+                    'recorded_date' => trim($input['recorded_date']),
+                    'receipt_type' => isset($input['receipt_type']) ? (int)$input['receipt_type'] : null
                 ];
 
                 $con_id = $this->expenseConsumeModel->createExpenseConsume($data);
@@ -246,7 +280,7 @@ class ExpenseConsumeController
             return;
         }
 
-        // Start session to get loc_id
+        // Start session to get loc_id and user
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -256,7 +290,13 @@ class ExpenseConsumeController
             return;
         }
 
+        if (!isset($_SESSION['user_id'])) {
+            Response::error('User not authenticated', 401);
+            return;
+        }
+
         $station_id = $_SESSION['loc_id'];
+        $user_id = $_SESSION['user_id'];
 
         // READ JSON INPUT
         $input = json_decode(file_get_contents('php://input'), true);
@@ -287,21 +327,164 @@ class ExpenseConsumeController
             return;
         }
 
-        $data = [
-            'con_id' => (int)$input['con_id'],
-            'expense_id' => (int)$input['expense_id'],
-            'station_id' => (int)$station_id,
-            'amount' => (float)$input['amount'],
-            'pay_mode' => (int)$input['pay_mode'],
-            'payer_name' => isset($input['payer_name']) ? trim($input['payer_name']) : null,
-            'description' => isset($input['description']) ? trim($input['description']) : null,
-            'recorded_date' => trim($input['recorded_date'])
-        ];
+        $con_id = (int)$input['con_id'];
+        $new_amount = (float)$input['amount'];
+        $new_pay_mode = (int)$input['pay_mode'];
+        $new_charges = isset($input['charges']) ? (float)$input['charges'] : null; // optional
+        $recorded_date = trim($input['recorded_date']);
+        $description = isset($input['description']) ? trim($input['description']) : null;
 
-        if ($this->expenseConsumeModel->updateExpenseConsume($data)) {
-            Response::success('Expense consume updated successfully', $data);
-        } else {
-            Response::error('Failed to update expense consume', 500);
+        // Fetch existing record
+        $existing = $this->expenseConsumeModel->getExpenseConsumeById($con_id);
+        if (!$existing) {
+            Response::error('Expense consume not found', 404);
+            return;
+        }
+
+        $old_amount = (float)$existing['amount'];
+        $old_pay_mode = (int)$existing['pay_mode'];
+
+        // Get old journal entries and compute old charges
+        $journalEntries = $this->journalEntryModel->getEntriesByReferenceId($con_id);
+        $old_charges = 0;
+        foreach ($journalEntries as $je) {
+            if (!empty($je['charges'])) {
+                $old_charges += (float)$je['charges'];
+            }
+        }
+
+        $old_total_required = $old_amount + $old_charges;
+        $new_charges = $new_charges === null ? $old_charges : $new_charges;
+        $new_total_required = $new_amount + $new_charges;
+
+        // Get database connection and a journal model bound to it (for consistent cancellation/creation)
+        $db = (new \Config\Database())->getConnection();
+        $journalModel = new JournalEntry($db);
+
+        try {
+            $db->beginTransaction();
+
+            // CASE 1: same account
+            if ($new_pay_mode === $old_pay_mode) {
+                if ($new_total_required > $old_total_required) {
+                    // Need extra funds from same account
+                    $extra = $new_total_required - $old_total_required;
+                    if (!$this->accountModel->checkBalance($new_pay_mode, $extra)) {
+                        $db->rollBack();
+                        $current_balance = $this->accountModel->getBalance($new_pay_mode);
+                        Response::error("Insufficient balance in account ID {$new_pay_mode}. Needed additional: {$extra}, Available: {$current_balance}", 400);
+                        return;
+                    }
+                    if (!$this->accountModel->updateBalance($new_pay_mode, $extra)) {
+                        $db->rollBack();
+                        Response::error('Failed to deduct additional amount from account', 500);
+                        return;
+                    }
+                } elseif ($new_total_required < $old_total_required) {
+                    // Refund difference back to same account
+                    $refund = $old_total_required - $new_total_required;
+                    if (!$this->accountModel->refundBalance($new_pay_mode, $refund)) {
+                        $db->rollBack();
+                        Response::error('Failed to refund difference to account', 500);
+                        return;
+                    }
+                }
+            } else {
+                // CASE 2: account changed - refund old, charge new
+                // Refund old account first
+                if ($old_pay_mode) {
+                    if (!$this->accountModel->refundBalance($old_pay_mode, $old_total_required)) {
+                        $db->rollBack();
+                        Response::error('Failed to refund amount to original account', 500);
+                        return;
+                    }
+                }
+
+                // Ensure new account has enough balance for the new total
+                if (!$this->accountModel->checkBalance($new_pay_mode, $new_total_required)) {
+                    // Since we already refunded original, attempt to rollback refund
+                    if ($old_pay_mode) {
+                        $this->accountModel->updateBalance($old_pay_mode, $old_total_required);
+                    }
+                    $db->rollBack();
+                    $current_balance = $this->accountModel->getBalance($new_pay_mode);
+                    Response::error("Insufficient balance in new account ID {$new_pay_mode}. Required: {$new_total_required}, Available: {$current_balance}", 400);
+                    return;
+                }
+
+                // Deduct from new account
+                if (!$this->accountModel->updateBalance($new_pay_mode, $new_total_required)) {
+                    // Try to rollback refund
+                    if ($old_pay_mode) {
+                        $this->accountModel->updateBalance($old_pay_mode, $old_total_required);
+                    }
+                    $db->rollBack();
+                    Response::error('Failed to deduct amount from new account', 500);
+                    return;
+                }
+            }
+
+            // Update existing journal entries (expense + charges) for this reference_id
+            $journal_success = $journalModel->updateEntriesByReferenceId(
+                $con_id,
+                $recorded_date,
+                $new_pay_mode,
+                $new_amount,
+                $new_charges,
+                $new_pay_mode,
+                $description,
+                $user_id
+            );
+
+            if (!$journal_success) {
+                // Attempt to rollback any balance adjustments done above
+                if ($new_pay_mode === $old_pay_mode) {
+                    if ($new_total_required > $old_total_required) {
+                        // refund the extra
+                        $this->accountModel->refundBalance($new_pay_mode, $new_total_required - $old_total_required);
+                    } elseif ($new_total_required < $old_total_required) {
+                        // re-deduct the refunded amount
+                        $this->accountModel->updateBalance($new_pay_mode, $old_total_required - $new_total_required);
+                    }
+                } else {
+                    // refund new and re-deduct old
+                    $this->accountModel->refundBalance($new_pay_mode, $new_total_required);
+                    if ($old_pay_mode) {
+                        $this->accountModel->updateBalance($old_pay_mode, $old_total_required);
+                    }
+                }
+                $db->rollBack();
+                Response::error('Failed to update journal entries', 500);
+                return;
+            }
+
+            // Update the expense consume record
+            $updateData = [
+                'con_id' => $con_id,
+                'expense_id' => (int)$input['expense_id'],
+                'station_id' => (int)$station_id,
+                'amount' => $new_amount,
+                'pay_mode' => $new_pay_mode,
+                'payer_name' => isset($input['payer_name']) ? trim($input['payer_name']) : null,
+                'description' => $description,
+                'recorded_date' => $recorded_date,
+                'receipt_type' => isset($input['receipt_type']) ? (int)$input['receipt_type'] : null
+            ];
+
+            if (!$this->expenseConsumeModel->updateExpenseConsume($updateData)) {
+                // Try to revert balances and journal entries minimally
+                $db->rollBack();
+                Response::error('Failed to update expense consume record', 500);
+                return;
+            }
+
+            $db->commit();
+            Response::success('Expense consume updated successfully', $updateData);
+
+        } catch (\Exception $e) {
+            $db->rollBack();
+            error_log('Error in updateExpenseConsume: ' . $e->getMessage());
+            Response::error('An error occurred while updating expense consume: ' . $e->getMessage(), 500);
         }
     }
 
@@ -485,6 +668,7 @@ class ExpenseConsumeController
         $filters = [
             'consumer_id' => $input['consumer_id'] ?? '',
             'expense_id' => $input['expense_id'] ?? '',
+            'receipt_type' => $input['receipt_type'] ?? '',
             'date_from' => $input['date_from'] ?? '',
             'date_to' => $input['date_to'] ?? '',
             'display' => $input['display'] ?? 'both'

@@ -35,6 +35,7 @@
         const filters = {
             consumer_id: $('#filter_consumer').val() || '',
             expense_id: $('#filter_expense').val() || '',
+            receipt_type: $('#filter_receipt_type').val() || '',
             date_from: $('#filter_date_from').val(),
             date_to: $('#filter_date_to').val()
         };
@@ -296,7 +297,7 @@
             return callback();
         }
         const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+        // script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
         script.onload = callback;
         document.head.appendChild(script);
     }

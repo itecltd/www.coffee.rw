@@ -183,7 +183,7 @@
                                             $statusClass = $record['status'] == 0 ? 'style="background-color: #fff3cd;"' : '';
                                             $statusText = $record['status'] == 1 ? 'Active' : 'Onhold';
                                             $statusBadge = $record['status'] == 1 ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-warning">Onhold</span>';
-                                            $canDelete = $record['balance'] == 0 && $record['status'] == 1;
+                                            $canDelete = $record['status'] == 1;
                                             ?>
                                             <tr <?= $statusClass ?>>
                                                 <td><?php echo $index + 1 ?></td>

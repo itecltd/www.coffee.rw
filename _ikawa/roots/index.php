@@ -9,6 +9,7 @@ require_once __DIR__ . '/../controllers/ExpenseCategoryController.php';
 require_once __DIR__ . '/../controllers/ExpenseController.php';
 require_once __DIR__ . '/../controllers/ExpenseConsumeController.php';
 require_once __DIR__ . '/../controllers/ExpenseConsumerController.php';
+require_once __DIR__ . '/../controllers/ReceiptTypeController.php';
 require_once __DIR__ . '/../controllers/SellizeController.php';
 require_once __DIR__ . '/../controllers/CategoryController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeController.php';
@@ -249,6 +250,32 @@ switch ( true ) {
     $expenseConsumerController->checkConsumerInUse( $matches[ 1 ] );
     break;
 
+    // receipt types
+    case $route === '/receipt-types/get-all':
+    $receiptTypeController = new ReceiptTypeController();
+    $receiptTypeController->getAllReceiptTypes();
+    break;
+
+    case $route === '/receipt-types/get-by-id':
+    $receiptTypeController = new ReceiptTypeController();
+    $receiptTypeController->getReceiptTypeById();
+    break;
+
+    case $route === '/receipt-types/create':
+    $receiptTypeController = new ReceiptTypeController();
+    $receiptTypeController->createReceiptType();
+    break;
+
+    case $route === '/receipt-types/update':
+    $receiptTypeController = new ReceiptTypeController();
+    $receiptTypeController->updateReceiptType();
+    break;
+
+    case $route === '/receipt-types/delete':
+    $receiptTypeController = new ReceiptTypeController();
+    $receiptTypeController->deleteReceiptType();
+    break;
+
     // expense consume
     case $route === '/expense-consume/get-all':
     $expenseConsumeController = new ExpenseConsumeController();
@@ -263,11 +290,6 @@ switch ( true ) {
     case $route === '/expense-consume/update':
     $expenseConsumeController = new ExpenseConsumeController();
     $expenseConsumeController->updateExpenseConsume();
-    break;
-
-    case $route === '/expense-consume/delete':
-    $expenseConsumeController = new ExpenseConsumeController();
-    $expenseConsumeController->deleteExpenseConsume();
     break;
 
     case preg_match( '#^/expense-consume/by-station/(\d+)$#', $route, $matches ):
