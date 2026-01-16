@@ -53,6 +53,7 @@
                             <li><a href="javascript:void(0)" onclick="loadContent('stations')">Stations</a></li>
                              <li><a href="javascript:void(0)" onclick="loadContent('suppliers')">Suppliers</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Account Settings</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('account-recharge')">Account Recharge</a></li>
                             
                      
                         </ul>

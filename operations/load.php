@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../_ikawa/config/App.php';
+require_once __DIR__ . '/../_ikawa/config/App.php';
 require __DIR__ . '/../_ikawa/middleware/auth.php';
 
 $page = $_GET[ 'page' ] ?? 'dashboard';
@@ -14,6 +14,7 @@ $allowed_pages = [
     'profile'=>'views/profile-data.php',
     'stations'=>'views/stations-data.php',
     'manage-accounts' => 'views/manage-accounts.php',
+    'account-recharge' => 'views/manage-account-recharge.php',
     'manage-expense-categories' => 'views/manage-expense-categories.php',
     'manage-expense-consumers' => 'views/manage-expense-consumers.php',
     'manage-expenses' => 'views/manage-expenses.php',

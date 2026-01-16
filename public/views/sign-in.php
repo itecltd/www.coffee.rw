@@ -1,6 +1,6 @@
 
 <?php
-require __DIR__ . '../../../_ikawa/config/App.php'; // adjust path if needed
+require_once __DIR__ . '../../../_ikawa/config/App.php'; // adjust path if needed
 ?>
 <style>
 /* Simple toast styling */

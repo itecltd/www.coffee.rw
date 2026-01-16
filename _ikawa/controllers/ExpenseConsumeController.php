@@ -424,17 +424,99 @@ class ExpenseConsumeController
                 }
             }
 
-            // Update existing journal entries (expense + charges) for this reference_id
-            $journal_success = $journalModel->updateEntriesByReferenceId(
-                $con_id,
-                $recorded_date,
-                $new_pay_mode,
-                $new_amount,
-                $new_charges,
-                $new_pay_mode,
-                $description,
-                $user_id
-            );
+            // Update existing journal entries (expense + charges) for this reference_id.
+            // Some deployments may have an older JournalEntry model without
+            // `updateEntriesByReferenceId`. Use it when available; otherwise
+            // fallback to canceling existing entries and recreating them.
+            if (method_exists($journalModel, 'updateEntriesByReferenceId')) {
+                $journal_success = $journalModel->updateEntriesByReferenceId(
+                    $con_id,
+                    $recorded_date,
+                    $new_pay_mode,
+                    $new_amount,
+                    $new_charges,
+                    $new_pay_mode,
+                    $description,
+                    $user_id
+                );
+            } else {
+                error_log('JournalEntry::updateEntriesByReferenceId not found - using safe in-place update fallback');
+                $journal_success = false;
+
+                try {
+                    // Load existing entries for this reference
+                    $entries = [];
+                    if (method_exists($journalModel, 'getEntriesByReferenceId')) {
+                        $entries = $journalModel->getEntriesByReferenceId($con_id);
+                    }
+
+                    $expenseEntry = null;
+                    $chargesEntry = null;
+                    foreach ($entries as $e) {
+                        if (isset($e['action']) && $e['action'] === 'expense') {
+                            $expenseEntry = $e;
+                        } elseif (isset($e['action']) && $e['action'] === 'charges') {
+                            $chargesEntry = $e;
+                        }
+                    }
+
+                    // Require existing expense entry to update in-place
+                    if (!$expenseEntry || !isset($expenseEntry['entry_id'])) {
+                        $db->rollBack();
+                        Response::error('Expense journal entry not found for this record (cannot safely update)', 500);
+                        return;
+                    }
+
+                    // Update expense entry row
+                    $updateExpenseSql = "UPDATE tbl_journal_entries SET entry_date = :entry_date, debit_account_id = :debit_account_id, amount = :amount, method_id = :method_id, description = :description, user_id = :user_id WHERE entry_id = :entry_id";
+                    $stmtExp = $db->prepare($updateExpenseSql);
+                    $stmtExp->execute([
+                        ':entry_date' => $recorded_date,
+                        ':debit_account_id' => $new_pay_mode,
+                        ':amount' => $new_amount,
+                        ':method_id' => $new_pay_mode,
+                        ':description' => $description,
+                        ':user_id' => $user_id,
+                        ':entry_id' => $expenseEntry['entry_id']
+                    ]);
+
+                    // Update charges entry if exists; otherwise insert only if new_charges > 0
+                    if ($chargesEntry && isset($chargesEntry['entry_id'])) {
+                        $updateChargesSql = "UPDATE tbl_journal_entries SET entry_date = :entry_date, debit_account_id = :debit_account_id, charges = :charges, method_id = :method_id, description = :description, user_id = :user_id WHERE entry_id = :entry_id";
+                        $stmtCh = $db->prepare($updateChargesSql);
+                        $stmtCh->execute([
+                            ':entry_date' => $recorded_date,
+                            ':debit_account_id' => $new_pay_mode,
+                            ':charges' => (int)$new_charges,
+                            ':method_id' => $new_pay_mode,
+                            ':description' => $description,
+                            ':user_id' => $user_id,
+                            ':entry_id' => $chargesEntry['entry_id']
+                        ]);
+                    } else {
+                        if ((float)$new_charges > 0) {
+                            // Insert a single charges row (only if none existed before)
+                            $insertSql = "INSERT INTO tbl_journal_entries (entry_date, debit_account_id, credit_account_id, amount, charges, method_id, reference_id, description, user_id, action) VALUES (:entry_date, :debit_account_id, NULL, 0, :charges, :method_id, :reference_id, :description, :user_id, 'charges')";
+                            $stmtIns = $db->prepare($insertSql);
+                            $stmtIns->execute([
+                                ':entry_date' => $recorded_date,
+                                ':debit_account_id' => $new_pay_mode,
+                                ':charges' => (int)$new_charges,
+                                ':method_id' => $new_pay_mode,
+                                ':reference_id' => $con_id,
+                                ':description' => $description,
+                                ':user_id' => $user_id
+                            ]);
+                            error_log('Inserted missing charges journal entry for reference_id: ' . $con_id);
+                        }
+                    }
+
+                    $journal_success = true;
+                } catch (\Exception $ex) {
+                    error_log('Fallback journal update error: ' . $ex->getMessage());
+                    $journal_success = false;
+                }
+            }
 
             if (!$journal_success) {
                 // Attempt to rollback any balance adjustments done above

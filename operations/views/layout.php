@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/../../_ikawa/config/App.php';
-require __DIR__ . '/../../_ikawa/middleware/auth.php';
+require_once __DIR__ . '/../../_ikawa/config/App.php';
+require_once __DIR__ . '/../../_ikawa/middleware/auth.php';
 require __DIR__ . '/../../pages/header.php';
 require __DIR__ . '/../../vendor/topcontent.php';
 require __DIR__ . '/../../vendor/navbar.php';
@@ -30,6 +30,9 @@ require __DIR__ . '/../../pages/footer.php';
 ?>
 <!-- accounts -->
 <?php require __DIR__ . '/scripts/account-scripts.php';
+?>
+<!-- account recharge -->
+<?php require __DIR__ . '/scripts/recharge-scripts.php';
 ?>
 <!-- expense category -->
 <?php require __DIR__ . '/scripts/expense-category-scripts.php';

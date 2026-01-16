@@ -34,6 +34,12 @@ function loadContent(page) {
                     autoWidth: false
                 });
             }
+            // If the injected page has the recharge UI, trigger its loader if available
+            try{
+                if (typeof window.reloadRechargeHistory === 'function' && document.getElementById('rechargeTable')){
+                    window.reloadRechargeHistory();
+                }
+            }catch(e){ console.warn('reloadRechargeHistory call failed', e); }
         }
         // else{
         //   document.getElementById('app').innerHTML = '<h3>Page not found</h3>';  
