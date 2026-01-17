@@ -6,7 +6,7 @@ function loadRechargeHistory(){
     console.log('loadRechargeHistory: start');
     var loadingTimer = setTimeout(function(){
         console.warn('loadRechargeHistory: request taking long');
-        $('#rechargeTableBody').html('<tr><td colspan="8" class="text-center text-warning">Loading... (taking longer than expected)</td></tr>');
+        $('#rechargeTableBody').html('<tr><td colspan="10" class="text-center text-warning">Loading... (taking longer than expected)</td></tr>');
     }, 4000);
 
     $.ajax({
@@ -22,26 +22,45 @@ function loadRechargeHistory(){
             $('#rechargeAlert').hide().html('');
             var tbody = $('#rechargeTableBody');
             if (!json.success || !Array.isArray(json.data) || json.data.length===0){
-                tbody.html('<tr><td colspan="8" class="text-center">No records found</td></tr>');
+                tbody.html('<tr><td colspan="10" class="text-center">No records found</td></tr>');
                 return;
             }
             var html = '';
             json.data.forEach(function(item, idx){
+                var statusText = 'Pending';
+                var statusClass = 'text-warning';
+                if (item.sts == 2) {
+                    statusText = 'Approved';
+                    statusClass = 'text-success';
+                } else if (item.sts == 1 && item.rejectorComment) {
+                    statusText = 'Rejected';
+                    statusClass = 'text-danger';
+                }
+                
+                // Extract date only (YYYY-MM-DD format)
+                var dateOnly = '-';
+                if (item.done_at) {
+                    // Handle both datetime and timestamp formats
+                    dateOnly = item.done_at.split(' ')[0].substring(0, 10);
+                }
+                
                 html += '<tr>'+
                     '<td>'+(idx+1)+'</td>'+
                     '<td>'+ (item.acc_name||'-') +'</td>'+
-                    '<td>'+ (Number(item.in_amount).toLocaleString()||'-') +' RWF</td>'+
+                    '<td><strong>'+ (Number(item.in_amount).toLocaleString()||'-') +' RWF</strong></td>'+
+                    '<td>'+ (item.source||'-') +'</td>'+
                     '<td>'+ (item.description||'-') +'</td>'+
                     '<td>'+ (item.reciept||'-') +'</td>'+
+                    '<td><span class="'+statusClass+'">'+ statusText +'</span></td>'+
                     '<td>'+ (item.location_name||'-') +'</td>'+
                     '<td>'+ (item.username||'-') +'</td>'+
-                    '<td>'+ (item.done_at||'-') +'</td>'+
+                    '<td>'+ dateOnly +'</td>'+
                     '</tr>';
             });
             tbody.html(html);
             try{
                 if ($.fn.DataTable.isDataTable('#rechargeTable')) $('#rechargeTable').DataTable().destroy();
-                $('#rechargeTable').DataTable({ order:[[7,'desc']], pageLength:25 });
+                $('#rechargeTable').DataTable({ order:[[9,'desc']], pageLength:25 });
             }catch(e){}
         },
         error: function(xhr, status, err){
@@ -54,7 +73,7 @@ function loadRechargeHistory(){
             } catch(e) {
                 msg = (xhr.status ? ('HTTP '+xhr.status+' ') : '') + (err || 'Load error');
             }
-            $('#rechargeTableBody').html('<tr><td colspan="8" class="text-center text-danger">'+msg+'</td></tr>');
+            $('#rechargeTableBody').html('<tr><td colspan="10" class="text-center text-danger">'+msg+'</td></tr>');
             $('#rechargeAlert').show().html('<div class="alert alert-danger">'+msg+'</div>');
         }
     });

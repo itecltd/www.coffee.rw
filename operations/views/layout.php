@@ -34,6 +34,9 @@ require __DIR__ . '/../../pages/footer.php';
 <!-- account recharge -->
 <?php require __DIR__ . '/scripts/recharge-scripts.php';
 ?>
+<!-- investment approval -->
+<?php require __DIR__ . '/scripts/investment-scripts.php';
+?>
 <!-- expense category -->
 <?php require __DIR__ . '/scripts/expense-category-scripts.php';
 ?>

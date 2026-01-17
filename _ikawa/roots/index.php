@@ -16,12 +16,14 @@ require_once __DIR__ . '/../controllers/CategoryTypeController.php';
 require_once __DIR__ . '/../controllers/UnityController.php';
 require_once __DIR__ . '/../controllers/CategoryTypeUnityController.php';
 require_once __DIR__ . '/../controllers/InvestmentController.php';
+require_once __DIR__ . '/../controllers/ReportsController.php';
 use Controllers\SellizeController;
 use Controllers\CategoryController;
 use Controllers\CategoryTypeController;
 use Controllers\UnityController;
 use Controllers\CategoryTypeUnityController;
 use Controllers\InvestmentController;
+use Controllers\ReportsController;
 use Controllers\ExpenseController;
 use Controllers\ExpenseConsumeController;
 use Controllers\ExpenseConsumerController;
@@ -178,6 +180,32 @@ switch ( true ) {
     case $route === '/investments/get-by-location':
     $investmentController = new InvestmentController();
     $investmentController->getInvestmentsByLocation();
+    break;
+
+    case $route === '/investments/pending':
+    $investmentController = new InvestmentController();
+    $investmentController->getPendingInvestments();
+    break;
+
+    case $route === '/investments/approve':
+    $investmentController = new InvestmentController();
+    $investmentController->approveInvestment();
+    break;
+
+    case $route === '/investments/reject':
+    $investmentController = new InvestmentController();
+    $investmentController->rejectInvestment();
+    break;
+
+    case $route === '/investments/my-rejected':
+    $investmentController = new InvestmentController();
+    $investmentController->getMyRejectedInvestments();
+    break;
+
+    // reports
+    case $route === '/reports/account-operations':
+    $reportsController = new ReportsController();
+    $reportsController->accountOperationsStatement();
     break;
 
 

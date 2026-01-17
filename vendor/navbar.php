@@ -29,6 +29,16 @@
                             <i class="notika-icon notika-edit"></i>Expense Management
                         </a>
                     </li>
+                    <li>
+                        <a data-toggle="tab" href="#Investment">
+                            <i class="notika-icon notika-profit"></i> Investment
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#Reports">
+                            <i class="notika-icon notika-bar-chart"></i> Reports
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="tab-content custom-menu-content">
@@ -53,9 +63,6 @@
                             <li><a href="javascript:void(0)" onclick="loadContent('stations')">Stations</a></li>
                              <li><a href="javascript:void(0)" onclick="loadContent('suppliers')">Suppliers</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-accounts')">Account Settings</a></li>
-                            <li><a href="javascript:void(0)" onclick="loadContent('account-recharge')">Account Recharge</a></li>
-                            
-                     
                         </ul>
                     </div>
                     <!-- Expenses -->
@@ -68,6 +75,20 @@
                             <li><a href="javascript:void(0)" onclick="loadContent('manage-expense-consume')">Expense Consumption</a></li>
                             <li><a href="javascript:void(0)" onclick="loadContent('expense-consumed-statement')">Expense Statement</a></li>
                      
+                        </ul>
+                    </div>
+                    <!-- Investment -->
+                    <div id="Investment" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                            <li><a href="javascript:void(0)" onclick="loadContent('account-recharge')">Account Recharge</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('approve-investments')">Approve Investments</a></li>
+                            <li><a href="javascript:void(0)" onclick="loadContent('my-rejected-investments')">My Rejected Investments</a></li>
+                        </ul>
+                    </div>
+                    <!-- Reports -->
+                    <div id="Reports" class="tab-pane notika-tab-menu-bg animated flipInX">
+                        <ul class="notika-main-menu-dropdown">
+                            <li><a href="javascript:void(0)" onclick="loadContent('reports')">Account Operations</a></li>
                         </ul>
                     </div>
                     <!-- Products -->

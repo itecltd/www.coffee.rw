@@ -16,10 +16,10 @@ if ($resp) {
 <div class="modal animated bounce" id="rechargeAccountModal" role="dialog">
     <div class="modal-dialog modals-default">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Recharge Account</h4>
-            </div>
+            </div> -->
             <div class="modal-body">
                 <form id="rechargeForm" method="post" action="<?= App::baseUrl() ?>/_ikawa/investments/create">
                     <input type="hidden" name="action" value="recharge" />
@@ -43,13 +43,19 @@ if ($resp) {
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Receipt (optional)</label>
+                                <label>Source of Money</label>
+                                <input type="text" name="source" id="source" class="form-control" placeholder="e.g. Bank Transfer, Cash, etc." />
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Receipt</label>
                                 <input type="text" name="reciept" id="reciept" class="form-control" />
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>Description (optional)</label>
+                                <label>Description</label>
                                 <textarea name="description" id="description" class="form-control" rows="2"></textarea>
                             </div>
                         </div>
@@ -57,7 +63,7 @@ if ($resp) {
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="submitRechargeBtn" class="btn btn-success">Recharge Account</button>
+                <button type="button" id="submitRechargeBtn" class="btn btn-success">Recharge</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -110,14 +116,16 @@ if ($resp) {
                                     <th>#</th>
                                     <th>Account</th>
                                     <th>Amount</th>
+                                    <th>Source</th>
                                     <th>Description</th>
                                     <th>Receipt</th>
+                                    <th>Status</th>
                                     <th>Location</th>
                                     <th>Done By</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
-                            <tbody id="rechargeTableBody"><tr><td colspan="8" class="text-center">Loading...</td></tr></tbody>
+                            <tbody id="rechargeTableBody"><tr><td colspan="10" class="text-center">Loading...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
